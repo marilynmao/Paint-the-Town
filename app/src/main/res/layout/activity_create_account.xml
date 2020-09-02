@@ -6,15 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".CreateAccountActivity">
 
+    <EditText
+        android:id="@+id/userFirstName"
+        android:layout_width="289dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="32dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/first_name"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.418"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountLabel" />
+
+    <EditText
+        android:id="@+id/userLastName"
+        android:layout_width="289dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="28dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/last_name"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.418"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userFirstName" />
+
     <TextView
         android:id="@+id/createAccountLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="44dp"
         android:text="@string/create_account"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintHorizontal_bias="0.225"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,16 +50,15 @@
         android:id="@+id/emailAddress"
         android:layout_width="289dp"
         android:layout_height="62dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
-        android:text="@string/prompt_email"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintHorizontal_bias="0.418"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createAccountLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/userLastName" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/username"
@@ -59,41 +86,27 @@
         android:autofillHints="" />
 
     <EditText
-        android:id="@+id/confirmPassword"
-        android:layout_width="285dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="@string/re_enter_password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.388"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        android:autofillHints="" />
-
-    <EditText
         android:id="@+id/phoneNumber"
         android:layout_width="288dp"
         android:layout_height="56dp"
         android:layout_marginTop="28dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/phone_number"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.373"
+        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmPassword"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <Button
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginBottom="36dp"
         android:text="@string/register_account"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

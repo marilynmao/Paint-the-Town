@@ -17,4 +17,6 @@
     <string name="re_enter_password">Re-enter Password</string>
     <string name="phone_number">Phone Number</string>
     <string name="register_account">Register Account</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
 </resources>
