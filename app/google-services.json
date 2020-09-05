@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "1062794915642",
-    "firebase_url": "https://paint-the-town-69e70.firebaseio.com",
-    "project_id": "paint-the-town-69e70",
-    "storage_bucket": "paint-the-town-69e70.appspot.com"
+    "project_number": "207328243506",
+    "firebase_url": "https://paintthetown-382a0.firebaseio.com",
+    "project_id": "paintthetown-382a0",
+    "storage_bucket": "paintthetown-382a0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1062794915642:android:01cc741b055bb1fc66ea03",
+        "mobilesdk_app_id": "1:207328243506:android:43b959074708dc02c1312b",
         "android_client_info": {
-          "package_name": "com.example.paintthetown"
+          "package_name": "com.example.paintthetown491"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1062794915642-2sv4k6n2j25nbvf08r40vn6l1dvusj1u.apps.googleusercontent.com",
+          "client_id": "207328243506-tl8l4reqiih0li5aod541gebm29kji4k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.paintthetown",
-            "certificate_hash": "82c19b799dee7244af66dfcbf85837d51c12b514"
+            "package_name": "com.example.paintthetown491",
+            "certificate_hash": "e51373bb9da05699277788ff23d32eaa35aff587"
           }
         },
         {
-          "client_id": "1062794915642-86c9nm0f1b8jnm8gkqg7b173ev6nb58q.apps.googleusercontent.com",
+          "client_id": "207328243506-68qr3u2nbg7puhknr0uo8rvespi0ojt4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC-UIsJmefc61cOehkKByXBkX3ysMKKO9s"
+          "current_key": "AIzaSyDrzm9UbJuVb_2SkiHNKZRav2cJbi9bYvk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1062794915642-86c9nm0f1b8jnm8gkqg7b173ev6nb58q.apps.googleusercontent.com",
+              "client_id": "207328243506-68qr3u2nbg7puhknr0uo8rvespi0ojt4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
