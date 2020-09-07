@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class CreateAccountActivity extends AppCompatActivity
 {
     private EditText password, email, firstName, lastName, userName, phoneNumber;
+    private TextView accountExists;
     private Button loginButton;
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
@@ -42,8 +44,11 @@ public class CreateAccountActivity extends AppCompatActivity
         firstName=findViewById(R.id.userFirstName);
         lastName=findViewById(R.id.userLastName);
         phoneNumber=findViewById(R.id.phoneNumber);
+        accountExists=findViewById(R.id.AccountExists);
 
         user = new User();
+
+        //handles create action
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -78,5 +83,15 @@ public class CreateAccountActivity extends AppCompatActivity
             }
         });
 
+        //switches to activity for user to login
+        accountExists.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -20,8 +20,8 @@
 
     <EditText
         android:id="@+id/userFirstName"
-        android:layout_width="289dp"
-        android:layout_height="62dp"
+        android:layout_width="212dp"
+        android:layout_height="53dp"
         android:layout_marginTop="32dp"
         android:autofillHints=""
         android:ems="10"
@@ -34,8 +34,8 @@
 
     <EditText
         android:id="@+id/userLastName"
-        android:layout_width="289dp"
-        android:layout_height="62dp"
+        android:layout_width="212dp"
+        android:layout_height="53dp"
         android:layout_marginTop="28dp"
         android:autofillHints=""
         android:ems="10"
@@ -48,8 +48,8 @@
 
     <EditText
         android:id="@+id/UserEmail"
-        android:layout_width="285dp"
-        android:layout_height="41dp"
+        android:layout_width="212dp"
+        android:layout_height="53dp"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textEmailAddress"
@@ -60,8 +60,8 @@
 
     <EditText
         android:id="@+id/UserPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="212dp"
+        android:layout_height="53dp"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPassword"
@@ -72,8 +72,8 @@
 
     <EditText
         android:id="@+id/phoneNumber"
-        android:layout_width="288dp"
-        android:layout_height="56dp"
+        android:layout_width="212dp"
+        android:layout_height="53dp"
         android:layout_marginTop="80dp"
         android:autofillHints=""
         android:ems="10"
@@ -86,8 +86,8 @@
 
     <EditText
         android:id="@+id/userName"
-        android:layout_width="290dp"
-        android:layout_height="62dp"
+        android:layout_width="212dp"
+        android:layout_height="53dp"
         android:layout_marginTop="28dp"
         android:hint="@string/username"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,12 +99,24 @@
         android:id="@+id/LoginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="48dp"
         android:text="@string/register_account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.453"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/AccountExists"
+        android:layout_width="212dp"
+        android:layout_height="53dp"
+        android:text="@string/already_have_account"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="683dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.417"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LoginButton"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
