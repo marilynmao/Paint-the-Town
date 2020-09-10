@@ -68,7 +68,9 @@ public class CreateAccountActivity extends AppCompatActivity
                                     user.setUsername(userName.getText().toString());
                                     user.setPassword(password.getText().toString());
                                     user.setPhoneNumber(phoneNumber.getText().toString());
-                                    dbRef.push().setValue(user);
+
+                                    dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
+                                    
                                     Intent intent= new Intent(getApplicationContext(),HomeActivity.class);
                                     startActivity(intent);
                                     Toast.makeText(CreateAccountActivity.this,"SUCCESS!", Toast.LENGTH_LONG).show();
