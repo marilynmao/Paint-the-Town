@@ -3,8 +3,13 @@
 
     <item
         android:id="@+id/home"
+        android:icon="@drawable/ic_baseline_home_24"
         android:title="home" />
     <item
         android:id="@+id/account"
+        android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="account" />
+    <item
+        android:id="@+id/logout"
+        android:title="logout" />
 </menu>
