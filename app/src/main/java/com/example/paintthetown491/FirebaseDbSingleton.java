@@ -23,6 +23,7 @@ public class FirebaseDbSingleton
         user=FirebaseAuth.getInstance().getCurrentUser();
     }
 
+    //creates a new instance of the class if it doesn't already exist. Returns the same instance if it does exist.
     public static FirebaseDbSingleton getInstance()
     {
         if(instance==null)

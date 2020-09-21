@@ -28,6 +28,8 @@ public class AccountActivity extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view=inflater.inflate(R.layout.frag_account, container, false);
+
+        //findViewById ties elements of the xml to the variables of this class
         profilePic=view.findViewById(R.id.profilePic);
         uploadPic=view.findViewById(R.id.uploadPic);
         userFullName=view.findViewById(R.id.userName);
@@ -38,7 +40,11 @@ public class AccountActivity extends Fragment
         userName.setEnabled(false);
         phone=view.findViewById(R.id.phoneNumber);
         phone.setEnabled(false);
+
+        //loads user information based on firebase ID
         loadUserData(FirebaseDbSingleton.getInstance().user.getUid());
+
+        //listener for button clicks attached
         uploadPic.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -80,6 +86,7 @@ public class AccountActivity extends Fragment
     //fills the fields in the account fragment with the user's info (based on userId)
     public void loadUserData(String userID)
     {
+        //looks in the "User" table for a user ID match
         FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).addValueEventListener(new ValueEventListener()
         {
             @Override

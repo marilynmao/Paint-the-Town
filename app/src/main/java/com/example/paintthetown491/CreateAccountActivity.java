@@ -54,6 +54,7 @@ public class CreateAccountActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                //firebase method to create an account
                 mAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString())
                         .addOnCompleteListener( new OnCompleteListener<AuthResult>()
                         {
