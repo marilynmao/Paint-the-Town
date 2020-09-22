@@ -63,12 +63,95 @@ public class CreateAccountActivity extends AppCompatActivity
                             {
                                 if(task.isSuccessful())
                                 {
-                                    user.setFirstName(firstName.getText().toString());
-                                    user.setLastName(lastName.getText().toString());
-                                    user.setEmail(email.getText().toString());
-                                    user.setUsername(userName.getText().toString());
-                                    user.setPassword(password.getText().toString());
-                                    user.setPhoneNumber(phoneNumber.getText().toString());
+                                    //FIRSTNAME
+                                    //checks that user filled out box
+                                    if (firstName.getText().toString().length() > 0)
+                                    {
+                                        //sets firstname if requirements are met
+                                        user.setFirstName(firstName.getText().toString());
+                                    }
+                                    else
+                                        {
+                                        //alerts user the field is required
+                                        firstName.setError("first name is required!");
+                                        //brings message to focus
+                                        firstName.requestFocus();
+                                        }
+
+                                    //LASTNAME
+                                    //checks that user filled out box
+                                    if (lastName.getText().toString().length() > 0)
+                                    {
+                                        //sets lastname if requirements are met
+                                        user.setLastName(lastName.getText().toString());
+                                    }
+                                    else
+                                        {
+                                        //alerts user the field is required
+                                        lastName.setError("Last name is required!");
+                                        //brings error message to focus
+                                        lastName.requestFocus();
+                                        }
+
+                                    //EMAIL
+                                    //checks that email address is valid before adding
+                                    if(email.getText().toString().contains("@") & email.getText().toString().contains("."))
+                                    {
+                                        //sets email if requirements are met
+                                        user.setEmail(email.getText().toString());
+                                    }
+                                    else
+                                        {
+                                            //sets error dialogue
+                                            email.setError("invalid email! Please re-enter with proper address.");
+                                            //brings error message to focus
+                                            email.requestFocus();
+                                        }
+
+                                    //USERNAME
+                                    //checks that user filled out box
+                                    if (userName.getText().toString().length() == 0)
+                                    {
+                                        //sets error dialogue
+                                        userName.setError("username is required!");
+                                        //brings error message to focus
+                                        userName.requestFocus();
+                                    }
+                                    else
+                                        {
+                                            //sets username if requirements are met
+                                            user.setUsername(userName.getText().toString());
+                                        }
+
+                                    //PASSWORD
+                                    //checks password length
+                                    if(password.getText().toString().length() > 8)
+                                    {
+                                        //sets password if requirements are met
+                                        user.setPassword(password.getText().toString());
+                                        //brings error message to focus
+                                        password.requestFocus();
+                                    }
+                                    else
+                                        {
+                                            //sets error dialogue
+                                            password.setError("Password must be at least 9 characters");
+                                        }
+
+                                    //PHONE NUMBER
+                                    //checks phone number length
+                                    if (phoneNumber.getText().toString().length() == 10)
+                                    {
+                                        //sets phone number if valid
+                                        user.setPhoneNumber(phoneNumber.getText().toString());
+                                    }
+                                    else
+                                        {
+                                        //sets error dialogue
+                                        phoneNumber.setError("invalid number! Please re-enter 10 digits.");
+                                            //brings error message to focus
+                                            userName.requestFocus();
+                                        }
 
                                     dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
                                     
