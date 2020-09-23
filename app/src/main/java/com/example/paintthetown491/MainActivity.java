@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
+    //elements that exist on the layout
     DrawerLayout dLayout;
     ActionBarDrawerToggle actionToggle;
     Toolbar toolBar;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
     }
 
+    //selects an item from the navigation panel
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item)
     {
@@ -64,6 +66,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragManager=getSupportFragmentManager();
             fragmentTransaction=fragManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_frag,new AccountActivity());
+            fragmentTransaction.commit();
+        }
+
+        if(item.getItemId()==R.id.events)
+        {
+            fragManager=getSupportFragmentManager();
+            fragmentTransaction=fragManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_frag,new EventsActivity());
             fragmentTransaction.commit();
         }
 

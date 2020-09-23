@@ -10,6 +10,15 @@
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="account" />
     <item
+        android:id="@+id/events"
+        android:title="Events" />
+    <item
+        android:id="@+id/friends"
+        android:title="Friends" />
+    <item
+        android:id="@+id/settings"
+        android:title="Settings" />
+    <item
         android:id="@+id/logout"
         android:title="logout" />
 </menu>

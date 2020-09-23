@@ -34,10 +34,13 @@ public class LoginActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //findViewById ties elements of the xml to the variables of this class
         final EditText userEmail = findViewById(R.id.userEmail);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        //uses the singleton class to prevent making multiple instances of the same class throughout the project
         fAuth=FirebaseAuth.getInstance();
         accountExists=findViewById(R.id.accountExists);
         accountExists.setOnClickListener(new View.OnClickListener()
