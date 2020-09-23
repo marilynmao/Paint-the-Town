@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 public class EventsActivity extends Fragment
 {
     private RecyclerView eventsRecycler;
@@ -21,14 +23,17 @@ public class EventsActivity extends Fragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view=inflater.inflate(R.layout.frag_main, container, false);
+        View view=inflater.inflate(R.layout.frag_events, container, false);
+        ArrayList<EventItem> sampleData=new ArrayList<>();
+        sampleData.add(new EventItem(R.drawable.backgroundimg,"text1","text3"));
+        sampleData.add(new EventItem(R.drawable.backgroundimg,"text1","text2"));
+        
         eventsRecycler=view.findViewById(R.id.events);
         eventsRecycler.setHasFixedSize(true);
-
         layoutManager=new LinearLayoutManager(getContext());
+        eAdapter=new EventAdapter(sampleData);
         eventsRecycler.setLayoutManager(layoutManager);
-
-        //eAdapter=new
+        eventsRecycler.setAdapter(eAdapter);
         return view;
     }
 

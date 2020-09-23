@@ -36,6 +36,7 @@ public class CreateAccountActivity extends AppCompatActivity
         setContentView(R.layout.activity_create);
 
         mAuth=FirebaseAuth.getInstance();
+
         // get instance of database reference to insert data
         dbRef = FirebaseDatabase.getInstance().getReference().child("User");
         password=findViewById(R.id.UserPassword);
@@ -46,7 +47,6 @@ public class CreateAccountActivity extends AppCompatActivity
         lastName=findViewById(R.id.userLastName);
         phoneNumber=findViewById(R.id.phoneNumber);
         accountExists=findViewById(R.id.AccountExists);
-
         user = new User();
 
         //handles create action
