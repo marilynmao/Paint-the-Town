@@ -1,8 +1,9 @@
 package com.example.paintthetown491;
-
+import java.util.ArrayList;
 public class User {
     private String firstName, lastName, email, username, password, phoneNumber;
-
+    private ArrayList<String> friends = new ArrayList<String>();
+    private ArrayList<String> events = new ArrayList<String>();
     public User() {
     }
 
@@ -53,4 +54,13 @@ public class User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public void addFriend(String username) {friends.add(username); }
+
+    public void removeFriend(String username) {friends.remove(username); }
+
+    public void addEvent(String eventID) {events.add(eventID); }
+
+    public void removeEvent(String eventID) { events.remove(eventID); }
+
 }
