@@ -11,14 +11,18 @@
         android:title="account" />
     <item
         android:id="@+id/events"
+        android:icon="@drawable/ic_baseline_event_24"
         android:title="Events" />
     <item
         android:id="@+id/friends"
+        android:icon="@drawable/ic_baseline_emoji_people_24"
         android:title="Friends" />
     <item
         android:id="@+id/settings"
+        android:icon="@drawable/ic_baseline_settings_24"
         android:title="Settings" />
     <item
         android:id="@+id/logout"
+        android:icon="@drawable/logout"
         android:title="logout" />
 </menu>

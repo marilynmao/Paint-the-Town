@@ -1,18 +1,17 @@
 package com.example.paintthetown491;
 
-import android.util.EventLog;
-import android.widget.TextView;
-
+//the class that holds all the data needed for an event
 public class EventItem
 {
     private int view;
-    private String text1, text2;
+    private String eventName, eventDate, eventCreator;
 
-    public EventItem(int source, String text, String otherText)
+    public EventItem(int source, String name, String date, String creator /* additional parameters go here when we determine what they are */)
     {
         view=source;
-        text1=text;
-        text2=otherText;
+        eventName=name;
+        eventDate=date;
+        eventCreator=creator;
     }
 
     public int getImage()
@@ -20,13 +19,18 @@ public class EventItem
         return view;
     }
 
-    public String getText1()
+    public String getEventName()
     {
-        return text1;
+        return eventName;
     }
 
-    public String getText2()
+    public String getEventDate()
     {
-        return text2;
+        return eventDate;
+    }
+
+    public String getEventCreator()
+    {
+        return eventCreator;
     }
 }

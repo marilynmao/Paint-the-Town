@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,26 +15,36 @@
             android:layout_height="50dp"
             android:padding="2dp"
             android:id="@+id/eventView"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="text1"
-            android:id="@+id/text1"
-            android:textColor="@android:color/black"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/eventView"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="text2"
-            android:textSize="15sp"
-            android:layout_below="@+id/text1"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:text=""
+            android:id="@+id/eventCreator"
+            android:textColor="@android:color/black"
             android:layout_toRightOf="@+id/eventView"
-            android:layout_marginLeft="8dp"
-            android:id="@+id/text2"/>
+            android:layout_below="@+id/eventDate"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:layout_below="@+id/eventName"
+            android:layout_toRightOf="@+id/eventView"
+            android:id="@+id/eventDate"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:layout_toRightOf="@+id/eventView"
+            android:id="@+id/eventName"
+            android:layout_alignParentTop="true"/>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
