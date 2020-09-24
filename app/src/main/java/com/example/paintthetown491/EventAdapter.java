@@ -14,7 +14,10 @@ import java.util.ArrayList;
 //the class is needed to feed all our data to the recyclerview
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder>
 {
+    //holds the events for the recyclerview
     private ArrayList<EventItem> mEventList;
+
+    //variable that will make each item in the recyclerview clickable
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener
@@ -27,6 +30,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         mListener=listener;
     }
 
+    //will bind the layout for each event and attach a listener
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
@@ -36,6 +40,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return vh;
     }
 
+    //Called by RecyclerView to display the data at the specified position.
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position)
     {
@@ -60,11 +65,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         mEventList=eventList;
     }
 
+    //A ViewHolder describes an item view and metadata about its place within the RecyclerView
     public static class EventViewHolder extends RecyclerView.ViewHolder
     {
         public ImageView mImageView;
         public TextView eName,eDate,eCreator;
-
+        
         public EventViewHolder(@NonNull View itemView, final OnItemClickListener listener)
         {
             super(itemView);
