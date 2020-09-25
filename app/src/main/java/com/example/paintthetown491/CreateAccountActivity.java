@@ -41,6 +41,8 @@ public class CreateAccountActivity extends AppCompatActivity
 
         // get instance of database reference to insert data
         dbRef = FirebaseDatabase.getInstance().getReference().child("User");
+
+        // findViewById ties elements of the xml to the variables of this class
         password=findViewById(R.id.UserPassword);
         userPasswordVerify=findViewById(R.id.userPasswordVerify);
         email=findViewById(R.id.UserEmail);
@@ -59,6 +61,7 @@ public class CreateAccountActivity extends AppCompatActivity
         loginButton.setVisibility(View.GONE);
         creationBack.setVisibility(View.GONE);
 
+        //creates a user object
         user = new User();
 
         //handles create action
@@ -93,10 +96,14 @@ public class CreateAccountActivity extends AppCompatActivity
                 else {
                     //firebase method to create an account
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>()
+                            {
                                 @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
+                                public void onComplete(@NonNull Task<AuthResult> task)
+                                {
+                                    if (task.isSuccessful())
+                                    {
+                                        //sets the members of the user class
                                         user.setFirstName(firstName.getText().toString());
                                         user.setLastName(lastName.getText().toString());
                                         user.setEmail(email.getText().toString());
@@ -104,10 +111,14 @@ public class CreateAccountActivity extends AppCompatActivity
                                         user.setPassword(password.getText().toString());
                                         user.setPhoneNumber(phoneNumber.getText().toString());
 
+                                        //inserts the user into the DB
                                         dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
 
+                                        //takes the user to the home page
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
+
+                                        //notifies that the account was created successfully
                                         Toast.makeText(CreateAccountActivity.this, "SUCCESS!", Toast.LENGTH_LONG).show();
                                     }
                                     else {
