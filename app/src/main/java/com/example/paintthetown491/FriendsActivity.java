@@ -34,9 +34,12 @@ public class FriendsActivity extends Fragment
         FriendsRecycler=view.findViewById(R.id.events);
         FriendsRecycler.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getContext());
-        eAdapter=new FriendsAdapter(sampleData);
-        eventsRecycler.setLayoutManager(layoutManager);
-        eventsRecycler.setAdapter(eAdapter);
+
+        //TODO commented code is causing errors
+        //eAdapter=new FriendsAdapter(sampleData);
+        //eventsRecycler.setLayoutManager(layoutManager);
+        //eventsRecycler.setAdapter(eAdapter);
+
         eAdapter.setOnItemClickListener(new EventAdapter.OnItemClickListener()
         {
             //handles what happens when an item from the recyclerview is clicked

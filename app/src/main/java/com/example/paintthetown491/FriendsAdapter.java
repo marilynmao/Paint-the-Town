@@ -68,8 +68,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendVi
         {
             super(itemView);
             mImageView= itemView.findViewById(R.id.eventView);
-            eName=itemView.findViewById(R.id.Name);
-            eDate=itemView.findViewById(R.id.user);
+
+            //TODO commented code is causing errors
+            //eName=itemView.findViewById(R.id.Name);
+            //eDate=itemView.findViewById(R.id.user);
+
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
