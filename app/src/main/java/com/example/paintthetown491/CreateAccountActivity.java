@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateAccountActivity extends AppCompatActivity
 {
-    private EditText password, email, firstName, lastName, userName, phoneNumber;
+    private EditText password, email, firstName, lastName, userName, phoneNumber,userPasswordVerify;
     private TextView accountExists;
-    private Button loginButton;
+    private Button loginButton, creationNext;
+    private ImageButton creationBack;
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     private User user;
@@ -40,6 +42,7 @@ public class CreateAccountActivity extends AppCompatActivity
         // get instance of database reference to insert data
         dbRef = FirebaseDatabase.getInstance().getReference().child("User");
         password=findViewById(R.id.UserPassword);
+        userPasswordVerify=findViewById(R.id.userPasswordVerify);
         email=findViewById(R.id.UserEmail);
         loginButton=findViewById(R.id.LoginButton);
         userName=findViewById(R.id.userName);
@@ -47,6 +50,15 @@ public class CreateAccountActivity extends AppCompatActivity
         lastName=findViewById(R.id.userLastName);
         phoneNumber=findViewById(R.id.phoneNumber);
         accountExists=findViewById(R.id.AccountExists);
+        creationNext=findViewById(R.id.creationNext);
+        creationBack=findViewById(R.id.creationBack);
+
+        userName.setVisibility(View.GONE);
+        password.setVisibility(View.GONE);
+        userPasswordVerify.setVisibility(View.GONE);
+        loginButton.setVisibility(View.GONE);
+        creationBack.setVisibility(View.GONE);
+
         user = new User();
 
         //handles create action
@@ -55,6 +67,64 @@ public class CreateAccountActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                //USERNAME
+                //checks that user filled out box
+                if (userName.getText().toString().length() == 0)
+                {
+                    //sets error dialogue
+                    userName.setError("username is required!");
+                    //brings error message to focus
+                    userName.requestFocus();
+                }
+
+                //PASSWORD
+                //checks password length
+                else if(password.getText().toString().length() < 9)
+                {
+                    //sets error dialogue
+                    password.setError("Password must be at least 9 characters");
+                }
+
+                //verifies the password they wanted is correctly entered by the user
+                else if(!(userPasswordVerify.getText().toString().equals(password.getText().toString()))){
+                    userPasswordVerify.setError("Re-entered password does not match!");
+                }
+
+                else {
+                    //firebase method to create an account
+                    mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        user.setFirstName(firstName.getText().toString());
+                                        user.setLastName(lastName.getText().toString());
+                                        user.setEmail(email.getText().toString());
+                                        user.setUsername(userName.getText().toString());
+                                        user.setPassword(password.getText().toString());
+                                        user.setPhoneNumber(phoneNumber.getText().toString());
+
+                                        dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
+
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        Toast.makeText(CreateAccountActivity.this, "SUCCESS!", Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        //System.out.print("FAILED!");
+                                        //Toast.makeText(getApplicationContext(),"SOMETHING WENT WRONG!",Toast.LENGTH_LONG);
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+
+        //Checks the first four inputs of the user than takes them to the next "page" by showing the
+        //remaining input fields and the register button.
+        creationNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 //removes any char other than numerical digits from the phone number.
                 phoneNumber.setText(phoneNumber.getText().toString().replaceAll("[^0-9]", ""), TextView.BufferType.EDITABLE);
 
@@ -88,24 +158,6 @@ public class CreateAccountActivity extends AppCompatActivity
                     email.requestFocus();
                 }
 
-                //USERNAME
-                //checks that user filled out box
-                else if (userName.getText().toString().length() == 0)
-                {
-                    //sets error dialogue
-                    userName.setError("username is required!");
-                    //brings error message to focus
-                    userName.requestFocus();
-                }
-
-                //PASSWORD
-                //checks password length
-                else if(password.getText().toString().length() < 9)
-                {
-                    //sets error dialogue
-                    password.setError("Password must be at least 9 characters");
-                }
-
                 //PHONE NUMBER
                 //checks phone number length
                 else if (phoneNumber.getText().toString().length() != 10)
@@ -116,35 +168,41 @@ public class CreateAccountActivity extends AppCompatActivity
                     userName.requestFocus();
                 }
 
-                else {
-                    //firebase method to create an account
-                    mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        user.setFirstName(firstName.getText().toString());
-                                        user.setLastName(lastName.getText().toString());
-                                        user.setEmail(email.getText().toString());
-                                        user.setUsername(userName.getText().toString());
-                                        user.setPassword(password.getText().toString());
-                                        user.setPhoneNumber(phoneNumber.getText().toString());
+                else
+                    {
+                    firstName.setVisibility(View.GONE);
+                    lastName.setVisibility(View.GONE);
+                    email.setVisibility(View.GONE);
+                    phoneNumber.setVisibility(View.GONE);
+                    creationNext.setVisibility(View.GONE);
 
-                                        dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
-
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(intent);
-                                        Toast.makeText(CreateAccountActivity.this, "SUCCESS!", Toast.LENGTH_LONG).show();
-                                    }
-                                    else {
-                                        //System.out.print("FAILED!");
-                                        //Toast.makeText(getApplicationContext(),"SOMETHING WENT WRONG!",Toast.LENGTH_LONG);
-                                    }
-                                }
-                            });
+                    userName.setVisibility(View.VISIBLE);
+                    password.setVisibility(View.VISIBLE);
+                    userPasswordVerify.setVisibility(View.VISIBLE);
+                    loginButton.setVisibility(View.VISIBLE);
+                    creationBack.setVisibility(View.VISIBLE);
                 }
             }
         });
+
+        //Button listener for when the user wants to go back to the "page" with the first four inputs
+        creationBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userName.setVisibility(View.GONE);
+                password.setVisibility(View.GONE);
+                userPasswordVerify.setVisibility(View.GONE);
+                loginButton.setVisibility(View.GONE);
+                creationBack.setVisibility(View.GONE);
+
+                firstName.setVisibility(View.VISIBLE);
+                lastName.setVisibility(View.VISIBLE);
+                email.setVisibility(View.VISIBLE);
+                phoneNumber.setVisibility(View.VISIBLE);
+                creationNext.setVisibility(View.VISIBLE);
+            }
+        });
+
 
         //switches to activity for user to login
         accountExists.setOnClickListener(new View.OnClickListener()
