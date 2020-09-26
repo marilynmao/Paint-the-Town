@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -97,7 +98,11 @@ public class HomeActivity extends Fragment
                     else
                     {
                         // testing
-                        resText.setText(srchBar.getText().toString());
+                        //resText.setText(srchBar.getText().toString());
+
+                        Intent intent = new Intent(getActivity(), ProfileSearchActivity.class);
+                        intent.putExtra("Search Input", srchBar.getText().toString());
+                        startActivity(intent);
 
                         // ----- still need to retrieve user from DB to display in search results -----
                     }
