@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class CreateAccountActivity extends AppCompatActivity
 {
     private EditText password, email, firstName, lastName, userName, phoneNumber,userPasswordVerify;
-    private TextView accountExists;
+    private TextView accountExists, recoverAccount;
     private Button loginButton, creationNext;
     private ImageButton creationBack;
     private FirebaseAuth mAuth;
@@ -53,6 +54,7 @@ public class CreateAccountActivity extends AppCompatActivity
         phoneNumber=findViewById(R.id.phoneNumber);
         accountExists=findViewById(R.id.AccountExists);
         creationNext=findViewById(R.id.creationNext);
+        recoverAccount=findViewById(R.id.RecoverAccount);
         creationBack=findViewById(R.id.creationBack);
 
         userName.setVisibility(View.GONE);
@@ -226,6 +228,15 @@ public class CreateAccountActivity extends AppCompatActivity
             }
         });
 
+        recoverAccount.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent=new Intent(getApplicationContext(),RecoverAccountActivity.class);
+                startActivity(intent);
+            }
+        });
         //notifies the user if they enter an invalid char while typing.
         firstName.addTextChangedListener(new TextWatcher() {
 

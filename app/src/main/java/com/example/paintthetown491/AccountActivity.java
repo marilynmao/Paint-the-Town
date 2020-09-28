@@ -1,6 +1,8 @@
 package com.example.paintthetown491;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +18,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+
 public class AccountActivity extends Fragment
 {
     private ImageView profilePic;
     private Button uploadPic, editInfo, saveInfo;
     private EditText userFullName, userE, userName, phone;
     public static final int PICK_IMAGE = 1;
+    private Uri imageURI;
 
     @Nullable
     @Override
@@ -60,10 +65,15 @@ public class AccountActivity extends Fragment
         saveInfo.setVisibility(View.INVISIBLE);
         saveInfo.setOnClickListener(new View.OnClickListener()
         {
+            //saves edits to the account info
             @Override
             public void onClick(View view)
             {
-
+                //gets firebase instance, moves into the "user" table, into the specified user ID entry, and changes the respective values (email, username, phoneNumber)
+                FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("email").setValue(userE.getText().toString());
+                FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("username").setValue(userName.getText().toString());
+                FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("phoneNumber").setValue(phone.getText().toString());
+                saveInfo.setVisibility(View.INVISIBLE);
             }
         });
         editInfo=view.findViewById(R.id.editInfoBtn);
@@ -72,15 +82,30 @@ public class AccountActivity extends Fragment
             @Override
             public void onClick(View view)
             {
-                userFullName.setEnabled(true);
                 userE.setEnabled(true);
-                userName.setEnabled(true);
                 phone.setEnabled(true);
+                editInfo.setVisibility(View.INVISIBLE);
                 saveInfo.setVisibility(View.VISIBLE);
             }
         });
 
         return view;
+    }
+
+    //called whenever the user has clicked on an image to upload from the gallery. Sets the imageView image using the image URI
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==PICK_IMAGE && resultCode == Activity.RESULT_OK)
+        {
+            imageURI=data.getData();
+            try {
+                profilePic.setImageURI(imageURI);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //fills the fields in the account fragment with the user's info (based on userId)

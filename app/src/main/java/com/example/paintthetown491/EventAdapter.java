@@ -70,7 +70,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     {
         public ImageView mImageView;
         public TextView eName,eDate,eCreator;
-        
+
         public EventViewHolder(@NonNull View itemView, final OnItemClickListener listener)
         {
             super(itemView);
