@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,11 +20,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ProfileSearchActivity extends AppCompatActivity {
+    private static final String TAG = "PROFILE SEARCH ACTIVITY" ;
     private RecyclerView profRecyclerView;
-    private ProfileSearchAdapter psAdapter;
-    ArrayList<ProfileSearchItem> profList;
+    private ProfilesAdapter psAdapter;
+    ArrayList<User> profList;
 
-    String srchString;
+    String srchInput;
+    TextView noResultsTextView;
 
 
     @Override
@@ -30,18 +35,19 @@ public class ProfileSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_search);
         // get search input from search people field in HomeActivity class
         Intent intent = getIntent();
-        srchString = intent.getStringExtra("Search Input");
+        srchInput = intent.getStringExtra("Search Input");
 
-        // testing
-        Toast.makeText(this, srchString, Toast.LENGTH_SHORT).show();
+        // hide "no results found" text
+        noResultsTextView = findViewById(R.id.noResults);
+        noResultsTextView.setVisibility(View.GONE);
 
         profRecyclerView = findViewById(R.id.profile_search_rv);
         profRecyclerView.setHasFixedSize(true);
         profRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         profList = new ArrayList<>();
-        psAdapter = new ProfileSearchAdapter(profList);
+        psAdapter = new ProfilesAdapter(profList);
         profRecyclerView.setAdapter(psAdapter);
-        psAdapter.setOnItemClickListener(new EventAdapter.OnItemClickListener()
+        psAdapter.setOnItemClickListener(new ProfilesAdapter.OnItemClickListener()
         {
             //handles what happens when an item from the recyclerview is clicked
             @Override
@@ -52,38 +58,46 @@ public class ProfileSearchActivity extends AppCompatActivity {
             }
         });
 
-        // testing recycler view with dummy data (WORKS)
-//        profList.add(new ProfileSearchItem("bob", "b", "000000000"));
-//        profList.add(new ProfileSearchItem("yuh", "yuh", "1111111"));
-
-
-        // find users in db whose first name is equal to search input
+        // find users in db whose first name is equal to search input (search by first name for now)
         Query query = FirebaseDbSingleton.getInstance().dbRef.child("User")
                 .orderByChild("firstName")
-                .equalTo(srchString);
+                .equalTo(srchInput);
 
-
+        // attach listener
         query.addValueEventListener(valueEventListener);
 
     }
-    // WORK IN PROGRESS - currently, data is not being retrieved and displayed in search results
-    // listener to read values from db
+
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            // for testing purposes
+            Log.d(TAG,"ON DATA CHANGE SUCCESS");
             profList.clear();
             if(dataSnapshot.exists()) {
                 for(DataSnapshot ds : dataSnapshot.getChildren())
                 {
-                    ProfileSearchItem userData = ds.getValue(ProfileSearchItem.class);
+                    // get user values
+                    User userData = ds.getValue(User.class);
                     profList.add(userData);
                 }
             psAdapter.notifyDataSetChanged();
+            }
+
+            // name doesn't exist in DB, update UI
+            else
+            {
+                // hide recycler view
+                profRecyclerView.setVisibility(View.GONE);
+                // show results error
+                noResultsTextView.setVisibility(View.VISIBLE);
+                psAdapter.notifyDataSetChanged();
             }
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
+            Log.d(TAG,"ERROR: " + databaseError.getMessage());
 
         }
     };
