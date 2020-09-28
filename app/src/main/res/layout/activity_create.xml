@@ -200,5 +200,4 @@
         app:layout_constraintTop_toTopOf="@+id/LoginButton"
         app:srcCompat="@drawable/abc_vector_test" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
