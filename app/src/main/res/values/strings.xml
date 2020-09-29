@@ -21,6 +21,7 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="logout">logout</string>
+    <string name="recover_account_button">Recover my account</string>
     <string name="recover_account"> Forgot you password?</string>
     <string name="account_does_not_exist"> Don\'t have an account? Sign up. </string>
     <string name="title_activity_navigation">NavigationActivity</string>
