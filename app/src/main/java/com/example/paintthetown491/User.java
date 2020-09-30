@@ -1,7 +1,7 @@
 package com.example.paintthetown491;
 import java.util.ArrayList;
 public class User {
-    private String firstName, lastName, email, username, password, phoneNumber;
+    private String firstName, lastName, email, username, phoneNumber;
     private ArrayList<String> friends = new ArrayList<String>();
     private ArrayList<String> events = new ArrayList<String>();
     private ArrayList<String> savedEvents = new ArrayList<String>();
@@ -38,14 +38,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhoneNumber() {

@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +34,7 @@ public class CreateAccountActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     private User user;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -114,7 +113,6 @@ public class CreateAccountActivity extends AppCompatActivity
                                         user.setLastName(lastName.getText().toString());
                                         user.setEmail(email.getText().toString());
                                         user.setUsername(userName.getText().toString());
-                                        user.setPassword(password.getText().toString());
                                         user.setPhoneNumber(phoneNumber.getText().toString());
 
                                         //inserts the user into the DB
