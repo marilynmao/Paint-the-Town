@@ -3,6 +3,8 @@ package com.example.paintthetown491;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +42,9 @@ public class HomeActivity extends Fragment
 
     // Yelp API key
     final String token = "ju1f5-H-moICivrIt7vJynoLtBo9yB20u3_A8iq4i7rw2x7aYsYk5Kl6QP5WFqD1ELwd3dlOiLGR157KQwUcIU1Kq0r9l66uU0EoxWd5z3daERREQpymXCuRiGRYX3Yx";
+
+    FragmentManager fragManager;
+    FragmentTransaction fragmentTransaction;
 
     @Nullable
     @Override
@@ -97,9 +102,13 @@ public class HomeActivity extends Fragment
                     }
                     else
                     {
-                        Intent intent = new Intent(getActivity(), ProfileSearchActivity.class);
-                        intent.putExtra("Search Input", srchBar.getText().toString());
-                        startActivity(intent);
+                        // search people
+                        ProfileSearchActivity profileSearch = new ProfileSearchActivity();
+                        Bundle searchText = new Bundle();
+                        searchText.putString("Search Input", srchBar.getText().toString());
+                        profileSearch.setArguments(searchText);
+                        getParentFragmentManager().beginTransaction().replace(R.id.container_frag, profileSearch).commit();
+
                     }
                 }
             }
