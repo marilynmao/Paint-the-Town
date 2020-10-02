@@ -3,6 +3,7 @@ package com.example.paintthetown491;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -115,8 +116,18 @@ public class AccountActivity extends Fragment
         {
             imageURI=data.getData();
             try {
-                profilePic.setImageURI(imageURI);
-                Fileuploader();
+                //used to find the size of the image the user selects.
+                AssetFileDescriptor afd = getActivity().getContentResolver().openAssetFileDescriptor(imageURI,"r");
+                
+                if(afd.getLength() > (5 * 1024 * 1024)) //5MB file size limit for a user icon
+                {
+                    Toast.makeText(getActivity(), "Image size too large (5MB maximum)", Toast.LENGTH_LONG).show();
+                }
+                else
+                    {
+                    profilePic.setImageURI(imageURI);
+                    Fileuploader();
+                    }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -149,6 +160,7 @@ public class AccountActivity extends Fragment
 
     }
 
+    //function that sends the image the user selected to the firebase storage bucket.
     private void Fileuploader(){
         final StorageReference Ref=mStorageRef.child(FirebaseDbSingleton.getInstance().user.getUid()+"."+getExtension(imageURI));
 
@@ -167,6 +179,7 @@ public class AccountActivity extends Fragment
         });
     }
 
+    //simple helper function that finds the file extension of a given uri.
     private String getExtension(Uri uri) {
         ContentResolver cr= getActivity().getContentResolver();
         MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
