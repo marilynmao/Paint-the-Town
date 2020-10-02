@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             fragManager=getSupportFragmentManager();
             fragmentTransaction=fragManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_frag,new EventsActivity());
+            fragmentTransaction.replace(R.id.container_frag,new FriendsActivity());
             fragmentTransaction.commit();
         }
 
