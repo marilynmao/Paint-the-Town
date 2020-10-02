@@ -26,8 +26,6 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
         mListener=listener;
     }
 
-
-
     @NonNull
     @Override
     public ProfilesAdapter.ProfileSearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,7 +35,8 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProfilesAdapter.ProfileSearchViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProfilesAdapter.ProfileSearchViewHolder holder, int position)
+    {
         User curr_prof = profileSearchList.get(position);
 
         holder.profile_fn.setText(curr_prof.getFirstName());

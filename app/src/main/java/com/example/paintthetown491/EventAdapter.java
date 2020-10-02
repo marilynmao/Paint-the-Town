@@ -1,9 +1,13 @@
 package com.example.paintthetown491;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,7 +75,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         public ImageView mImageView;
         public TextView eName,eDate,eCreator;
 
-        public EventViewHolder(@NonNull View itemView, final OnItemClickListener listener)
+        public EventViewHolder(@NonNull final View itemView, final OnItemClickListener listener)
         {
             super(itemView);
             mImageView= itemView.findViewById(R.id.eventView);

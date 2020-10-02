@@ -284,8 +284,10 @@ public class CreateAccountActivity extends AppCompatActivity
                 //startActivity(intent);
             }
         });
+
         //notifies the user if they enter an invalid char while typing.
-        firstName.addTextChangedListener(new TextWatcher() {
+        firstName.addTextChangedListener(new TextWatcher()
+        {
 
             @Override//unused
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
