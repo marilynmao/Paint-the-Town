@@ -32,7 +32,6 @@ public class ProfileSearchActivity extends Fragment {
     String srchInput;
     TextView noResultsTextView;
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
@@ -57,6 +56,7 @@ public class ProfileSearchActivity extends Fragment {
             public void onItemClick(int position)
             {
                 //TODO:open up the event page
+                startActivity(new Intent(getContext(),EventPopUpActivity.class));
                 System.out.println("CLICKED!");
             }
         });

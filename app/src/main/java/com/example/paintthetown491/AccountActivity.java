@@ -157,7 +157,6 @@ public class AccountActivity extends Fragment
         });
 
         //TODO check the firebase storage for the users icon if they have one
-
     }
 
     //function that sends the image the user selected to the firebase storage bucket.
