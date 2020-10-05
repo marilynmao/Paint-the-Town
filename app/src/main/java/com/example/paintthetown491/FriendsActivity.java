@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ public class FriendsActivity extends Fragment
             public void onItemClick(int position)
             {
                 //TODO:open up the event page
+                startActivity(new Intent(getContext(),EventPopUpActivity.class));
                 System.out.println("CLICKED!");
             }
         });
