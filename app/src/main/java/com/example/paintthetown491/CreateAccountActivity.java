@@ -137,9 +137,11 @@ public class CreateAccountActivity extends AppCompatActivity
 
         //Checks the first four inputs of the user than takes them to the next "page" by showing the
         //remaining input fields and the register button.
-        creationNext.setOnClickListener(new View.OnClickListener() {
+        creationNext.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 //removes any char other than numerical digits from the phone number.
                 phoneNumber.setText(phoneNumber.getText().toString().replaceAll("[^0-9]", ""), TextView.BufferType.EDITABLE);
 
@@ -201,9 +203,11 @@ public class CreateAccountActivity extends AppCompatActivity
         });
 
         //Button listener for when the user wants to go back to the "page" with the first four inputs
-        creationBack.setOnClickListener(new View.OnClickListener() {
+        creationBack.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 userName.setVisibility(View.GONE);
                 password.setVisibility(View.GONE);
                 userPasswordVerify.setVisibility(View.GONE);
@@ -217,7 +221,6 @@ public class CreateAccountActivity extends AppCompatActivity
                 creationNext.setVisibility(View.VISIBLE);
             }
         });
-
 
         //switches to activity for user to login
         accountExists.setOnClickListener(new View.OnClickListener()
@@ -286,12 +289,12 @@ public class CreateAccountActivity extends AppCompatActivity
         //notifies the user if they enter an invalid char while typing.
         firstName.addTextChangedListener(new TextWatcher()
         {
-
             @Override//unused
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 if (!s.toString().matches("[a-zA-Z]+") && s.toString() != ""){
                     firstName.setError("First name can only contain letters A-Z");
                 }
@@ -299,7 +302,6 @@ public class CreateAccountActivity extends AppCompatActivity
 
             @Override//unused
             public void afterTextChanged(Editable s) {}
-
         });
 
         //notifies the user if they enter an invalid char while typing.
@@ -309,15 +311,16 @@ public class CreateAccountActivity extends AppCompatActivity
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().matches("[a-zA-Z]+") && s.toString() != ""){
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (!s.toString().matches("[a-zA-Z]+") && s.toString() != "")
+                {
                     lastName.setError("Last name can only contain letters A-Z");
                 }
             }
 
             @Override//unused
             public void afterTextChanged(Editable s) {}
-
         });
 
         //notifies the user while there password is less than 9 chars while typing.
@@ -326,8 +329,10 @@ public class CreateAccountActivity extends AppCompatActivity
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() < 9 && s.length() > 0){
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (s.length() < 9 && s.length() > 0)
+                {
                     password.setError("Password must be at least 9 characters");
                 }
             }

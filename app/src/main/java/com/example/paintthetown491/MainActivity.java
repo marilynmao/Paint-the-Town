@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item)
     {
+        //user selected the home item from the navigation panel
         if(item.getItemId()==R.id.home)
         {
             fragManager=getSupportFragmentManager();
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.commit();
         }
 
+        //user selected the account item from the navigation panel
         if(item.getItemId()==R.id.account)
         {
             fragManager=getSupportFragmentManager();
@@ -69,14 +71,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.commit();
         }
 
+        //user selected the events item from the navigation panel
         if(item.getItemId()==R.id.events)
         {
             fragManager=getSupportFragmentManager();
             fragmentTransaction=fragManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_frag,new FriendsActivity());
+            fragmentTransaction.replace(R.id.container_frag,new EventsActivity());
             fragmentTransaction.commit();
         }
 
+        //user selected the logout item from the navigation panel
         if(item.getItemId()==R.id.logout)
         {
             FirebaseAuth.getInstance().signOut();

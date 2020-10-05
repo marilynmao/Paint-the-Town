@@ -29,27 +29,27 @@ public class FriendsActivity extends Fragment
         View view=inflater.inflate(R.layout.frag_events, container, false);
 
         //dummy data to test the recyclerview
-        ArrayList<FriendsListItem> sampleData=new ArrayList<>();
-        sampleData.add(new FriendsListItem(R.drawable.ic_baseline_event_24,"Night out with the BOYZZZ","starting on: "+"12/12/2020", "created by: "+"Julian Campos"));
-        sampleData.add(new FriendsListItem(R.drawable.ic_baseline_event_24,"Night out with the GIRLZZZ","starting on: "+"12/22/2020","created by:"+"Julian Campos"));
+        //ArrayList<FriendsListItem> sampleData=new ArrayList<>();
+        //sampleData.add(new FriendsListItem(R.drawable.ic_baseline_event_24,"Night out with the BOYZZZ","starting on: "+"12/12/2020", "created by: "+"Julian Campos"));
+        //sampleData.add(new FriendsListItem(R.drawable.ic_baseline_event_24,"Night out with the GIRLZZZ","starting on: "+"12/22/2020","created by:"+"Julian Campos"));
 
-        FriendsRecycler=view.findViewById(R.id.events);
-        FriendsRecycler.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(getContext());
-        FlAdapter =new FriendsListAdapter(sampleData);
-        FriendsRecycler.setLayoutManager(layoutManager);
-        FriendsRecycler.setAdapter(FlAdapter);
-        FlAdapter.setOnItemClickListener(new EventAdapter.OnItemClickListener()
-        {
+        //FriendsRecycler=view.findViewById(R.id.events);
+        //FriendsRecycler.setHasFixedSize(true);
+        //layoutManager=new LinearLayoutManager(getContext());
+        //FlAdapter =new FriendsListAdapter(sampleData);
+        //FriendsRecycler.setLayoutManager(layoutManager);
+        //FriendsRecycler.setAdapter(FlAdapter);
+        //FlAdapter.setOnItemClickListener(new EventAdapter.OnItemClickListener()
+        //{
             //handles what happens when an item from the recyclerview is clicked
-            @Override
-            public void onItemClick(int position)
-            {
-                //TODO:open up the event page
-                startActivity(new Intent(getContext(),EventPopUpActivity.class));
-                System.out.println("CLICKED!");
-            }
-        });
+        //    @Override
+        //    public void onItemClick(int position)
+        //    {
+        //        //TODO:open up the event page
+        //        startActivity(new Intent(getContext(),EventPopUpActivity.class));
+        //        System.out.println("CLICKED!");
+        //    }
+        //});
 
         return view;
     }
