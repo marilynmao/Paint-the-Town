@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -55,11 +57,10 @@ public class AccountActivity extends Fragment
         phone=view.findViewById(R.id.phoneNumber);
         phone.setEnabled(false);
 
-        System.out.println("check1");
 
         //gets a reference to the firebase storage that holds user icons.
         mStorageRef= FirebaseStorage.getInstance().getReference("Icons");
-        System.out.println("check2");
+
         //loads user information based on firebase ID
         loadUserData(FirebaseDbSingleton.getInstance().user.getUid(), mStorageRef);
 
@@ -102,7 +103,7 @@ public class AccountActivity extends Fragment
                 saveInfo.setVisibility(View.VISIBLE);
             }
         });
-        System.out.println("check3");
+
         return view;
 
     }
@@ -115,27 +116,31 @@ public class AccountActivity extends Fragment
         if(requestCode==PICK_IMAGE && resultCode == Activity.RESULT_OK)
         {
             imageURI=data.getData();
-            try {
-                //used to find the size of the image the user selects.
-                AssetFileDescriptor afd = getActivity().getContentResolver().openAssetFileDescriptor(imageURI,"r");
-                
-                if(afd.getLength() > (5 * 1024 * 1024)) //5MB file size limit for a user icon
-                {
-                    Toast.makeText(getActivity(), "Image size too large (5MB maximum)", Toast.LENGTH_LONG).show();
-                }
-                else
+            if (getExtension(imageURI) == "png" || getExtension(imageURI) == "jpg") {
+                try {
+                    //used to find the size of the image the user selects.
+                    AssetFileDescriptor afd = getActivity().getContentResolver().openAssetFileDescriptor(imageURI, "r");
+
+                    if (afd.getLength() > (5 * 1024 * 1024)) //5MB file size limit for a user icon
                     {
-                    profilePic.setImageURI(imageURI);
-                    Fileuploader();
+                        Toast.makeText(getActivity(), "Image size too large (5MB maximum)", Toast.LENGTH_LONG).show();
+                    } else {
+                        removeOldPic(); //removes the old profile pic if the user has one
+                        profilePic.setImageURI(imageURI);
+                        Fileuploader();
                     }
-            } catch (Exception e) {
-                e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Toast.makeText(getActivity(), "Image must be either PNG or JPG", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     //fills the fields in the account fragment with the user's info (based on userId)
-    public void loadUserData(String userID, StorageReference fbsRef)
+    public void loadUserData(final String userID, StorageReference fbsRef)
     {
         //looks in the "User" table for a user ID match
         FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).addValueEventListener(new ValueEventListener()
@@ -156,7 +161,36 @@ public class AccountActivity extends Fragment
             }
         });
 
-        //TODO check the firebase storage for the users icon if they have one
+        //check the firebase storage for the users icon if they have one. then load it into the profilePic imageView
+        try {
+            StorageReference path = mStorageRef.child(userID + ".png");
+            path.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    profilePic.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    StorageReference path2 = mStorageRef.child(userID + ".jpg");
+                    path2.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            profilePic.setImageBitmap(bitmap);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            //no profilePic attached to this account.
+                        }
+                    });
+                }
+            });
+        }
+        catch (Exception e){
+        }
     }
 
     //function that sends the image the user selected to the firebase storage bucket.
@@ -183,6 +217,33 @@ public class AccountActivity extends Fragment
         ContentResolver cr= getActivity().getContentResolver();
         MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
+    }
+
+
+    public void removeOldPic()
+    {
+        mStorageRef.child(FirebaseDbSingleton.getInstance().user.getUid() + ".png").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                //png file deleted from storage
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //no png file
+                mStorageRef.child(FirebaseDbSingleton.getInstance().user.getUid() + ".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //jpg file deleted from storage
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //there is no file to delete (probably)
+                    }
+                });
+            }
+        });
     }
 
 }

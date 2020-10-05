@@ -140,10 +140,18 @@ public class CreateAccountActivity extends AppCompatActivity
         creationNext.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
-            {
-                //removes any char other than numerical digits from the phone number.
-                phoneNumber.setText(phoneNumber.getText().toString().replaceAll("[^0-9]", ""), TextView.BufferType.EDITABLE);
+
+            //public void onClick(View v)
+            //{
+             //   //removes any char other than numerical digits from the phone number.
+             //   phoneNumber.setText(phoneNumber.getText().toString().replaceAll("[^0-9]", ""), TextView.BufferType.EDITABLE);
+
+            public void onClick(View v) {
+
+                if (phoneNumber.getText().toString() != "") {
+                    //removes any char other than numerical digits from the phone number.
+                    phoneNumber.setText(phoneNumber.getText().toString().replaceAll("[^0-9]", ""), TextView.BufferType.EDITABLE);
+                }
 
                 //FIRSTNAME
                 //checks that user filled out box
