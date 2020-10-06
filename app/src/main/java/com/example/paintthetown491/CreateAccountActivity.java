@@ -25,6 +25,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class CreateAccountActivity extends AppCompatActivity
 {
     private EditText password, email, firstName, lastName, userName, phoneNumber,userPasswordVerify;
@@ -114,7 +117,7 @@ public class CreateAccountActivity extends AppCompatActivity
                                         user.setEmail(email.getText().toString());
                                         user.setUsername(userName.getText().toString());
                                         user.setPhoneNumber(phoneNumber.getText().toString());
-
+                                        user.setEventList(new ArrayList<String>(Arrays.asList("0")));
                                         //inserts the user into the DB
                                         dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
 

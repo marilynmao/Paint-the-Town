@@ -12,7 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,7 @@ public class EventsActivity extends Fragment
     private EventAdapter eAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private DatabaseReference dbRef;
+    private ArrayList<String>events;
 
     @Nullable
     @Override
@@ -45,12 +49,18 @@ public class EventsActivity extends Fragment
         sampleData.add(new EventItem(R.drawable.ic_baseline_event_24,"Night out with the GIRLZZZ","12/22/2020","Julian Campos",participantIds));
 
         //event to be posted to DB
-        EventItem event=new EventItem(R.drawable.ic_baseline_event_24,"Night out with the BOYZZZZZZZZZZ","12/12/2020","Julian Campos",participantIds);
+        final EventItem event=new EventItem(R.drawable.ic_baseline_event_24,"Night out with the BOYZZZZZZZZZZ","12/12/2020","Julian Campos",participantIds);
 
         //reference to db entry where this will be saved
         dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Event");
         //save event
         dbRef.push().setValue(event);
+
+        //////////////////////////////////////
+
+        //////////////////////////////////////retrieving event data to DB for events
+
+        //dbRef=FirebaseDbSingleton.getInstance().dbRef
 
         //////////////////////////////////////
 

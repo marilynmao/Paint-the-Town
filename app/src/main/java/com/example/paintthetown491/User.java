@@ -8,6 +8,8 @@ public class User {
     public User() {
     }
 
+    public void setEventList(ArrayList<String>sEvents){ savedEvents=sEvents;
+    }
     public String getFirstName() {
         return firstName;
     }
