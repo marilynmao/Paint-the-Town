@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SearchView;
@@ -43,8 +44,8 @@ public class HomeActivity extends Fragment
     // Yelp API key
     final String token = "ju1f5-H-moICivrIt7vJynoLtBo9yB20u3_A8iq4i7rw2x7aYsYk5Kl6QP5WFqD1ELwd3dlOiLGR157KQwUcIU1Kq0r9l66uU0EoxWd5z3daERREQpymXCuRiGRYX3Yx";
 
-    FragmentManager fragManager;
-    FragmentTransaction fragmentTransaction;
+    // temporary button
+    private Button create_event;
 
     @Nullable
     @Override
@@ -57,6 +58,7 @@ public class HomeActivity extends Fragment
         srchFilter = view.findViewById(R.id.searchFilter);
         srchButton = view.findViewById(R.id.searchButton);
         resText = view.findViewById(R.id.resultText);
+        create_event = view.findViewById(R.id.createNewEventBtn);
 
         // array list stores filter options for dropdown list
         ArrayList<String> filterOptions = new ArrayList<>();
@@ -114,6 +116,14 @@ public class HomeActivity extends Fragment
             }
         });
 
+        // temporary create event button, need to add to sidebar
+        create_event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateEventActivity createEvent = new CreateEventActivity();
+                getParentFragmentManager().beginTransaction().replace(R.id.container_frag, createEvent).commit();
+            }
+        });
         return view;
     }
 

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateEventActivity">
+
+    <EditText
+        android:id="@+id/selectTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Select Time"
+        android:inputType="text"
+        android:textColor="#627FE4"
+        android:textColorHint="#627FE4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventImage"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/eventImage"
+        android:layout_width="384dp"
+        android:layout_height="218dp"
+        android:contentDescription="dateIcon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.009"
+        app:srcCompat="@drawable/eventimageplaceholder" />
+
+    <EditText
+        android:id="@+id/newEventName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:hint="Event Name"
+        android:textColor="#627FE4"
+        android:textColorHint="#627FE4"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventImage"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/newEventInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Event Info"
+        android:inputType="textMultiLine"
+        android:textColor="#627FE4"
+        android:textColorHint="#627FE4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newEventName"
+        app:layout_constraintVertical_bias="0.035" />
+
+    <EditText
+        android:id="@+id/newEventLocation"
+        android:layout_width="209dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="280dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginRight="102dp"
+        android:hint="Event Location"
+        android:textColor="#627FE4"
+        android:textColorHint="#627FE4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventImage" />
+
+    <ImageView
+        android:id="@+id/eventDateIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:contentDescription="eventDate"
+        app:layout_constraintEnd_toStartOf="@+id/selectDate"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventInfoIcon"
+        app:srcCompat="@drawable/event" />
+
+    <ImageView
+        android:id="@+id/eventInfoIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="106dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="13dp"
+        android:contentDescription="infoIcon"
+        app:layout_constraintBottom_toTopOf="@+id/eventDateIcon"
+        app:layout_constraintEnd_toStartOf="@+id/newEventInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventImage"
+        app:srcCompat="@drawable/info" />
+
+    <ImageView
+        android:id="@+id/eventLocationIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="184dp"
+        android:contentDescription="locationIcon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/newEventLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventTimeIcon"
+        app:srcCompat="@drawable/location" />
+
+    <ImageView
+        android:id="@+id/eventTimeIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginLeft="43dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:contentDescription="eventTime"
+        app:layout_constraintEnd_toStartOf="@+id/selectTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventDateIcon"
+        app:srcCompat="@drawable/time" />
+
+    <EditText
+        android:id="@+id/selectDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="300dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="Select Date"
+        android:inputType="text"
+        android:textColor="#627FE4"
+        android:textColorHint="#627FE4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventImage"
+        app:layout_constraintVertical_bias="0.993" />
+
+    <Button
+        android:id="@+id/createEventbtn"
+        android:layout_width="146dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="53dp"
+        android:background="#627FE4"
+        android:text="Create Event"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newEventLocation"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
