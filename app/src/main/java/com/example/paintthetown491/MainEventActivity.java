@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 
 public class MainEventActivity extends Fragment {
-    String TAG = "MAIN EVENT";
-
     private ImageView mainevent_image;
     private TextView mainevent_name, mainevent_info, mainevent_date, mainevent_time, mainevent_location;
 

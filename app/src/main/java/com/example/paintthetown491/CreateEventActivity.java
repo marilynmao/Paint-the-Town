@@ -21,7 +21,6 @@ import java.util.Calendar;
 
 public class CreateEventActivity extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private EditText eName, eInfo,eLocation, eDate, eTime;
-
     final Calendar c = Calendar.getInstance();
     private int dMonth, dDay, dYear, dHour, dMinute;
     private String event_name, event_info, event_location, event_date, event_time, period;
