@@ -1,29 +1,39 @@
 package com.example.paintthetown491;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class MainEventActivity extends AppCompatActivity {
 
-    private ImageView event_image;
-    private TextView event_name, event_info, event_date, event_time, event_location;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_event);
+public class MainEventActivity extends Fragment {
 
-        event_image = findViewById(R.id.eventImage);
-        event_name = findViewById(R.id.mainEventName);
-        event_info = findViewById(R.id.mainEventInfo);
-        event_date = findViewById(R.id.mainEventDate);
-        event_time = findViewById(R.id.mainEventTime);
-        event_location = findViewById(R.id.mainEventLocation);
+    private TextView mainevent_name, mainevent_info, mainevent_date, mainevent_time, mainevent_location;
 
-        // set event data
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        View view=inflater.inflate(R.layout.activity_main_event, container, false);
 
+
+        mainevent_name = view.findViewById(R.id.mainEventName);
+        mainevent_info = view.findViewById(R.id.mainEventInfo);
+        mainevent_date = view.findViewById(R.id.mainEventDate);
+        mainevent_time = view.findViewById(R.id.mainEventTime);
+        mainevent_location = view.findViewById(R.id.mainEventLocation);
+
+        // get event data and set textview for each field
+        mainevent_name.setText(getArguments().getString("event name"));
+        mainevent_info.setText(getArguments().getString("event info"));
+        mainevent_date.setText(getArguments().getString("event date"));
+        mainevent_time.setText(getArguments().getString("event time"));
+        mainevent_location.setText(getArguments().getString("event location"));
+
+        return view;
     }
 }

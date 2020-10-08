@@ -6,15 +6,19 @@ import java.util.List;
 public class EventItem
 {
     private int view;
-    private String eventName, eventDate, eventCreator;
+    private String eventName, eventDate, eventCreator, eventTime, eventLocation, eventInfo;
     private List<String>participantIds;
 
-    public EventItem(String name, String date, String creator, List<String>pIds /* additional parameters go here when we determine what they are */)
+
+    public EventItem(int source, String name, String date, String creator, List<String>pIds, String time, String location, String info /* additional parameters go here when we determine what they are */)
     {
         eventName=name;
         eventDate=date;
         eventCreator=creator;
         participantIds=pIds;
+        eventTime=time;
+        eventLocation=location;
+        eventInfo=info;
     }
 
     //returns the list of user IDs for people in the event
@@ -43,6 +47,21 @@ public class EventItem
         return eventCreator;
     }
 
+    public String getEventTime()
+    {
+        return eventTime;
+    }
+
+    public String getEventLocation()
+    {
+        return eventLocation;
+    }
+
+    public String getEventInfo()
+    {
+        return eventInfo;
+    }
+
     //sets the event name
     public void setEventName(String eventN)
     {
@@ -65,5 +84,20 @@ public class EventItem
     public void setEventParticipants(List<String> eventP)
     {
         participantIds=eventP;
+    }
+
+    public void setEventTime(String eventT)
+    {
+        eventTime=eventT;
+    }
+
+    public void setEventLocation(String eventL)
+    {
+        eventLocation=eventL;
+    }
+
+    public void setEventInfo(String eventI)
+    {
+        eventInfo=eventI;
     }
 }
