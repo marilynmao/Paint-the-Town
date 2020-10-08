@@ -9,9 +9,8 @@ public class EventItem
     private String eventName, eventDate, eventCreator;
     private List<String>participantIds;
 
-    public EventItem(int source, String name, String date, String creator, List<String>pIds /* additional parameters go here when we determine what they are */)
+    public EventItem(String name, String date, String creator, List<String>pIds /* additional parameters go here when we determine what they are */)
     {
-        view=source;
         eventName=name;
         eventDate=date;
         eventCreator=creator;

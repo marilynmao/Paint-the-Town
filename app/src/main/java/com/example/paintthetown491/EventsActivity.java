@@ -25,8 +25,9 @@ public class EventsActivity extends Fragment
     private RecyclerView eventsRecycler;
     private EventAdapter eAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private DatabaseReference dbRef;
-    private ArrayList<String>events;
+    private DatabaseReference eventRef;
+    private ArrayList<String> eventIds;
+    private ArrayList<EventItem> events;
 
     @Nullable
     @Override
@@ -35,9 +36,12 @@ public class EventsActivity extends Fragment
         //the inflate() method takes the layout you wanna show as the first parameter
         final View view=inflater.inflate(R.layout.frag_events, container, false);
 
+
+        loadUserEventIds();
+
         //////////////////////////////////////inserting event data to DB for events
         
-        //dummy data to post to the DB (for posting to DB)
+      /*  //dummy data to post to the DB (for posting to DB)
         ArrayList<String>participantIds=new ArrayList<>();
         participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
         participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
@@ -54,20 +58,14 @@ public class EventsActivity extends Fragment
         //reference to db entry where this will be saved
         dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Event");
         //save event
-        dbRef.push().setValue(event);
+        dbRef.push().setValue(event);*/
 
         //////////////////////////////////////
 
-        //////////////////////////////////////retrieving event data to DB for events
-
-        //dbRef=FirebaseDbSingleton.getInstance().dbRef
-
-        //////////////////////////////////////
-
-        eventsRecycler=view.findViewById(R.id.events);
+        /*eventsRecycler=view.findViewById(R.id.events);
         eventsRecycler.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getContext());
-        eAdapter=new EventAdapter(sampleData);
+        eAdapter=new EventAdapter(events);
         eventsRecycler.setLayoutManager(layoutManager);
         eventsRecycler.setAdapter(eAdapter);
         eAdapter.setOnItemClickListener(new EventAdapter.OnItemClickListener()
@@ -76,13 +74,73 @@ public class EventsActivity extends Fragment
             @Override
             public void onItemClick(int position)
             {
-                System.out.println("CLICKED before!");
                 startActivity(new Intent(getContext(),EventPopUpActivity.class));
-                System.out.println("CLICKED after!");
+            }
+        });*/
+
+        return view;
+    }
+
+    private void loadUserEventIds()
+    {
+        eventIds =new ArrayList<String>();
+        events=new ArrayList<EventItem>();
+        //reference switched to the Event
+        //eventRef=FirebaseDbSingleton.getInstance().dbRef.child("Event");
+
+        //reference set to "events" node in "User" table, "userId" child.
+        eventRef=FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid().toString()).child("events");
+
+        //retrieves the event ids for the current user and places it into the events arraylist
+        eventRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                eventIds.clear();
+                for(DataSnapshot e:snapshot.getChildren())
+                {
+                    String event=e.getValue(String.class);
+                    eventIds.add(event);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+
             }
         });
 
-        return view;
+        /*//for(int i = 0; i< eventIds.size(); i++)
+        //{
+            eventRef.child(eventIds.get(i)).addValueEventListener(new ValueEventListener()
+            {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot)
+                {
+                    EventItem e=new EventItem(snapshot.child("eventName").getValue().toString(),snapshot.child("eventDate").getValue().toString(),snapshot.child("eventCreator").getValue().toString(),  getCollectionFromIterable(snapshot.child("participantList").getChildren()));
+                    events.add(e);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error)
+                {
+
+                }
+
+                public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
+                {
+                    ArrayList<String> participants=new ArrayList<String>();
+                    for(DataSnapshot id:itr)
+                    {
+                        participants.add(id.toString());
+                    }
+                    return participants;
+                }
+            });
+        }*/
     }
 
 }
