@@ -56,22 +56,4 @@
         app:srcCompat="?android:attr/actionModeWebSearchDrawable"
         android:contentDescription="TODO" />
 
-    <Button
-        android:id="@+id/createNewEventBtn"
-        android:layout_width="143dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="142dp"
-        android:layout_marginLeft="142dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginEnd="126dp"
-        android:layout_marginRight="126dp"
-        android:layout_marginBottom="89dp"
-        android:background="#627FE4"
-        android:text="Create Event"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resultText" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

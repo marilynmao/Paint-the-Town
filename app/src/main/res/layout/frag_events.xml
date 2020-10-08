@@ -12,6 +12,20 @@
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="100px"/>
+
+    <Button
+        android:id="@+id/createNewEventBtn"
+        android:layout_width="407dp"
+        android:layout_height="38dp"
+        android:layout_alignParentBottom="true"
+        android:background="#627FE4"
+        android:text="Create New Event"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/events" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,9 +3,6 @@ package com.example.paintthetown491;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -17,6 +14,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CreateEventActivity extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -25,6 +25,7 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
     private int dMonth, dDay, dYear, dHour, dMinute;
     private String event_name, event_info, event_location, event_date, event_time, period;
     private Button createEventButton;
+    private DatabaseReference dbRef;
 
     @Nullable
     @Override
@@ -59,13 +60,25 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // =======================================
-                //  post event data to database here???
-                // =======================================
-
                 event_name = eName.getText().toString();
                 event_info = eInfo.getText().toString();
                 event_location = eLocation.getText().toString();
+
+                // =======================================
+                //  post event data to database here
+                // =======================================
+                /// testing
+                ArrayList<String> participantIds=new ArrayList<>();
+                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
+                participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
+                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
+
+                //event to be posted to DB
+                final EventItem event=new EventItem(R.drawable.ic_baseline_event_24,event_name,event_date,"Marilyn Mao",participantIds, event_time, event_location, event_info);
+                //reference to db entry where this will be saved
+                dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Event");
+                //save event
+                dbRef.push().setValue(event);
                 //open main event activity (shows created event) when create event is clicked
                 MainEventActivity mainEvent = new MainEventActivity();
                 Bundle b = new Bundle();
@@ -95,7 +108,7 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
     // set selected date
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        event_date = (month+1) + " / " + dayOfMonth + " / " + year;
+        event_date = (month+1) + "/" + dayOfMonth + "/" + year;
         eDate.setText(event_date);
     }
 
@@ -111,7 +124,7 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // hourOfDay is in 24 hr format
-        if(hourOfDay >= 12) {
+        if(hourOfDay > 12) {
             // convert hourOfDAY to 12 hr
             hourOfDay -= 12;
             period = " PM";

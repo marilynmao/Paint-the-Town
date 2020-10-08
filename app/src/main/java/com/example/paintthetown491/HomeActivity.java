@@ -3,10 +3,6 @@ package com.example.paintthetown491;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,13 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,9 +37,6 @@ public class HomeActivity extends Fragment
     // Yelp API key
     final String token = "ju1f5-H-moICivrIt7vJynoLtBo9yB20u3_A8iq4i7rw2x7aYsYk5Kl6QP5WFqD1ELwd3dlOiLGR157KQwUcIU1Kq0r9l66uU0EoxWd5z3daERREQpymXCuRiGRYX3Yx";
 
-    // temporary button
-    private Button create_event;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -58,7 +48,6 @@ public class HomeActivity extends Fragment
         srchFilter = view.findViewById(R.id.searchFilter);
         srchButton = view.findViewById(R.id.searchButton);
         resText = view.findViewById(R.id.resultText);
-        create_event = view.findViewById(R.id.createNewEventBtn);
 
         // array list stores filter options for dropdown list
         ArrayList<String> filterOptions = new ArrayList<>();
@@ -113,15 +102,6 @@ public class HomeActivity extends Fragment
 
                     }
                 }
-            }
-        });
-
-        // temporary create event button, need to add to sidebar
-        create_event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateEventActivity createEvent = new CreateEventActivity();
-                getParentFragmentManager().beginTransaction().replace(R.id.container_frag, createEvent).commit();
             }
         });
         return view;

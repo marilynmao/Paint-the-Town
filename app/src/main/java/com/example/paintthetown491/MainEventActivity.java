@@ -5,24 +5,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
 
 public class MainEventActivity extends Fragment {
-    private ImageView mainevent_image;
+
     private TextView mainevent_name, mainevent_info, mainevent_date, mainevent_time, mainevent_location;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view=inflater.inflate(R.layout.activity_main_event, container, false);
 
-        mainevent_image = view.findViewById(R.id.eventImage);
+
         mainevent_name = view.findViewById(R.id.mainEventName);
         mainevent_info = view.findViewById(R.id.mainEventInfo);
         mainevent_date = view.findViewById(R.id.mainEventDate);
