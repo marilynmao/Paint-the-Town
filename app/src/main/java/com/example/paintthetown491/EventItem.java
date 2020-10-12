@@ -10,7 +10,7 @@ public class EventItem
     private List<String>participantIds;
 
 
-    public EventItem(int source, String name, String date, String creator, List<String>pIds, String time, String location, String info /* additional parameters go here when we determine what they are */)
+    public EventItem(int source,String name, String date, String creator, List<String>pIds, String time, String location, String info /* additional parameters go here when we determine what they are */)
     {
         eventName=name;
         eventDate=date;

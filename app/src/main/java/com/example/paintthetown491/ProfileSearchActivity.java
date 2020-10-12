@@ -72,18 +72,21 @@ public class ProfileSearchActivity extends Fragment {
         return view;
     }
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
+    ValueEventListener valueEventListener = new ValueEventListener()
+    {
         @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+        {
             profList.clear();
-            if(dataSnapshot.exists()) {
+            if(dataSnapshot.exists())
+            {
                 for(DataSnapshot ds : dataSnapshot.getChildren())
                 {
                     // get user values
                     User userData = ds.getValue(User.class);
                     profList.add(userData);
                 }
-            psAdapter.notifyDataSetChanged();
+                psAdapter.notifyDataSetChanged();
             }
 
             // name doesn't exist in DB, update UI
@@ -98,7 +101,8 @@ public class ProfileSearchActivity extends Fragment {
         }
 
         @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
+        public void onCancelled(@NonNull DatabaseError databaseError)
+        {
             Log.d(TAG,"ERROR: " + databaseError.getMessage());
 
         }
