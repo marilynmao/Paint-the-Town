@@ -5,6 +5,7 @@ public class User {
     private ArrayList<String> friends = new ArrayList<String>();
     private ArrayList<String> events = new ArrayList<String>();
     private ArrayList<String> savedEvents = new ArrayList<String>();
+    private ArrayList<String> pastEvents = new ArrayList<String>();
     public User() {
     }
 
@@ -61,5 +62,9 @@ public class User {
     public void saveEvent(String eventID) { savedEvents.add(eventID); }
 
     public void removeSavedEvent(String eventID) { savedEvents.remove(eventID); }
+
+    public void addPastEvent(String eventID) { pastEvents.add(eventID); }
+
+    public  void removePastEvent(String eventID) { pastEvents.remove(eventID); }
 
 }
