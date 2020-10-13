@@ -1,16 +1,16 @@
 package com.example.paintthetown491;
 
-        import android.app.Activity;
-        import android.app.DatePickerDialog;
-        import android.icu.util.Calendar;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.util.DisplayMetrics;
-        import android.view.View;
-        import android.widget.DatePicker;
-        import android.widget.EditText;
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.icu.util.Calendar;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 
-        import androidx.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 //this is the class that will include all the fields that are going to be displayed in the popup
 public class EventPopUpActivity extends Activity {
