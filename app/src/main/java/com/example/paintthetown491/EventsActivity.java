@@ -169,15 +169,6 @@ public class EventsActivity extends Fragment
         eAdapter = new EventAdapter(events);
         eventsRecycler.setLayoutManager(layoutManager);
         eventsRecycler.setAdapter(eAdapter);
-        eAdapter.setOnItemClickListener(new EventAdapter.OnItemClickListener()
-        {
-            //handles what happens when an item from the recyclerview is clicked
-            @Override
-            public void onItemClick(int position)
-            {
-                startActivity(new Intent(getContext(), EventPopUpActivity.class));
-            }
-        });
 
         // set on click listener for create event button to up create event page
         createEventButton.setOnClickListener(new View.OnClickListener()
