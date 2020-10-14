@@ -14,6 +14,10 @@
         android:icon="@drawable/ic_baseline_event_24"
         android:title="Events" />
     <item
+        android:id="@+id/pastEvents"
+        android:icon="@drawable/ic_baseline_event_24"
+        android:title="View Past Events" />
+    <item
         android:id="@+id/friends"
         android:icon="@drawable/ic_baseline_emoji_people_24"
         android:title="Friends" />

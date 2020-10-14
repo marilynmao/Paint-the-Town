@@ -80,6 +80,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.commit();
         }
 
+        //user selected the past events item from the navigation panel
+        if(item.getItemId()==R.id.pastEvents)
+        {
+            fragManager=getSupportFragmentManager();
+            fragmentTransaction=fragManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_frag,new PastEventsActivity());
+            fragmentTransaction.commit();
+        }
+
+
         //user selected the logout item from the navigation panel
         if(item.getItemId()==R.id.logout)
         {

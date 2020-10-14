@@ -1,6 +1,5 @@
 package com.example.paintthetown491;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,7 +73,7 @@ public class EventsActivity extends Fragment
         };
 
         //querying the specific user's list of events
-        Query query = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid().toString()).child("events");
+        Query query = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("events");
         //attaching the value listener
         query.addValueEventListener(eventIdValListener);
 
@@ -104,7 +103,7 @@ public class EventsActivity extends Fragment
                         if (eventIds.contains(s))
                         {
                             //create the event object with the properties returned from firebase
-                            EventItem e = new EventItem(R.drawable.ic_baseline_event_24, ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), "12:23", "ff", "testing");
+                            EventItem e = new EventItem(ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), "12:23", "ff", "testing");
                             //add it to the arraylist that goes into the adapter
                             events.add(e);
                         }
