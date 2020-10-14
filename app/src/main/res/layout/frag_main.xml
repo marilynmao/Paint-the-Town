@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/resultText"
-        android:layout_width="290dp"
-        android:layout_height="157dp"
-        android:layout_marginTop="109dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.404"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+    android:layout_height="match_parent"
+    android:layout_marginTop="55dp"
+    android:background="@drawable/city">
 
     <EditText
         android:id="@+id/searchBar"
@@ -23,37 +13,55 @@
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:autofillHints=""
+        android:background="@android:color/white"
         android:ems="10"
         android:hint="Search"
         android:inputType="textPersonName"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/searchFilter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="" />
-
-    <Spinner
-        android:id="@+id/searchFilter"
-        android:layout_width="134dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/searchButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/searchButton"
         android:layout_width="42dp"
         android:layout_height="45dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="170dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/transparent"
+        android:background="@android:color/white"
+        android:contentDescription="TODO"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/searchFilter"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?android:attr/actionModeWebSearchDrawable"
-        android:contentDescription="TODO" />
+        app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
+
+    <ListView
+        android:id="@+id/results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchButton" />
+
+    <Spinner
+        android:id="@+id/searchFilter"
+        android:layout_width="134dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/searchButton"
+        app:layout_constraintStart_toEndOf="@+id/searchBar"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

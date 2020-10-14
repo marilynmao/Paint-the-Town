@@ -1,8 +1,5 @@
 package com.example.paintthetown491;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -13,6 +10,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
 
@@ -68,17 +69,17 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
                 //  post event data to database here
                 // =======================================
                 /// testing
-                ArrayList<String> participantIds=new ArrayList<>();
-                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
-                participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
-                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
-
-                //event to be posted to DB
-                final EventItem event=new EventItem(R.drawable.ic_baseline_event_24,event_name,event_date,"Marilyn Mao",participantIds, event_time, event_location, event_info);
-                //reference to db entry where this will be saved
-                dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Event");
-                //save event
-                dbRef.push().setValue(event);
+//                ArrayList<String> participantIds=new ArrayList<>();
+//                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
+//                participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
+//                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
+//
+//                //event to be posted to DB
+//                final EventItem event=new EventItem(R.drawable.ic_baseline_event_24,event_name,event_date,"Marilyn Mao",participantIds, event_time, event_location, event_info);
+//                //reference to db entry where this will be saved
+//                dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Event");
+//                //save event
+//                dbRef.push().setValue(event);
                 //open main event activity (shows created event) when create event is clicked
                 MainEventActivity mainEvent = new MainEventActivity();
                 Bundle b = new Bundle();

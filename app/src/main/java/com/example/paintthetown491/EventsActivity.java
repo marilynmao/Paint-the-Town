@@ -2,7 +2,6 @@ package com.example.paintthetown491;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 //class that holds elements needed for our events fragment
-public class EventsActivity extends Fragment {
+public class EventsActivity extends Fragment
+{
     private RecyclerView eventsRecycler;
     private EventAdapter eAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -66,7 +67,8 @@ public class EventsActivity extends Fragment {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error)
+            {
 
             }
         };
@@ -90,8 +92,13 @@ public class EventsActivity extends Fragment {
                     //iterate through each child returned
                     for (DataSnapshot ds : snapshot.getChildren())
                     {
-                        //removes a "-" character appended to the beginning of each key
-                        String s = ds.getKey().substring(1);
+                        String s=ds.getKey();
+
+                        if(ds.getKey().charAt(0)=='-')
+                        {
+                            //removes a "-" character appended to the beginning of each key
+                            s = ds.getKey().substring(1);
+                        }
 
                         //sees if the arraylist contains this child
                         if (eventIds.contains(s))
@@ -128,25 +135,33 @@ public class EventsActivity extends Fragment {
         // add create event button at bottom of events recyclerview page
         createEventButton = view.findViewById(R.id.createNewEventBtn);
 
-        //////////////////////////////////////inserting event data to DB for events
-      /*  //dummy data to post to the DB (for posting to DB)
+        //////////////////////////////////////inserting event data to DB for locations
+        /*//dummy data to post to the DB (for posting to DB)
         ArrayList<String>participantIds=new ArrayList<>();
         participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
         participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
-        participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
+        participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");*/
 
         //dummy data to test the recyclerview (for retrieving from DB)
-        ArrayList<EventItem> sampleData=new ArrayList<>();
-        sampleData.add(new EventItem(R.drawable.ic_baseline_event_24,"Night out with the BOYZZZ","12/12/2020", "Julian Campos",participantIds, "10:30PM","Bar", "Gettin' Rowdy"));
-        sampleData.add(new EventItem(R.drawable.ic_baseline_event_24,"Night out with the GIRLZZZ","12/22/2020","Julian Campos",participantIds, "10:30PM","Bar", "Gettin' Rowdy"));
+        ArrayList<Location> sampleData=new ArrayList<>();
+        ArrayList<String>reviews=new ArrayList<>();
+        reviews.add("This place is the best. I love it!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        reviews.add("This place sucks. I hate it!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        reviews.add("This place is okay. I think we might be back soon to give it another shot!");
+
+
+        sampleData.add(new Location("YqvoyaNvtoC8N5dA8pD2JA",5,reviews));
+        sampleData.add(new Location("bai6umLcCNy9cXql0Js2RQ",4,reviews));
 
         //event to be posted to DB
-        final EventItem event=new EventItem(R.drawable.ic_baseline_event_24,"Night out with the BOYZZZZZZZZZZ","12/12/2020","Julian Campos",participantIds,"10:30PM","Bar", "Gettin' Rowdy");
+        //final EventItem event=new EventItem(R.drawable.ic_baseline_event_24,"Night out with the BOYZZZZZZZZZZ","12/12/2020","Julian Campos",participantIds,"10:30PM","Bar", "Gettin' Rowdy");
 
         //reference to db entry where this will be saved
-        dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Event");
+        //dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Location");
         //save event
-        dbRef.push().setValue(event);*/
+        FirebaseDbSingleton.getInstance().dbRef.child("Location").push().setValue(sampleData.get(0));
+        FirebaseDbSingleton.getInstance().dbRef.child("Location").push().setValue(sampleData.get(1));
+        //////////////////////////////////////inserting event data to DB for locations
 
         eventsRecycler = view.findViewById(R.id.events);
         eventsRecycler.setHasFixedSize(true);
@@ -154,15 +169,6 @@ public class EventsActivity extends Fragment {
         eAdapter = new EventAdapter(events);
         eventsRecycler.setLayoutManager(layoutManager);
         eventsRecycler.setAdapter(eAdapter);
-        eAdapter.setOnItemClickListener(new EventAdapter.OnItemClickListener()
-        {
-            //handles what happens when an item from the recyclerview is clicked
-            @Override
-            public void onItemClick(int position)
-            {
-                startActivity(new Intent(getContext(), EventPopUpActivity.class));
-            }
-        });
 
         // set on click listener for create event button to up create event page
         createEventButton.setOnClickListener(new View.OnClickListener()

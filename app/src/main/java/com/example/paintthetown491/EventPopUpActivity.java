@@ -1,21 +1,23 @@
 package com.example.paintthetown491;
 
-        import android.app.Activity;
-        import android.app.DatePickerDialog;
-        import android.icu.util.Calendar;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.util.DisplayMetrics;
-        import android.view.View;
-        import android.widget.DatePicker;
-        import android.widget.EditText;
+import android.app.Activity;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-        import androidx.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 //this is the class that will include all the fields that are going to be displayed in the popup
 public class EventPopUpActivity extends Activity {
-    EditText date;
-    DatePickerDialog datePickerDialog;
+    private EditText eName, eInfo,eLocation, eDate, eTime;
+    final java.util.Calendar c = java.util.Calendar.getInstance();
+    private int dMonth, dDay, dYear, dHour, dMinute;
+    private String event_name, event_info, event_location, event_date, event_time, period;
+    private Button editEventButton, saveEventButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,35 +36,57 @@ public class EventPopUpActivity extends Activity {
 
         //0.6 indicates to make the popup 60% the size of the screen
         getWindow().setLayout((int)(w*0.8),(int)(h*0.8));
-        date = (EditText) findViewById(R.id.date);
-        // perform click event on edit text
-        date.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+        // bind UI elements and intially disable editText fields
+        eName = findViewById(R.id.editEventName);
+        eName.setEnabled(false);
+        eInfo = findViewById(R.id.editEventInfo);
+        eInfo.setEnabled(false);
+        eDate = findViewById(R.id.editDate);
+        eDate.setEnabled(false);
+        eTime = findViewById(R.id.editTime);
+        eTime.setEnabled(false);
+        eLocation = findViewById(R.id.editEventLocation);
+        eLocation.setEnabled(false);
+        editEventButton = findViewById(R.id.editEventbtn);
+        saveEventButton = findViewById(R.id.saveEventbtn);
+        saveEventButton.setVisibility(View.INVISIBLE);
+
+        // loads the event data from event user clicked on
+        loadEventData();
+
+        // listener for when edit event btn is clicked
+        editEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // calender class's instance and get current date , month and year from calender
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR); // current year
-                int mMonth = c.get(Calendar.MONTH); // current month
-                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                // date picker dialog
-                datePickerDialog = new DatePickerDialog(EventPopUpActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-                                // set day of month , month and year value in the edit text
-                                date.setText(dayOfMonth + "/"
-                                        + (monthOfYear + 1) + "/" + year);
-
-                            }
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.show();
+                // hide save event btn and enable edittext fields
+                editEventButton.setVisibility(View.INVISIBLE);
+                saveEventButton.setVisibility(View.VISIBLE);
+                eName.setEnabled(true);
+                eInfo.setEnabled(true);
+                eDate.setEnabled(true);
+                eTime.setEnabled(true);
+                eLocation.setEnabled(true);
             }
         });
 
+        saveEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // need to update database with edited event
+             editEventButton.setVisibility(View.VISIBLE);
+             saveEventButton.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
 
-
+    // fills the fields in the event UI
+    public void loadEventData()
+    {
+        // retrieve data from events recycler view for current event selected and set it in corresponding text field
+        eName.setText(getIntent().getStringExtra("ename"));
+        eInfo.setText(getIntent().getStringExtra("einfo"));
+        eDate.setText(getIntent().getStringExtra("edate"));
+        eTime.setText(getIntent().getStringExtra("etime"));
+        eLocation.setText(getIntent().getStringExtra("elocation"));
     }
 }
