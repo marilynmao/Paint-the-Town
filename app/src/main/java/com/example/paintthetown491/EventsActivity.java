@@ -96,7 +96,7 @@ public class EventsActivity extends Fragment
 
                         if(ds.getKey().charAt(0)=='-')
                         {
-                            //removes a "-" character appended to the beginning of each key !!!!!!!!!!!potential error:some nodes in firebase contain this character and some don't. If we remove it from one that doesn't have it this might be a problem!!!!!!!!!!!
+                            //removes a "-" character appended to the beginning of each key
                             s = ds.getKey().substring(1);
                         }
 

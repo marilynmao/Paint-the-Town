@@ -9,8 +9,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +37,8 @@ public class HomeActivity extends Fragment
     private Spinner srchFilter;
     private ImageButton srchButton;
     private String selectedFltr;
-    private TextView resText;
+    private ListView results;
+    private ArrayAdapter arrAdapter = null;
 
     // Yelp API key
     final String token = "ju1f5-H-moICivrIt7vJynoLtBo9yB20u3_A8iq4i7rw2x7aYsYk5Kl6QP5WFqD1ELwd3dlOiLGR157KQwUcIU1Kq0r9l66uU0EoxWd5z3daERREQpymXCuRiGRYX3Yx";
@@ -48,7 +53,7 @@ public class HomeActivity extends Fragment
         srchBar = view.findViewById(R.id.searchBar);
         srchFilter = view.findViewById(R.id.searchFilter);
         srchButton = view.findViewById(R.id.searchButton);
-        resText = view.findViewById(R.id.resultText);
+        results=view.findViewById(R.id.results);
 
         // array list stores filter options for dropdown list
         ArrayList<String> filterOptions = new ArrayList<>();
@@ -61,23 +66,25 @@ public class HomeActivity extends Fragment
         srchFilter.setAdapter(srchAdapter);
 
         // listener for dropdown selection
-        srchFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        srchFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
                 // get the selected filter
                 selectedFltr = srchFilter.getSelectedItem().toString();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
         // set on click listener for search button
-        srchButton.setOnClickListener(new View.OnClickListener() {
+        srchButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // check if search bar is empty
                 if(TextUtils.isEmpty(srchBar.getText()))
                 {
@@ -109,7 +116,8 @@ public class HomeActivity extends Fragment
     }
 
     // calls API to retrieve JSON data
-    public void yelpSearch(String searchInput) {
+    public void yelpSearch(String searchInput)
+    {
         // location is temporarily set to long beach
         String url = "https://api.yelp.com/v3/businesses/search?term=" + searchInput + "&location=long beach";
 
@@ -121,22 +129,61 @@ public class HomeActivity extends Fragment
                 .build();
 
         // call Yelp API to fetch JSON data
-        client.newCall(request).enqueue(new Callback() {
+        client.newCall(request).enqueue(new Callback()
+        {
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(@NotNull Call call, @NotNull IOException e)
+            {
                 e.printStackTrace();
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException
+            {
+                if (response.isSuccessful())
+                {
+                    //raw JSON string
                     final String responseData = response.body().string();
 
+                    try
+                    {
+                        //create a JSON Object with the raw string
+                        JSONObject json=new JSONObject(responseData);
+                        //create array of businesses
+                        JSONArray arr=json.getJSONArray("businesses");
+                        //arraylist to hold the names of each
+                        ArrayList<String> resultNames=new ArrayList<>();
+                        //we need to place the name of each business in the resultNames arraylist
+                        for(int i=0;i<arr.length();i++)
+                        {
+                            resultNames.add(arr.getJSONObject(i).getString("name"));
+                        }
+                        arrAdapter=new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,resultNames);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
                     // update textview UI
-                    getActivity().runOnUiThread(new Runnable() {
+                    getActivity().runOnUiThread(new Runnable()
+                    {
                         @Override
-                        public void run() {
-                            resText.setText(responseData);
+                        public void run()
+                        {
+                            if(arrAdapter!=null)
+                            {
+                                results.setAdapter(arrAdapter);
+                                //handle clicks on items of the listview
+                                results.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                                {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+                                    {
+                                        System.out.println("ITEM: "+i);
+                                    }
+                                });
+                            }
                         }
                     });
                 }
