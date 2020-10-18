@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp">
+    <RelativeLayout
+        android:id="@+id/relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="2dp"
+            android:id="@+id/eventView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:text=""
+            android:id="@+id/pending_friend_firstName"
+            android:textColor="@android:color/black"
+            android:layout_toRightOf="@+id/eventView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:layout_below="@+id/pending_friend_firstName"
+            android:layout_toRightOf="@+id/eventView"
+            android:id="@+id/pending_friend_lastName"/>
+
+        <ImageView
+            android:id="@+id/delete_request"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="349dp"
+            android:layout_marginTop="-1dp"
+            app:srcCompat="@drawable/ic_baseline_delete_24" />
+
+        <ImageView
+            android:id="@+id/accept_request"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="285dp"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@drawable/accept" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

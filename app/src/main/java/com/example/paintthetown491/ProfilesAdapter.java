@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.ProfileSearchViewHolder> {
+public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.ProfileSearchViewHolder>
+{
     private ArrayList <User> profileSearchList;
 
     //variable that will make each item in the recyclerview clickable
@@ -28,7 +29,8 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
 
     @NonNull
     @Override
-    public ProfilesAdapter.ProfileSearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProfilesAdapter.ProfileSearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile_search_results, parent, false);
         ProfileSearchViewHolder ps_vh = new ProfileSearchViewHolder(view, mListener);
         return ps_vh;
@@ -42,22 +44,24 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
         holder.profile_fn.setText(curr_prof.getFirstName());
         holder.profile_ln.setText(curr_prof.getLastName());
         holder.profile_ph.setText(curr_prof.getPhoneNumber());
-
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return profileSearchList.size();
     }
 
     public ProfilesAdapter(ArrayList<User> profiles) { profileSearchList = profiles; }
 
-    public static class ProfileSearchViewHolder extends RecyclerView.ViewHolder {
+    public static class ProfileSearchViewHolder extends RecyclerView.ViewHolder
+    {
         public TextView profile_fn;
         public TextView profile_ln;
         public TextView profile_ph;
 
-        public ProfileSearchViewHolder(@NonNull View itemView, final ProfilesAdapter.OnItemClickListener listener) {
+        public ProfileSearchViewHolder(@NonNull View itemView, final ProfilesAdapter.OnItemClickListener listener)
+        {
             super(itemView);
             profile_fn = itemView.findViewById(R.id.u_firstName);
             profile_ln = itemView.findViewById(R.id.u_lastName);

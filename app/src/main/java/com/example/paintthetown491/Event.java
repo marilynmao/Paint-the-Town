@@ -3,14 +3,13 @@ package com.example.paintthetown491;
 import java.util.List;
 
 //the class that holds all the data needed for an event
-public class EventItem
+public class Event
 {
     private int view;
     private String eventName, eventDate, eventCreator, eventTime, eventLocation, eventInfo;
     private List<String>participantIds;
 
-
-    public EventItem(String name, String date, String creator, List<String>pIds, String time, String location, String info /* additional parameters go here when we determine what they are */)
+    public Event(String name, String date, String creator, List<String>pIds, String time, String location, String info /* additional parameters go here when we determine what they are */)
     {
         eventName=name;
         eventDate=date;

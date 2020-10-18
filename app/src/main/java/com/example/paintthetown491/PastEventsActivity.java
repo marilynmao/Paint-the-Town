@@ -25,7 +25,7 @@ public class PastEventsActivity extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private DatabaseReference userEventRef, eventRef;
     private ArrayList<String> eventIds;
-    private ArrayList<EventItem> pastEvents;
+    private ArrayList<Event> pastEvents;
 
     @Nullable
     @Override
@@ -37,7 +37,7 @@ public class PastEventsActivity extends Fragment {
         //holds the event IDs for each user
         eventIds = new ArrayList<String>();
         //holds the events loaded from firebase
-        pastEvents = new ArrayList<EventItem>();
+        pastEvents = new ArrayList<Event>();
 
         //Dummy data
         //ArrayList<String> test = new ArrayList<String>();
@@ -117,7 +117,7 @@ public class PastEventsActivity extends Fragment {
                         if (eventIds.contains(s))
                         {
                             //create the event object with the properties returned from firebase
-                            EventItem e = new EventItem(ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), "12:23", "ff", "testing");
+                            Event e = new Event(ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), "12:23", "ff", "testing");
                             //add it to the arraylist that goes into the adapter
                             pastEvents.add(e);
                         }

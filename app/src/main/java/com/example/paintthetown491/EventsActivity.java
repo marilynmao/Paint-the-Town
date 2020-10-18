@@ -28,7 +28,7 @@ public class EventsActivity extends Fragment
     private RecyclerView.LayoutManager layoutManager;
     private DatabaseReference eventRef;
     private ArrayList<String> eventIds;
-    private ArrayList<EventItem> events;
+    private ArrayList<Event> events;
     private Button createEventButton;
 
     @Nullable
@@ -40,7 +40,7 @@ public class EventsActivity extends Fragment
         //holds the event IDs for each user
         eventIds = new ArrayList<String>();
         //holds the events loaded from firebase
-        events = new ArrayList<EventItem>();
+        events = new ArrayList<Event>();
 
         //listener for the event IDs in firebase
         ValueEventListener eventIdValListener = new ValueEventListener()
@@ -68,7 +68,6 @@ public class EventsActivity extends Fragment
             @Override
             public void onCancelled(@NonNull DatabaseError error)
             {
-
             }
         };
 
@@ -103,7 +102,7 @@ public class EventsActivity extends Fragment
                         if (eventIds.contains(s))
                         {
                             //create the event object with the properties returned from firebase
-                            EventItem e = new EventItem(ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), "12:23", "ff", "testing");
+                            Event e = new Event(ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), "12:23", "ff", "testing");
                             //add it to the arraylist that goes into the adapter
                             events.add(e);
                         }
@@ -116,7 +115,6 @@ public class EventsActivity extends Fragment
             @Override
             public void onCancelled(@NonNull DatabaseError error)
             {
-
             }
 
             //used to convert a Iterable (type returned from firebase) to an arraylist
@@ -142,7 +140,7 @@ public class EventsActivity extends Fragment
         participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");*/
 
         //dummy data to test the recyclerview (for retrieving from DB)
-        ArrayList<Location> sampleData=new ArrayList<>();
+        /*ArrayList<Location> sampleData=new ArrayList<>();
         ArrayList<String>reviews=new ArrayList<>();
         reviews.add("This place is the best. I love it!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         reviews.add("This place sucks. I hate it!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -150,7 +148,7 @@ public class EventsActivity extends Fragment
 
 
         sampleData.add(new Location("YqvoyaNvtoC8N5dA8pD2JA",5,reviews));
-        sampleData.add(new Location("bai6umLcCNy9cXql0Js2RQ",4,reviews));
+        sampleData.add(new Location("bai6umLcCNy9cXql0Js2RQ",4,reviews));*/
 
         //event to be posted to DB
         //final EventItem event=new EventItem(R.drawable.ic_baseline_event_24,"Night out with the BOYZZZZZZZZZZ","12/12/2020","Julian Campos",participantIds,"10:30PM","Bar", "Gettin' Rowdy");
@@ -158,8 +156,8 @@ public class EventsActivity extends Fragment
         //reference to db entry where this will be saved
         //dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Location");
         //save event
-        FirebaseDbSingleton.getInstance().dbRef.child("Location").push().setValue(sampleData.get(0));
-        FirebaseDbSingleton.getInstance().dbRef.child("Location").push().setValue(sampleData.get(1));
+        /*FirebaseDbSingleton.getInstance().dbRef.child("Location").push().setValue(sampleData.get(0));
+        FirebaseDbSingleton.getInstance().dbRef.child("Location").push().setValue(sampleData.get(1));*/
         //////////////////////////////////////inserting event data to DB for locations
 
         eventsRecycler = view.findViewById(R.id.events);

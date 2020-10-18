@@ -1,13 +1,14 @@
 package com.example.paintthetown491;
 import java.util.ArrayList;
-public class User {
+public class User
+{
     private String firstName, lastName, email, username, phoneNumber;
     private ArrayList<String> friends = new ArrayList<String>();
     private ArrayList<String> events = new ArrayList<String>();
     private ArrayList<String> savedEvents = new ArrayList<String>();
     private ArrayList<String> pastEvents = new ArrayList<String>();
-    public User() {
-    }
+    private ArrayList<String>pending=new ArrayList<String>();
+    public User() { }
 
     public void setEventList(ArrayList<String>sEvents){ savedEvents=sEvents;
     }

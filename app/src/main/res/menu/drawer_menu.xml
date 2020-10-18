@@ -22,6 +22,10 @@
         android:icon="@drawable/ic_baseline_emoji_people_24"
         android:title="Friends" />
     <item
+        android:id="@+id/pending_requests"
+        android:icon="@drawable/pending_friend"
+        android:title="pending requests" />
+    <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="Settings" />

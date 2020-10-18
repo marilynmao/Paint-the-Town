@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder>
 {
     //holds the events for the recyclerview
-    private ArrayList<EventItem> mEventList;
+    private ArrayList<Event> mEventList;
 
     //variable that will make each item in the recyclerview clickable
     private OnItemClickListener mListener;
@@ -46,7 +46,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position)
     {
-        final EventItem curr=mEventList.get(position);
+        final Event curr=mEventList.get(position);
 
         holder.mImageView.setImageResource(curr.getImage());
         holder.eName.setText(curr.getEventName().toString());
@@ -75,7 +75,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     //constructor
-    public EventAdapter(ArrayList<EventItem> eventList)
+    public EventAdapter(ArrayList<Event> eventList)
     {
         mEventList=eventList;
     }
