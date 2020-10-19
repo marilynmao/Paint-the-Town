@@ -57,6 +57,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EventPopUpActivity.class);
+                intent.putExtra("eid", curr.getEventId());
                 intent.putExtra("ename", curr.getEventName());
                 intent.putExtra("einfo", curr.getEventInfo());
                 intent.putExtra("edate", curr.getEventDate());

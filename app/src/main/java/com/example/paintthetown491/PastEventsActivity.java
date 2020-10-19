@@ -117,7 +117,8 @@ public class PastEventsActivity extends Fragment {
                         if (eventIds.contains(s))
                         {
                             //create the event object with the properties returned from firebase
-                            Event e = new Event(ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), "12:23", "ff", "testing");
+                            Event e = new Event(s, ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), ds.child("eventTime").getValue().toString(), ds.child("eventLocation").getValue().toString(), ds.child("eventInfo").getValue().toString());
+
                             //add it to the arraylist that goes into the adapter
                             pastEvents.add(e);
                         }

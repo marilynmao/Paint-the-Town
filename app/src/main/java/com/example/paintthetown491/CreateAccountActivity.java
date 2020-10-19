@@ -70,7 +70,7 @@ public class CreateAccountActivity extends AppCompatActivity
         creationBack.setVisibility(View.GONE);
 
         //creates a user object
-        user = new User();
+        user = User.getInstance();
 
         //handles create action
         loginButton.setOnClickListener(new View.OnClickListener()

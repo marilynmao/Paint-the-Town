@@ -2,6 +2,7 @@ package com.example.paintthetown491;
 import java.util.ArrayList;
 public class User
 {
+    private static User instance=null;
     private String firstName, lastName, email, username, phoneNumber;
     private ArrayList<String> friends = new ArrayList<String>();
     private ArrayList<String> events = new ArrayList<String>();
@@ -9,6 +10,14 @@ public class User
     private ArrayList<String> pastEvents = new ArrayList<String>();
     private ArrayList<String>pending=new ArrayList<String>();
     public User() { }
+
+    //creates a new instance of the user class if it doesn't already exist. Returns the same instance if it does exist.
+    public static User getInstance()
+    {
+        if(instance==null)
+            instance= new User();
+        return instance;
+    }
 
     public void setEventList(ArrayList<String>sEvents){ savedEvents=sEvents;
     }
