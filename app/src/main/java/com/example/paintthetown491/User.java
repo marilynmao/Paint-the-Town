@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class User
 {
     private static User instance=null;
-    private String firstName, lastName, email, username, phoneNumber;
+    private String firstName, lastName, email, username, phoneNumber, icon;
     private ArrayList<String> friends = new ArrayList<String>();
     private ArrayList<String> events = new ArrayList<String>();
     private ArrayList<String> savedEvents = new ArrayList<String>();
@@ -19,8 +19,10 @@ public class User
         return instance;
     }
 
-    public void setEventList(ArrayList<String>sEvents){ savedEvents=sEvents;
-    }
+    public void setEventList(ArrayList<String>sEvents){ savedEvents=sEvents; }
+
+    public void setPastEventList(ArrayList<String>pEvents){pastEvents = pEvents;}
+
     public String getFirstName() {
         return firstName;
     }
@@ -60,6 +62,10 @@ public class User
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getIcon(){return icon;}
+
+    public void setIcon(String icon){this.icon = icon;}
 
     public void addFriend(String username) {friends.add(username); }
 

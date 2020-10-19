@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,21 +29,39 @@ public class FriendsActivity extends Fragment
     private DatabaseReference eventRef;
     private ArrayList<String> userIDs;
     private ArrayList<User> users;
+    TextView noResultsTextView;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         //the inflate() method takes the layout you wanna show as the first parameter
-        final View view = inflater.inflate(R.layout.frag_events, container, false);
+        final View view = inflater.inflate(R.layout.activity_profile_search, container, false);
+
+        // hide "no results found" text
+        noResultsTextView = view.findViewById(R.id.noResults);
+        noResultsTextView.setVisibility(View.GONE);
 
         //holds the event IDs for each user
         userIDs = new ArrayList<String>();
         //holds the events loaded from firebase
         users = new ArrayList<User>();
 
-        //listener for the event IDs in firebase
-        ValueEventListener eventIdValListener = new ValueEventListener()
+
+        //events needs to be replaced by Users or userID
+        friendsRecycler = view.findViewById(R.id.profile_search_rv);
+        friendsRecycler.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getContext());
+        profAdapter = new ProfilesAdapter(users);
+        friendsRecycler.setLayoutManager(layoutManager);
+        friendsRecycler.setAdapter(profAdapter);
+
+        // set on click listener for create event button to up create event page
+
+
+
+        //listener for the Friends IDs in firebase
+        ValueEventListener friendIdValListener = new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
@@ -53,12 +71,12 @@ public class FriendsActivity extends Fragment
                 if (snapshot.exists())
                 {
                     //iterate through each child returned
-                    for (DataSnapshot e : snapshot.getChildren())
+                    for (DataSnapshot f : snapshot.getChildren())
                     {
                         //holds the event ID as a string
-                        String event = e.getValue(String.class);
+                        String friendID = f.getValue(String.class);
                         //adds it to the list
-                        userIDs.add(event);
+                        userIDs.add(friendID);
                     }
                     //notifies the adapter of any changes
                     profAdapter.notifyDataSetChanged();
@@ -74,7 +92,7 @@ public class FriendsActivity extends Fragment
         //querying the specific user's list of friends
         Query query = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("friends");
         //attaching the value listener
-        query.addValueEventListener(eventIdValListener);
+        query.addValueEventListener(friendIdValListener);
 
         //now that we have the event IDs saved, we need to look at the Event table for each of them
         eventRef = FirebaseDbSingleton.getInstance().dbRef.child("User");
@@ -102,7 +120,7 @@ public class FriendsActivity extends Fragment
                         if (userIDs.contains(s))
                         {
                             //create the friends object with the properties returned from firebase
-                            User f = new User();
+                            User f = ds.getValue(User.class);
                             //add it to the arraylist that goes into the adapter
                             users.add(f);
                         }
@@ -129,16 +147,6 @@ public class FriendsActivity extends Fragment
             }
         });
 
-
-    //events needs to be replaced by Users or userID
-        friendsRecycler = view.findViewById(R.id.events);
-        friendsRecycler.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
-        profAdapter = new ProfilesAdapter(users);
-        friendsRecycler.setLayoutManager(layoutManager);
-        friendsRecycler.setAdapter(profAdapter);
-
-        // set on click listener for create event button to up create event page
 
 
 

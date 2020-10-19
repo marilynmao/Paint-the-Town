@@ -118,6 +118,8 @@ public class CreateAccountActivity extends AppCompatActivity
                                         user.setUsername(userName.getText().toString());
                                         user.setPhoneNumber(phoneNumber.getText().toString());
                                         user.setEventList(new ArrayList<String>(Arrays.asList("0")));
+                                        user.setPastEventList(new ArrayList<String>(Arrays.asList("0")));
+                                        user.setIcon("none");
                                         //inserts the user into the DB
                                         dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
 
