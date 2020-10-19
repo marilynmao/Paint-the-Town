@@ -1,23 +1,38 @@
 package com.example.paintthetown491;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 //this is the class that will include all the fields that are going to be displayed in the popup
-public class EventPopUpActivity extends Activity {
+public class EventPopUpActivity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private EditText eName, eInfo,eLocation, eDate, eTime;
     final java.util.Calendar c = java.util.Calendar.getInstance();
     private int dMonth, dDay, dYear, dHour, dMinute;
-    private String event_name, event_info, event_location, event_date, event_time, period;
+    private String event_id, event_date, event_time, period;
     private Button editEventButton, saveEventButton;
-
+    DatabaseReference eRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,7 +66,12 @@ public class EventPopUpActivity extends Activity {
         saveEventButton = findViewById(R.id.saveEventbtn);
         saveEventButton.setVisibility(View.INVISIBLE);
 
-        // loads the event data from event user clicked on
+        // get eventID
+        StringBuilder sb = new StringBuilder(getIntent().getStringExtra("eid"));
+        sb.insert(0, "-"); // prepend - to event key
+        event_id = sb.toString();
+
+        // load the event data for the event the user clicked on
         loadEventData();
 
         // listener for when edit event btn is clicked
@@ -66,15 +86,60 @@ public class EventPopUpActivity extends Activity {
                 eDate.setEnabled(true);
                 eTime.setEnabled(true);
                 eLocation.setEnabled(true);
+                // set onclick listeners for date & time
+                eDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDatePicker();
+                    }
+                });
+
+                eTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showTimePicker();
+                    }
+                });
             }
         });
 
         saveEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // need to update database with edited event
-             editEventButton.setVisibility(View.VISIBLE);
-             saveEventButton.setVisibility(View.INVISIBLE);
+                // reference event to update
+                eRef = FirebaseDbSingleton.getInstance().dbRef.child("Event").child(event_id);
+                eRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists())
+                        {
+                            // updates hashmap holds all the new data to be updated
+                            Map<String, Object> updates = new HashMap<String, Object>();
+                            updates.put("eventName", eName.getText().toString());
+                            updates.put("eventInfo", eInfo.getText().toString());
+                            updates.put("eventDate", eDate.getText().toString());
+                            updates.put("eventTime", eTime.getText().toString());
+                            updates.put("eventLocation", eLocation.getText().toString());
+                            // update the events child in the DB
+                            eRef.updateChildren(updates);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                // disable edittext fields
+                eName.setEnabled(false);
+                eInfo.setEnabled(false);
+                eDate.setEnabled(false);
+                eTime.setEnabled(false);
+                eLocation.setEnabled(false);
+                Toast.makeText(EventPopUpActivity.this, "Event has been updated!", Toast.LENGTH_SHORT).show();
+                editEventButton.setVisibility(View.VISIBLE);
+                saveEventButton.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -88,5 +153,47 @@ public class EventPopUpActivity extends Activity {
         eDate.setText(getIntent().getStringExtra("edate"));
         eTime.setText(getIntent().getStringExtra("etime"));
         eLocation.setText(getIntent().getStringExtra("elocation"));
+    }
+
+    // show date picker dialog
+    public void showDatePicker() {
+        dMonth = c.get(Calendar.MONTH);
+        dDay = c.get(Calendar.DAY_OF_MONTH);
+        dYear = c.get(Calendar.YEAR);
+
+        DatePickerDialog datePicker = new DatePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog, this, dYear, dMonth, dDay);
+        datePicker.show();
+    }
+
+    // set selected date
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        event_date = (month+1) + "/" + dayOfMonth + "/" + year;
+        eDate.setText(event_date);
+    }
+
+    // show time picker dialog
+    public void showTimePicker() {
+        dHour = c.get(Calendar.HOUR_OF_DAY);
+        dMinute = c.get(Calendar.MINUTE);
+        TimePickerDialog timePicker = new TimePickerDialog(this, android.R.style.Theme_Holo_Light_Dialog, this, 0,0, false);
+        timePicker.show();
+    }
+
+    // set selected time
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        // hourOfDay is in 24 hr format
+        if(hourOfDay > 12) {
+            // convert hourOfDAY to 12 hr
+            hourOfDay -= 12;
+            period = " PM";
+        }
+        else {
+            period = " AM";
+        }
+
+        event_time = String.format("%02d:%02d", hourOfDay, minute) + period;
+        eTime.setText(event_time);
     }
 }

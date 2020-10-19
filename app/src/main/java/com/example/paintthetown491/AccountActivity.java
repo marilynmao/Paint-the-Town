@@ -37,6 +37,7 @@ public class AccountActivity extends Fragment
     private EditText userFullName, userE, userName, phone;
     public static final int PICK_IMAGE = 1;
     private Uri imageURI;
+    private String currentIcon;
     StorageReference mStorageRef;
 
     @Nullable
@@ -116,7 +117,8 @@ public class AccountActivity extends Fragment
         if(requestCode==PICK_IMAGE && resultCode == Activity.RESULT_OK)
         {
             imageURI=data.getData();
-            if (getExtension(imageURI) == "png" || getExtension(imageURI) == "jpg") {
+            String ex = getExtension(imageURI);
+            if (ex == "png" || ex == "jpg") {
                 try {
                     //used to find the size of the image the user selects.
                     AssetFileDescriptor afd = getActivity().getContentResolver().openAssetFileDescriptor(imageURI, "r");
@@ -125,8 +127,11 @@ public class AccountActivity extends Fragment
                     {
                         Toast.makeText(getActivity(), "Image size too large (5MB maximum)", Toast.LENGTH_LONG).show();
                     } else {
-                        removeOldPic(); //removes the old profile pic if the user has one
+                        if (currentIcon != "none") {
+                            removeOldPic(currentIcon); //removes the old profile pic if the user has one
+                        }
                         profilePic.setImageURI(imageURI);
+                        FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("icon").setValue(FirebaseDbSingleton.getInstance().user.getUid() + "." + ex);
                         Fileuploader();
                     }
                 } catch (Exception e) {
@@ -152,6 +157,23 @@ public class AccountActivity extends Fragment
                 userE.setText(dataSnapshot.child("email").getValue().toString());
                 userName.setText(dataSnapshot.child("username").getValue().toString());
                 phone.setText(dataSnapshot.child("phoneNumber").getValue().toString());
+
+                //check the firebase storage for the users icon if they have one. then load it into the profilePic imageView
+                currentIcon = dataSnapshot.child("icon").getValue().toString();
+                StorageReference path = mStorageRef.child(currentIcon);
+                path.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        profilePic.setImageBitmap(bitmap);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        System.out.println("Failed to set profile pic");
+                    }
+                });
+
             }
 
             @Override
@@ -161,36 +183,7 @@ public class AccountActivity extends Fragment
             }
         });
 
-        //check the firebase storage for the users icon if they have one. then load it into the profilePic imageView
-        try {
-            StorageReference path = mStorageRef.child(userID + ".png");
-            path.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                @Override
-                public void onSuccess(byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    profilePic.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    StorageReference path2 = mStorageRef.child(userID + ".jpg");
-                    path2.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                        @Override
-                        public void onSuccess(byte[] bytes) {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                            profilePic.setImageBitmap(bitmap);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //no profilePic attached to this account.
-                        }
-                    });
-                }
-            });
-        }
-        catch (Exception e){
-        }
+
     }
 
     //function that sends the image the user selected to the firebase storage bucket.
@@ -220,30 +213,20 @@ public class AccountActivity extends Fragment
     }
 
 
-    public void removeOldPic()
+    public void removeOldPic(String icon)
     {
-        mStorageRef.child(FirebaseDbSingleton.getInstance().user.getUid() + ".png").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+        mStorageRef.child(icon).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                //png file deleted from storage
+                System.out.println("file successfully deleted from storage");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                //no png file
-                mStorageRef.child(FirebaseDbSingleton.getInstance().user.getUid() + ".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //jpg file deleted from storage
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //there is no file to delete (probably)
-                    }
-                });
+                System.out.println("Failed to delete profile pic from DB");
             }
         });
     }
 
 }
+

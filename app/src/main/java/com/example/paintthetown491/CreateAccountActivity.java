@@ -70,7 +70,7 @@ public class CreateAccountActivity extends AppCompatActivity
         creationBack.setVisibility(View.GONE);
 
         //creates a user object
-        user = new User();
+        user = User.getInstance();
 
         //handles create action
         loginButton.setOnClickListener(new View.OnClickListener()
@@ -118,6 +118,8 @@ public class CreateAccountActivity extends AppCompatActivity
                                         user.setUsername(userName.getText().toString());
                                         user.setPhoneNumber(phoneNumber.getText().toString());
                                         user.setEventList(new ArrayList<String>(Arrays.asList("0")));
+                                        user.setPastEventList(new ArrayList<String>(Arrays.asList("0")));
+                                        user.setIcon("none");
                                         //inserts the user into the DB
                                         dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
 

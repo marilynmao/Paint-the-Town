@@ -3,6 +3,7 @@ package com.example.paintthetown491;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,18 +23,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CreateEventActivity extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    private EditText eName, eInfo,eLocation, eDate, eTime;
+    private EditText eName, eInfo, eLocation, eDate, eTime;
     final Calendar c = Calendar.getInstance();
     private int dMonth, dDay, dYear, dHour, dMinute;
-    private String event_name, event_info, event_location, event_date, event_time, period;
+    private String newEventID, eventCreatorName, event_name, event_info, event_location, event_date, event_time, period;
     private Button createEventButton;
-    private DatabaseReference dbRef;
+    private DatabaseReference eventsDbRef, userEventsDbRef;
+    private ArrayList<String> usrEventsList;
+    //private User usr;
+    private Event newEvent;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view=inflater.inflate(R.layout.frag_create_event, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.frag_create_event, container, false);
         super.onCreate(savedInstanceState);
 
         eName = view.findViewById(R.id.newEventName);
@@ -41,6 +45,8 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
         eTime = view.findViewById(R.id.selectTime);
         eLocation = view.findViewById(R.id.newEventLocation);
         createEventButton = view.findViewById(R.id.createEventbtn);
+        // usrEventsList will hold the users specific eventIDs
+        usrEventsList = new ArrayList<String>();
 
         // set onclick listeners for date & time
         eDate.setOnClickListener(new View.OnClickListener() {
@@ -61,25 +67,45 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // ===========================
+                // get instance of user
+                //usr = User.getInstance();
+                // get event creator name
+                //eventCreatorName = (usr.getFirstName() + " " + usr.getLastName());
+                // ===========================
+
+                // added user singleton after account was already registered with firebase, so event creator name is temporarily hardcoded
+                eventCreatorName = "Marilyn Mao";
+                // set variables
                 event_name = eName.getText().toString();
                 event_info = eInfo.getText().toString();
                 event_location = eLocation.getText().toString();
+                // ===== DUMMY DATA FOR PARTICIPANTS =====
+                ArrayList<String> participantIds=new ArrayList<>();
+                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
+                participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
+                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
 
-                // =======================================
-                //  post event data to database here
-                // =======================================
-                /// testing
-//                ArrayList<String> participantIds=new ArrayList<>();
-//                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
-//                participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
-//                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
-//
-//                //event to be posted to DB
-//                final EventItem event=new EventItem(R.drawable.ic_baseline_event_24,event_name,event_date,"Marilyn Mao",participantIds, event_time, event_location, event_info);
-//                //reference to db entry where this will be saved
-//                dbRef=FirebaseDbSingleton.getInstance().dbRef.child("Event");
-//                //save event
-//                dbRef.push().setValue(event);
+                // references event node in db
+                eventsDbRef = FirebaseDbSingleton.getInstance().dbRef.child("Event");
+                // references events list in user node -  User/{Uid}/events
+                userEventsDbRef = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("events");
+                // get new push event id key
+                newEventID = eventsDbRef.push().getKey();
+
+                // create new event item
+                newEvent = new Event(newEventID, event_name, event_date, eventCreatorName, participantIds, event_time, event_location, event_info);
+                // add new event to Event entry using push key
+                eventsDbRef.child(newEventID).setValue(newEvent);
+
+                // remove "-" from newEventID
+                newEventID = newEventID.substring(1);
+                // add to list
+                usrEventsList.add(newEventID);
+                //set User/{Uid}/events with new event id added
+                userEventsDbRef.setValue(usrEventsList);
+
+                Toast.makeText(getActivity(), "Success! New event created.", Toast.LENGTH_SHORT).show();
                 //open main event activity (shows created event) when create event is clicked
                 MainEventActivity mainEvent = new MainEventActivity();
                 Bundle b = new Bundle();

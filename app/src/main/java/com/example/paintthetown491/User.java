@@ -2,7 +2,8 @@ package com.example.paintthetown491;
 import java.util.ArrayList;
 public class User
 {
-    private String firstName, lastName, email, username, phoneNumber,id;
+    private static User instance=null;
+    private String firstName, lastName, email, username, phoneNumber, icon,id;
     private ArrayList<String> friends = new ArrayList<String>();
     private ArrayList<String> events = new ArrayList<String>();
     private ArrayList<String> savedEvents = new ArrayList<String>();
@@ -10,8 +11,18 @@ public class User
     private ArrayList<String>pending=new ArrayList<String>();
     public User() { }
 
-    public void setEventList(ArrayList<String>sEvents){ savedEvents=sEvents;
+    //creates a new instance of the user class if it doesn't already exist. Returns the same instance if it does exist.
+    public static User getInstance()
+    {
+        if(instance==null)
+            instance= new User();
+        return instance;
     }
+
+    public void setEventList(ArrayList<String>sEvents){ savedEvents=sEvents; }
+
+    public void setPastEventList(ArrayList<String>pEvents){pastEvents = pEvents;}
+
     public String getFirstName() {
         return firstName;
     }
@@ -53,6 +64,10 @@ public class User
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getIcon(){return icon;}
+
+    public void setIcon(String icon){this.icon = icon;}
 
     public void addFriend(String username) {friends.add(username); }
 

@@ -79,6 +79,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.container_frag,new EventsActivity());
             fragmentTransaction.commit();
         }
+        if(item.getItemId()==R.id.friends)
+        {
+            fragManager=getSupportFragmentManager();
+            fragmentTransaction=fragManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_frag,new FriendsActivity());
+            fragmentTransaction.commit();
+        }
 
         //user selected the past events item from the navigation panel
         if(item.getItemId()==R.id.pastEvents)
