@@ -1,10 +1,14 @@
 package com.example.paintthetown491;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +23,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PendingActivity extends Fragment
 {
@@ -26,18 +32,63 @@ public class PendingActivity extends Fragment
     private TextView noPending;
     private PendingAdapter pendingAdapter;
     private DatabaseReference eventRef;
-    private ArrayList<String>pendingUserIDs;
+    private Map<String,Integer>pendingUsers;
     private ArrayList<User>users;
 
-    public void removeItem(int position)
+    //deletes the user ID from list
+    public void deleteUserID(String userID)
     {
-        users.remove(position);
-        pendingAdapter.notifyItemMoved(position,position);
+        //if(userID.charAt(0)!='-')
+        //{
+        //   userID="-"+userID;
+        //}
+        //logged-in user ID
+        String mainID=FirebaseDbSingleton.getInstance().user.getUid();
+        //pending user ID to delete (depending on the userID key provided)
+        String key=pendingUsers.get(userID).toString();
+        //deletes the pending user ID from the DB
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("pending").child(key).removeValue();
+        //notifies adapter of changes
+        pendingAdapter.notifyDataSetChanged();
+    }
+
+    //confirmation to accept request
+    public void confirmationDelete(final int position)
+    {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirm")
+                .setMessage("Are you sure?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        deleteUserID(users.get(position).getId());
+                        users.remove(position);
+                        pendingAdapter.notifyDataSetChanged();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    //confirmation to accept request
+    public void confirmationAccept(int position)
+    {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirm")
+                .setMessage("Are you sure?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view=inflater.inflate(R.layout.frag_pending_requests, container, false);
         //binding xml elements to class members
@@ -47,7 +98,7 @@ public class PendingActivity extends Fragment
         noPending=view.findViewById(R.id.no_pending_requests);
 
         //allocating memory for the list items to avoid null references
-        pendingUserIDs=new ArrayList<String>();
+        pendingUsers=new HashMap<>();
         users=new ArrayList<User>();
 
         //using our adapter to display the necessary info
@@ -68,14 +119,16 @@ public class PendingActivity extends Fragment
             @Override
             public void deleteOnClick(int position)
             {
-                removeItem(position);
+                System.out.println("DELETE");
+                confirmationDelete(position);
             }
 
             //handles accepting the request
             @Override
             public void acceptOnClick(int position)
             {
-
+                System.out.println("ACCEPT");
+                confirmationAccept(position);
             }
         });
 
@@ -85,7 +138,7 @@ public class PendingActivity extends Fragment
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
             {
-                pendingUserIDs.clear();
+                pendingUsers.clear();
                 //check to see if firebase returned anything
                 if (snapshot.exists())
                 {
@@ -93,11 +146,10 @@ public class PendingActivity extends Fragment
                     noPending.setVisibility(View.INVISIBLE);
 
                     //iterate through each child returned
-                    for (DataSnapshot e : snapshot.getChildren()) {
-                        //holds the event ID as a string
-                        String event = e.getValue(String.class);
-                        //adds it to the list
-                        pendingUserIDs.add(event);
+                    for (DataSnapshot e : snapshot.getChildren())
+                    {
+                        //place key and value in hashmap
+                        pendingUsers.put(e.getValue(String.class),Integer.parseInt(e.getKey()));
                     }
                     //notifies the adapter of any changes
                     pendingAdapter.notifyDataSetChanged();
@@ -143,8 +195,8 @@ public class PendingActivity extends Fragment
                             s = ds.getKey().substring(1);
                         }
 
-                        //sees if the arraylist contains this child
-                        if (pendingUserIDs.contains(s))
+                        //sees if the hashmap contains the ID as a key
+                        if (pendingUsers.containsKey(s))
                         {
                             // get user values
                             User userData = ds.getValue(User.class);
@@ -160,7 +212,6 @@ public class PendingActivity extends Fragment
             @Override
             public void onCancelled(@NonNull DatabaseError error)
             {
-
             }
 
             //used to convert a Iterable (type returned from firebase) to an arraylist
