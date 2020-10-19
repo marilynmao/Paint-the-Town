@@ -2,7 +2,7 @@ package com.example.paintthetown491;
 import java.util.ArrayList;
 public class User
 {
-    private String firstName, lastName, email, username, phoneNumber;
+    private String firstName, lastName, email, username, phoneNumber,id;
     private ArrayList<String> friends = new ArrayList<String>();
     private ArrayList<String> events = new ArrayList<String>();
     private ArrayList<String> savedEvents = new ArrayList<String>();
@@ -31,6 +31,8 @@ public class User
     public String getEmail() {
         return email;
     }
+
+    public String getId(){return id;}
 
     public void setEmail(String email) {
         this.email = email;
