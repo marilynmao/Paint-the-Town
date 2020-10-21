@@ -200,7 +200,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/LoginButton"
         app:layout_constraintEnd_toStartOf="@+id/LoginButton"
         app:layout_constraintTop_toTopOf="@+id/LoginButton"
-        app:srcCompat="@drawable/abc_vector_test" />
+        app:srcCompat="@drawable/abc_vector_test"
+        android:contentDescription="@string/back_button_dec" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

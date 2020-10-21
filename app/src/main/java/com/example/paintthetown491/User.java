@@ -3,7 +3,13 @@ import java.util.ArrayList;
 public class User
 {
     private static User instance=null;
-    private String firstName, lastName, email, username, phoneNumber, icon,id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String username;
+    private String phoneNumber;
+    private String icon;
+    private String id;
     private ArrayList<String> friends = new ArrayList<String>();
     private ArrayList<String> events = new ArrayList<String>();
     private ArrayList<String> savedEvents = new ArrayList<String>();
@@ -42,11 +48,7 @@ public class User
     public String getEmail() {
         return email;
     }
-
-    public String getId(){return this.id;}
-
-    public void setId(String id){this.id=id;}
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
@@ -70,6 +72,11 @@ public class User
     public String getIcon(){return icon;}
 
     public void setIcon(String icon){this.icon = icon;}
+
+    public void setId(String id) {this.id = id;}
+
+    public String getId(){return id;}
+
 
     public void addFriend(String username) {friends.add(username); }
 

@@ -40,4 +40,5 @@
     <string name="close">close</string>
     <string name="next">NEXT</string>
     <string name="no_pending_requests">No pending requests...</string>
+    <string name="back_button_dec">back button</string>
 </resources>
