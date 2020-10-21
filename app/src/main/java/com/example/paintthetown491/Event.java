@@ -1,6 +1,7 @@
 package com.example.paintthetown491;
 
 import com.google.firebase.database.Exclude;
+
 import java.util.List;
 
 //the class that holds all the data needed for an event
@@ -29,7 +30,7 @@ public class Event
     public String getEventId() { return eventId; }
 
     //returns the list of user IDs for people in the event
-    public List<String> getParticipantList(){return participantIds;};
+    public List<String> getParticipantList(){return participantIds;}
 
     public int getImage()
     {

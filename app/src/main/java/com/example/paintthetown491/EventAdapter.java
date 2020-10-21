@@ -49,9 +49,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         final Event curr=mEventList.get(position);
 
         holder.mImageView.setImageResource(curr.getImage());
-        holder.eName.setText(curr.getEventName().toString());
-        holder.eDate.setText(curr.getEventDate().toString());
-        holder.eCreator.setText(curr.getEventCreator().toString());
+        holder.eName.setText(curr.getEventName());
+        holder.eDate.setText(curr.getEventDate());
+        holder.eCreator.setText(curr.getEventCreator());
         // set the onclick listener for the current item here so that the data can easily be sent to the popup activity for display
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

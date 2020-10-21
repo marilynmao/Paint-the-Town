@@ -97,7 +97,8 @@ public class CreateAccountActivity extends AppCompatActivity
                 }
 
                 //verifies the password they wanted is correctly entered by the user
-                else if(!(userPasswordVerify.getText().toString().equals(password.getText().toString()))){
+                else if(!(userPasswordVerify.getText().toString().equals(password.getText().toString())))
+                {
                     userPasswordVerify.setError("Re-entered password does not match!");
                 }
 
@@ -117,9 +118,8 @@ public class CreateAccountActivity extends AppCompatActivity
                                         user.setEmail(email.getText().toString());
                                         user.setUsername(userName.getText().toString());
                                         user.setPhoneNumber(phoneNumber.getText().toString());
-                                        user.setEventList(new ArrayList<String>(Arrays.asList("0")));
-                                        user.setPastEventList(new ArrayList<String>(Arrays.asList("0")));
                                         user.setIcon("none");
+                                        user.setId(mAuth.getCurrentUser().getUid());
                                         //inserts the user into the DB
                                         dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
 

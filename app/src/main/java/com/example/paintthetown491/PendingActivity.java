@@ -2,13 +2,11 @@ package com.example.paintthetown491;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,26 +33,42 @@ public class PendingActivity extends Fragment
     private Map<String,Integer>pendingUsers;
     private ArrayList<User>users;
 
-    //deletes the user ID from list
-    public void deleteUserID(String userID)
+    //deletes the user ID from the pending list
+    public void deleteUserID(String userID, Integer position)
     {
         //if(userID.charAt(0)!='-')
         //{
         //   userID="-"+userID;
         //}
+
         //logged-in user ID
         String mainID=FirebaseDbSingleton.getInstance().user.getUid();
         //pending user ID to delete (depending on the userID key provided)
         String key=pendingUsers.get(userID).toString();
         //deletes the pending user ID from the DB
         FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("pending").child(key).removeValue();
-        //notifies adapter of changes
-        pendingAdapter.notifyDataSetChanged();
+        users.remove(position);
+        pendingUsers.remove(userID);
+        pendingAdapter.notifyItemRemoved(position);
+        pendingAdapter.notifyItemRangeChanged(position,pendingUsers.size());
+
+    }
+
+    //moves the pending user ID to the friends list, removes it from pending
+    public void addUserID(String userID,int position)
+    {
+        //logged-in user ID
+        String mainID=FirebaseDbSingleton.getInstance().user.getUid();
+        //adds the pending user to the friends list in firebase
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("friends").child(userID).setValue(userID);
+        //removes it from the recyclerview
+        deleteUserID(userID,position);
     }
 
     //confirmation to accept request
     public void confirmationDelete(final int position)
     {
+        //confirmation dialog before deleting a request
         new AlertDialog.Builder(getContext())
                 .setTitle("Confirm")
                 .setMessage("Are you sure?")
@@ -63,16 +77,15 @@ public class PendingActivity extends Fragment
                 {
                     public void onClick(DialogInterface dialog, int whichButton)
                     {
-                        deleteUserID(users.get(position).getId());
-                        users.remove(position);
-                        pendingAdapter.notifyDataSetChanged();
+                        //remove it from the pending list in firebase
+                        deleteUserID(users.get(position).getId(),position);
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    //confirmation to accept request
-    public void confirmationAccept(int position)
+    public void confirmationAccept(final int position)
     {
+        //confirmation dialog before accepting a request
         new AlertDialog.Builder(getContext())
                 .setTitle("Confirm")
                 .setMessage("Are you sure?")
@@ -81,7 +94,8 @@ public class PendingActivity extends Fragment
                 {
                     public void onClick(DialogInterface dialog, int whichButton)
                     {
-
+                        //first add it to friends in list in firebase
+                        addUserID(users.get(position).getId(),position);
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
     }
@@ -117,19 +131,11 @@ public class PendingActivity extends Fragment
 
             //handles deleting the request
             @Override
-            public void deleteOnClick(int position)
-            {
-                System.out.println("DELETE");
-                confirmationDelete(position);
-            }
+            public void deleteOnClick(int position) { confirmationDelete(position); }
 
             //handles accepting the request
             @Override
-            public void acceptOnClick(int position)
-            {
-                System.out.println("ACCEPT");
-                confirmationAccept(position);
-            }
+            public void acceptOnClick(int position) { confirmationAccept(position); }
         });
 
         //listener for the pending requests user IDs in firebase
@@ -142,6 +148,7 @@ public class PendingActivity extends Fragment
                 //check to see if firebase returned anything
                 if (snapshot.exists())
                 {
+                    //hides the "no pending requests" message and shows the recycler
                     pending.setVisibility(View.VISIBLE);
                     noPending.setVisibility(View.INVISIBLE);
 
@@ -151,8 +158,6 @@ public class PendingActivity extends Fragment
                         //place key and value in hashmap
                         pendingUsers.put(e.getValue(String.class),Integer.parseInt(e.getKey()));
                     }
-                    //notifies the adapter of any changes
-                    pendingAdapter.notifyDataSetChanged();
                 }
                 //no pending requests, show message and hide recycler
                 else
@@ -160,6 +165,8 @@ public class PendingActivity extends Fragment
                     pending.setVisibility(View.INVISIBLE);
                     noPending.setVisibility(View.VISIBLE);
                 }
+                //notifies the adapter of any changes
+                pendingAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -181,6 +188,7 @@ public class PendingActivity extends Fragment
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
             {
+                users.clear();
                 //check that firebase returned something
                 if (snapshot.exists())
                 {

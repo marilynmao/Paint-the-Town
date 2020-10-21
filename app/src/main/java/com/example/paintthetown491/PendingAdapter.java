@@ -1,9 +1,11 @@
 package com.example.paintthetown491;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,10 +18,14 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.PendingR
     //variable that will make each item in the recyclerview clickable
     private PendingAdapter.OnItemClickListener mListener;
 
+    //if your recyclerview items have multiple buttons, you add functionality for each in this interface
     public interface OnItemClickListener
     {
+        //will open profiles from the pending list
         void onItemClick(int position);
+        //will remove requests
         void deleteOnClick(int position);
+        //will add users to friends list
         void acceptOnClick(int position);
     }
 
