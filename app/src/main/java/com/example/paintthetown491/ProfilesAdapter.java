@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -46,9 +50,33 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ProfilesAdapter.ProfileSearchViewHolder holder, int position)
-    {
+    public void onBindViewHolder(@NonNull final ProfilesAdapter.ProfileSearchViewHolder holder, int position) {
         final User curr_prof = profileSearchList.get(position);
+
+
+        final ArrayList<String> friends = new ArrayList<String>();
+        ValueEventListener friendChecker = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friends.clear();
+                if (snapshot.exists()) {
+                    for (DataSnapshot e : snapshot.getChildren()) {
+                        String fID = e.getValue(String.class);
+                        friends.add(fID);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        Query query = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("friends");
+
+        query.addValueEventListener(friendChecker);
+
 
         holder.profile_fn.setText(curr_prof.getFirstName());
         holder.profile_ln.setText(curr_prof.getLastName());
@@ -70,10 +98,26 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
                 }
             });
         }
+
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ProfileViewActivity.class);
+                Intent intent;
+
+                //check if the user is friends with the card that was clicked on.
+                Boolean isFriend = false;
+                for (String s : friends) {
+                    if (s.equals(curr_prof.getId())) {
+                        isFriend = true;
+                    }
+                }
+
+                if (isFriend){
+                    intent = new Intent(v.getContext(), FriendPopUpActivity.class);
+                }
+                else{
+                    intent = new Intent(v.getContext(), ProfileViewActivity.class);
+                }
                 intent.putExtra("firstname", curr_prof.getFirstName());
                 intent.putExtra("lastname", curr_prof.getLastName());
                 intent.putExtra("id", curr_prof.getId());
