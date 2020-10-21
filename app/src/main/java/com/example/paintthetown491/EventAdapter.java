@@ -54,19 +54,19 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.eCreator.setText(curr.getEventCreator().toString());
         // set the onclick listener for the current item here so that the data can easily be sent to the popup activity for display
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), EventPopUpActivity.class);
-                intent.putExtra("eid", curr.getEventId());
-                intent.putExtra("ename", curr.getEventName());
-                intent.putExtra("einfo", curr.getEventInfo());
-                intent.putExtra("edate", curr.getEventDate());
-                intent.putExtra("etime", curr.getEventTime());
-                intent.putExtra("elocation", curr.getEventLocation());
-                v.getContext().startActivity(intent);
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), EventPopUpActivity.class);
+        intent.putExtra("eid", curr.getEventId());
+        intent.putExtra("ename", curr.getEventName());
+        intent.putExtra("einfo", curr.getEventInfo());
+        intent.putExtra("edate", curr.getEventDate());
+        intent.putExtra("etime", curr.getEventTime());
+        intent.putExtra("elocation", curr.getEventLocation());
+        v.getContext().startActivity(intent);
     }
+});
+}
 
     //returns the size of the list
     @Override

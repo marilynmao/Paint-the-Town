@@ -7,51 +7,51 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profile_view_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="253dp"
         android:baselineAligned="false"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/profile_view_inv"
+        app:layout_constraintEnd_toStartOf="@+id/profile_view_fn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/profile_view_fn"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginBottom="23dp"
         android:text="First Name"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/profile_view_username"
+        app:layout_constraintEnd_toStartOf="@+id/profile_view_ln"
+        app:layout_constraintStart_toEndOf="@+id/profile_view_img"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/profile_view_ln"
         android:layout_width="0dp"
         android:layout_height="42dp"
         android:layout_marginBottom="23dp"
         android:text="LastName"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintBottom_toTopOf="@+id/profile_view_username"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/profile_view_fn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/profile_view_username"
         android:layout_width="283dp"
         android:layout_height="60dp"
         android:layout_marginTop="65dp"
         android:text="username"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/profile_view_img"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/profile_view_report"
         android:layout_width="87dp"
         android:layout_height="42dp"
         android:layout_marginStart="149dp"
@@ -64,10 +64,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_view_username" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/profile_view_inv"
         android:layout_width="123dp"
         android:layout_height="98dp"
         android:layout_marginStart="37dp"
@@ -77,13 +77,13 @@
         android:layout_marginRight="57dp"
         android:layout_marginBottom="127dp"
         android:text="invite to event"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/profile_view_report"
+        app:layout_constraintEnd_toStartOf="@+id/profile_view_add"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/profile_view_add"
         android:layout_width="125dp"
         android:layout_height="99dp"
         android:layout_marginStart="57dp"
@@ -95,6 +95,6 @@
         android:text="remove friend"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintStart_toEndOf="@+id/profile_view_inv"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

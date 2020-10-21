@@ -1,5 +1,6 @@
 package com.example.paintthetown491;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -47,11 +48,12 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
     @Override
     public void onBindViewHolder(@NonNull final ProfilesAdapter.ProfileSearchViewHolder holder, int position)
     {
-        User curr_prof = profileSearchList.get(position);
+        final User curr_prof = profileSearchList.get(position);
 
         holder.profile_fn.setText(curr_prof.getFirstName());
         holder.profile_ln.setText(curr_prof.getLastName());
         holder.profile_ph.setText(curr_prof.getPhoneNumber());
+
         String icon = curr_prof.getIcon();
         if (icon != "none") {
             StorageReference path = FirebaseStorage.getInstance().getReference().child("Icons").child(curr_prof.getIcon());
@@ -59,7 +61,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    holder.profile_pp.setImageBitmap(bitmap);
+                    holder.profile_image.setImageBitmap(bitmap);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -68,6 +70,18 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
                 }
             });
         }
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ProfileViewActivity.class);
+                intent.putExtra("firstname", curr_prof.getFirstName());
+                intent.putExtra("lastname", curr_prof.getLastName());
+                intent.putExtra("id", curr_prof.getId());
+                intent.putExtra("image", curr_prof.getIcon());
+                intent.putExtra("username", curr_prof.getUsername());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -83,7 +97,9 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
         public TextView profile_fn;
         public TextView profile_ln;
         public TextView profile_ph;
-        public ImageView profile_pp;
+        public ImageView profile_image;
+        public TextView profile_username;
+        public View relativeLayout;
 
         public ProfileSearchViewHolder(@NonNull View itemView, final ProfilesAdapter.OnItemClickListener listener)
         {
@@ -91,7 +107,8 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
             profile_fn = itemView.findViewById(R.id.u_firstName);
             profile_ln = itemView.findViewById(R.id.u_lastName);
             profile_ph = itemView.findViewById(R.id.u_phone);
-            profile_pp = itemView.findViewById(R.id.avatarView);
+            profile_image = itemView.findViewById(R.id.avatarView);
+            relativeLayout = itemView.findViewById(R.id.profile_search_view);
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
