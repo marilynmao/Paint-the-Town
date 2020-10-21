@@ -29,7 +29,7 @@ public class FriendPopUpActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         //binds the layout to this activity. You can find the xml in res.layout
-        setContentView(R.layout.layout);
+        setContentView(R.layout.profile_view_friend);
 
 
         profile_fn = findViewById(R.id.profile_view_fn);
