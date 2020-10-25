@@ -1,9 +1,13 @@
 package com.example.paintthetown491;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +23,8 @@ public class FriendPopUpActivity extends Activity {
     public TextView profile_ln;
     public TextView profile_username;
     public ImageView profile_image;
+    private String profile_ID;
+    private Button removeFriend;
 
 
     @Override
@@ -31,6 +37,7 @@ public class FriendPopUpActivity extends Activity {
         //binds the layout to this activity. You can find the xml in res.layout
         setContentView(R.layout.profile_view_friend);
 
+        profile_ID = getIntent().getStringExtra("id");
 
         profile_fn = findViewById(R.id.profile_view_fn);
         profile_fn.setText(getIntent().getStringExtra("firstname"));
@@ -57,5 +64,25 @@ public class FriendPopUpActivity extends Activity {
                 System.out.println("Failed to set profile pic");
             }
         });
+
+        removeFriend = findViewById(R.id.profile_view_remove);
+        removeFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(v.getContext())
+                        .setTitle("Confirm")
+                        .setMessage("Are you sure you want to remove this user from your friends list?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
+                                //TODO delete friend from friends list in DB
+                                finish();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+            }
+        });
+
 
     }}
