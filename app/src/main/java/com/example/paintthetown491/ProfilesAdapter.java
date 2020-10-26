@@ -123,6 +123,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
                 intent.putExtra("id", curr_prof.getId());
                 intent.putExtra("image", curr_prof.getIcon());
                 intent.putExtra("username", curr_prof.getUsername());
+                intent.putExtra("friends", friends);
                 v.getContext().startActivity(intent);
             }
         });

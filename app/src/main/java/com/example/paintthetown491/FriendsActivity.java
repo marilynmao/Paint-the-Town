@@ -102,6 +102,7 @@ public class FriendsActivity extends Fragment
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
             {
+                users.clear();
                 //check that firebase returned something
                 if (snapshot.exists())
                 {
