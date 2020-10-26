@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.container_frag,new EventsActivity());
             fragmentTransaction.commit();
         }
+
+        //user selected the friends item from the navigation panel
         if(item.getItemId()==R.id.friends)
         {
             fragManager=getSupportFragmentManager();
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();
         }
 
+        //user selected the pending requests item from the navigation panel
         if(item.getItemId()==R.id.pending_requests)
         {
             fragManager=getSupportFragmentManager();
