@@ -36,6 +36,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragManager;
     FragmentTransaction fragmentTransaction;
     NotificationCompat.Builder notificationBuilder;
+    long prevRequestValue;
+
+    //notification for new request
+    public void notificationNewRequest()
+    {
+        createNotificationChannelNewReq();
+        // build the notification to send
+        notificationBuilder = new NotificationCompat.Builder(
+                MainActivity.this, "New Request Notification"
+        )
+                .setContentTitle("Request received")    // notification title
+                .setSmallIcon(R.drawable.pending_friend)       // icon
+                .setContentText("You have received a new request! :)")     // notification body text
+                .setAutoCancel(true);                   // enable swiping notification
+        NotificationManagerCompat nManager = NotificationManagerCompat.from(MainActivity.this);
+        nManager.notify(1, notificationBuilder.build());
+    }
+
+    //check if new friend requests are received
+    public void checkNewFriendReq()
+    {
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("pending").addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                //check that firebase returned something
+                if (snapshot.exists())
+                {
+                    //initial size of pending list is set
+                    if(prevRequestValue==0)
+                    {
+                        prevRequestValue=snapshot.getChildrenCount();
+                    }
+
+                    //if the list contains more than the previous value, output a notification
+                    if(prevRequestValue<snapshot.getChildrenCount())
+                    {
+                        prevRequestValue=snapshot.getChildrenCount();
+                        notificationNewRequest();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -96,10 +148,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+        //listener for new requests
+        checkNewFriendReq();
     }
 
     // get friend's name
-    private void getFriend(String newFriendID) {
+    private void getFriend(String newFriendID)
+    {
         // listener to get friend's full name
         ValueEventListener friendValListener = new ValueEventListener() {
             @Override
@@ -127,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // send notification for accepted request
-    private void sendNotification(String friendFullName) {
+    private void sendNotification(String friendFullName)
+    {
         // message to be displayed in notification
         String acceptedRequestMsg = friendFullName + " has accepted your friend request!";
 
@@ -144,10 +201,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // create notification channel
-    private void createNotificationChannel() {
+    private void createNotificationChannel()
+    {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             NotificationChannel nChannel = new NotificationChannel("Accepted Friend Notification", "Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(nChannel);
+        }
+    }
+
+    // create notification channel for new requests
+    private void createNotificationChannelNewReq()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            NotificationChannel nChannel = new NotificationChannel("New Request Notification", "Notification", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(nChannel);
         }

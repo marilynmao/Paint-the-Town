@@ -61,6 +61,8 @@ public class PendingActivity extends Fragment
         String mainID=FirebaseDbSingleton.getInstance().user.getUid();
         //adds the pending user to the friends list in firebase
         FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("friends").child(userID).setValue(userID);
+        //adds the user to the requestor's friend list
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).child("friends").child(mainID).setValue(mainID);
         //removes it from the recyclerview
         deleteUserID(userID,position);
     }
