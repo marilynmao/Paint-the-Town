@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class CreateEventActivity extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private EditText eName, eInfo, eLocation, eDate, eTime;
@@ -28,7 +29,6 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
     private String newEventID, eventCreatorName, event_name, event_info, event_location, event_date, event_time, period;
     private Button createEventButton;
     private DatabaseReference eventsDbRef, userEventsDbRef;
-    private ArrayList<String> usrEventsList;
     //private User usr;
     private Event newEvent;
 
@@ -44,8 +44,6 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
         eTime = view.findViewById(R.id.selectTime);
         eLocation = view.findViewById(R.id.newEventLocation);
         createEventButton = view.findViewById(R.id.createEventbtn);
-        // usrEventsList will hold the users specific eventIDs
-        usrEventsList = new ArrayList<String>();
 
         // set onclick listeners for date & time
         eDate.setOnClickListener(new View.OnClickListener() {
@@ -99,10 +97,16 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
 
                 // remove "-" from newEventID
                 newEventID = newEventID.substring(1);
-                // add to list
-                usrEventsList.add(newEventID);
-                //set User/{Uid}/events with new event id added
-                userEventsDbRef.setValue(usrEventsList);
+                
+                // get push key for User/{Uid}/events
+                String userEventsKey = userEventsDbRef.push().getKey();
+                // hashmap holds the new event to be added to User/{Uid}/events
+                HashMap usrEvent = new HashMap();
+                // put pushkey and new event id in hash map
+                usrEvent.put(userEventsKey, newEventID);
+                // append new event to User/{Uid}/events
+                userEventsDbRef.updateChildren(usrEvent);
+
 
                 Toast.makeText(getActivity(), "Success! New event created.", Toast.LENGTH_SHORT).show();
                 //open main event activity (shows created event) when create event is clicked

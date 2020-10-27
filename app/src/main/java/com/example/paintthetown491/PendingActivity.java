@@ -59,10 +59,26 @@ public class PendingActivity extends Fragment
     {
         //logged-in user ID
         String mainID=FirebaseDbSingleton.getInstance().user.getUid();
-        //adds the pending user to the friends list in firebase
-        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("friends").child(userID).setValue(userID);
-        //adds the user to the requestor's friend list
-        FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).child("friends").child(mainID).setValue(mainID);
+        /*  generate pushkey for main user so that the id is ordered chronologically
+            when added to list. (makes it easier to identify which was added most recently) */
+        String pushKey1 = FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("friends").push().getKey();
+        // hash map holds the requestor's user ID to be added to the main user's friend list
+        HashMap mainUserFriends = new HashMap();
+        // put the push key and requestor's userID into hashmap
+        mainUserFriends.put(pushKey1, userID);
+        // update the the main user's friend list
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("friends").updateChildren(mainUserFriends);
+
+        /*  generate pushkey for requestor so that the id is ordered chronologically
+            when added to list. (makes it easier to identify which was added most recently) */
+        String pushKey2 = FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).child("friends").push().getKey();
+        // hash map holds the main user ID to be added to the requestor's friend list
+        HashMap requestorsFriends = new HashMap();
+        // put the push key and main user ID into hashmap
+        requestorsFriends.put(pushKey2, mainID);
+        // update the the requestor's friend list
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).child("friends").updateChildren(requestorsFriends);
+
         //removes it from the recyclerview
         deleteUserID(userID,position);
     }

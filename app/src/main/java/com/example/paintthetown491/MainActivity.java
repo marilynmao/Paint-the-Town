@@ -115,9 +115,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // create notification channel to send notification
         createNotificationChannel();
 
-        //querying the specific user's list of friends
-        Query userFriendListquery = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("friends");
-
+        // generate a dummy key to get current time  since push().getkey() is based on a timestamp (won't be saved in db)
+        String startKey = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("friends").push().getKey();
+        /*  query compares the get the push().getkey() timestamp with all the keys timestamp from the specific
+            user's list of friends to get the most recently added key. This will prevent the onChildAdded from
+            triggering on the start of the app.
+         */
+        Query userFriendListquery = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("friends").orderByKey().startAt(startKey);
         // attaching child event listener to detect when a new friend is added to user's friend list
         userFriendListquery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -186,13 +190,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void sendNotification(String friendFullName)
     {
         // message to be displayed in notification
-        String acceptedRequestMsg = friendFullName + " has accepted your friend request!";
+        String acceptedRequestMsg = "You are now friends with: " + friendFullName;
 
         // build the notification to send
         notificationBuilder = new NotificationCompat.Builder(
                 MainActivity.this, "Accepted Friend Notification"
         )
-                .setContentTitle("Request Accepted")    // notification title
+                .setContentTitle("New Friend!")    // notification title
                 .setSmallIcon(R.drawable.friends)       // icon
                 .setContentText(acceptedRequestMsg)     // notification body text
                 .setAutoCancel(true);                   // enable swiping notification
@@ -200,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nManager.notify(1, notificationBuilder.build());
     }
 
-    // create notification channel
+    // create notification channel for accepted requests
     private void createNotificationChannel()
     {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
