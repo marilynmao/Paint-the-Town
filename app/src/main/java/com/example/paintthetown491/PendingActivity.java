@@ -67,7 +67,7 @@ public class PendingActivity extends Fragment
         deleteUserID(userID,position);
     }
 
-    //confirmation to accept request
+    //confirmation to delete request
     public void confirmationDelete(final int position)
     {
         //confirmation dialog before deleting a request
@@ -85,6 +85,7 @@ public class PendingActivity extends Fragment
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
+    //confirmation to accept request
     public void confirmationAccept(final int position)
     {
         //confirmation dialog before accepting a request
