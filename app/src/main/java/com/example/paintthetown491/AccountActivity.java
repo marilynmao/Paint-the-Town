@@ -158,21 +158,24 @@ public class AccountActivity extends Fragment
                 userName.setText(dataSnapshot.child("username").getValue().toString());
                 phone.setText(dataSnapshot.child("phoneNumber").getValue().toString());
 
-                //check the firebase storage for the users icon if they have one. then load it into the profilePic imageView
-                currentIcon = dataSnapshot.child("icon").getValue().toString();
-                StorageReference path = mStorageRef.child(currentIcon);
-                path.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        profilePic.setImageBitmap(bitmap);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        System.out.println("Failed to set profile pic");
-                    }
-                });
+                if(dataSnapshot.child("icon").getValue()!=null)
+                {
+                    //check the firebase storage for the users icon if they have one. then load it into the profilePic imageView
+                    currentIcon = dataSnapshot.child("icon").getValue().toString();
+                    StorageReference path = mStorageRef.child(currentIcon);
+                    path.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            profilePic.setImageBitmap(bitmap);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            System.out.println("Failed to set profile pic");
+                        }
+                    });
+                }
 
             }
 
