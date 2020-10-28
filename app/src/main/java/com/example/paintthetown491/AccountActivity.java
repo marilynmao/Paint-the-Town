@@ -118,7 +118,7 @@ public class AccountActivity extends Fragment
         {
             imageURI=data.getData();
             String ex = getExtension(imageURI);
-            if (ex == "png" || ex == "jpg") {
+            if (ex.equals("png") || ex.equals("jpg")) {
                 try {
                     //used to find the size of the image the user selects.
                     AssetFileDescriptor afd = getActivity().getContentResolver().openAssetFileDescriptor(imageURI, "r");
