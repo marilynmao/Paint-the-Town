@@ -159,6 +159,8 @@ public class HomeActivity extends Fragment
             {
                 if (response.isSuccessful())
                 {
+                    //clears the list for each search
+                    locations.clear();
                     //raw JSON string
                     final String responseData = response.body().string();
 
