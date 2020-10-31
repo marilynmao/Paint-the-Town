@@ -9,12 +9,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -36,8 +38,9 @@ public class HomeActivity extends Fragment
     private Spinner srchFilter;
     private ImageButton srchButton;
     private String selectedFltr;
-    private ListView results;
-    private ArrayAdapter arrAdapter = null;
+    private RecyclerView locResults;
+    private ArrayList<Location> locations;
+    private LocationResultsAdapter locationAdapter=null;
 
     // Yelp API key
     final String token = "ju1f5-H-moICivrIt7vJynoLtBo9yB20u3_A8iq4i7rw2x7aYsYk5Kl6QP5WFqD1ELwd3dlOiLGR157KQwUcIU1Kq0r9l66uU0EoxWd5z3daERREQpymXCuRiGRYX3Yx";
@@ -52,7 +55,22 @@ public class HomeActivity extends Fragment
         srchBar = view.findViewById(R.id.searchBar);
         srchFilter = view.findViewById(R.id.searchFilter);
         srchButton = view.findViewById(R.id.searchButton);
-        results=view.findViewById(R.id.results);
+        locResults=view.findViewById(R.id.results);
+        locResults.setHasFixedSize(true);
+        locResults.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        locations=new ArrayList<Location>();
+
+        locationAdapter=new LocationResultsAdapter(locations);
+        locResults.setAdapter(locationAdapter);
+        locationAdapter.setOnItemClickListener(new LocationResultsAdapter.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(int position)
+            {
+                System.out.println(position+"\n");
+            }
+        });
 
         // array list stores filter options for dropdown list
         ArrayList<String> filterOptions = new ArrayList<>();
@@ -150,15 +168,14 @@ public class HomeActivity extends Fragment
                         JSONObject json=new JSONObject(responseData);
                         //create array of businesses
                         JSONArray arr=json.getJSONArray("businesses");
-                        //arraylist to hold the names of each
-                        ArrayList<String> resultNames=new ArrayList<>();
                         //we need to place the name of each business in the resultNames arraylist
                         for(int i=0;i<arr.length();i++)
                         {
-                            resultNames.add(arr.getJSONObject(i).getString("name"));
+                            JSONObject loc=arr.getJSONObject(i).getJSONObject("location");
+                            locations.add(new Location(arr.getJSONObject(i).getString("id"), arr.getJSONObject(i).getString("name"), arr.getJSONObject(i).getString("image_url"),loc.getString("address1")+" "+ loc.getString("address2")+","+loc.getString("city")+","+loc.getString("zip_code"),0));
                         }
-                        arrAdapter=new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,resultNames);
                     }
+
                     catch (JSONException e)
                     {
                         e.printStackTrace();
@@ -170,18 +187,9 @@ public class HomeActivity extends Fragment
                         @Override
                         public void run()
                         {
-                            if(arrAdapter!=null)
+                            if(locationAdapter!=null)
                             {
-                                results.setAdapter(arrAdapter);
-                                //handle clicks on items of the listview
-                                results.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                                {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-                                    {
-                                        System.out.println("ITEM: "+i);
-                                    }
-                                });
+                                locationAdapter.notifyDataSetChanged();
                             }
                         }
                     });

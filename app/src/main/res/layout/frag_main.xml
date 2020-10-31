@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
