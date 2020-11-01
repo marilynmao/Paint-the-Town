@@ -43,44 +43,10 @@ public class EventsActivity extends Fragment
         //holds the events loaded from firebase
         events = new ArrayList<Event>();
 
-        //listener for the event IDs in firebase
-        ValueEventListener eventIdValListener = new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot)
-            {
-                eventIds.clear();
-                //check to see if firebase returned anything
-                if (snapshot.exists())
-                {
-                    //iterate through each child returned
-                    for (DataSnapshot e : snapshot.getChildren())
-                    {
-                        //holds the event ID as a string
-                        String event = e.getValue(String.class);
-                        //adds it to the list
-                        eventIds.add(event);
-                    }
-                    //notifies the adapter of any changes
-                    eAdapter.notifyDataSetChanged();
-                }
-            }
+        final Query queryVal = FirebaseDbSingleton.getInstance().dbRef.child("Event");
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error)
-            {
-            }
-        };
-
-        //querying the specific user's list of events
-        Query query = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("events");
-        //attaching the value listener
-        query.addValueEventListener(eventIdValListener);
-
-        //now that we have the event IDs saved, we need to look at the Event table for each of them
-        eventRef = FirebaseDbSingleton.getInstance().dbRef.child("Event");
         //listener for the values we want
-        eventRef.addValueEventListener(new ValueEventListener()
+        final ValueEventListener eventValListener = new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)
@@ -109,6 +75,9 @@ public class EventsActivity extends Fragment
                             //add it to the arraylist that goes into the adapter
                             events.add(e);
                         }
+                        else {
+                            System.out.println("here");
+                        }
                     }
                 }
                 //notifies the adapter of any changes
@@ -130,7 +99,53 @@ public class EventsActivity extends Fragment
                 }
                 return participants;
             }
-        });
+        };
+
+
+        //listener for the event IDs in firebase
+        ValueEventListener eventIdValListener = new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                eventIds.clear();
+                //check to see if firebase returned anything
+                if (snapshot.exists())
+                {
+                    //iterate through each child returned
+                    for (DataSnapshot e : snapshot.getChildren())
+                    {
+                        //holds the event ID as a string
+                        String event = e.getValue(String.class);
+                        //adds it to the list
+                        eventIds.add(event);
+                    }
+                    //notifies the adapter of any changes
+                    eAdapter.notifyDataSetChanged();
+
+                    for (String id : eventIds)
+                    {
+                        queryVal.equalTo(id);
+                        queryVal.addValueEventListener(eventValListener);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+            }
+        };
+
+        //querying the specific user's list of events
+        Query queryID = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("events");
+        //attaching the value listener
+        queryID.addValueEventListener(eventIdValListener);
+
+
+
+        //now that we have the event IDs saved, we need to look at the Event table for each of them
+        eventRef = FirebaseDbSingleton.getInstance().dbRef.child("Event");
 
         // add create event button at bottom of events recyclerview page
         createEventButton = view.findViewById(R.id.createNewEventBtn);
