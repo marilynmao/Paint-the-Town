@@ -33,7 +33,8 @@ public class EventsActivity extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         //the inflate() method takes the layout you wanna show as the first parameter
         final View view = inflater.inflate(R.layout.frag_events, container, false);
 

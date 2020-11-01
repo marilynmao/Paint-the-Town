@@ -1,5 +1,6 @@
 package com.example.paintthetown491;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -59,16 +59,23 @@ public class HomeActivity extends Fragment
         locResults.setHasFixedSize(true);
         locResults.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        //array to hold locations for recycler
         locations=new ArrayList<Location>();
 
+        //location adapter for our recycler
         locationAdapter=new LocationResultsAdapter(locations);
         locResults.setAdapter(locationAdapter);
+        //handles clicks for locations
         locationAdapter.setOnItemClickListener(new LocationResultsAdapter.OnItemClickListener()
         {
             @Override
             public void onItemClick(int position)
             {
-                System.out.println(position+"\n");
+                //prepare location to be sent to popup
+                Location loc=locations.get(position);
+                Intent popup=new Intent(getContext(),LocationPopUp.class);
+                popup.putExtra("location",loc);
+                startActivity(popup);
             }
         });
 
@@ -124,7 +131,6 @@ public class HomeActivity extends Fragment
                         searchText.putString("Search Input", srchBar.getText().toString());
                         profileSearch.setArguments(searchText);
                         getParentFragmentManager().beginTransaction().replace(R.id.container_frag, profileSearch).commit();
-
                     }
                 }
             }
@@ -174,7 +180,7 @@ public class HomeActivity extends Fragment
                         for(int i=0;i<arr.length();i++)
                         {
                             JSONObject loc=arr.getJSONObject(i).getJSONObject("location");
-                            locations.add(new Location(arr.getJSONObject(i).getString("id"), arr.getJSONObject(i).getString("name"), arr.getJSONObject(i).getString("image_url"),loc.getString("address1")+" "+ loc.getString("address2")+","+loc.getString("city")+","+loc.getString("zip_code"),0));
+                            locations.add(new Location(arr.getJSONObject(i).getString("id"), arr.getJSONObject(i).getString("name"), arr.getJSONObject(i).getString("image_url"),loc.getString("address1")+" "+ loc.getString("address2")+","+loc.getString("city")+","+loc.getString("zip_code"),0,arr.getJSONObject(i).getString("phone")));
                         }
                     }
 

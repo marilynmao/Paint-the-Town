@@ -180,7 +180,8 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
 
     // set selected time
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+    {
         // hourOfDay is in 24 hr format
         if(hourOfDay > 12) {
             // convert hourOfDAY to 12 hr

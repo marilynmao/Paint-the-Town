@@ -148,9 +148,6 @@ public class FriendsActivity extends Fragment
             }
         });
 
-
-
-
         return view;
     }
 }
