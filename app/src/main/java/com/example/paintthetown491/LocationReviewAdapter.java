@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class LocationReviewAdapter extends RecyclerView.Adapter<LocationReviewAdapter.LocationReviewViewHolder>
 {
-    private ArrayList<Location> searchList;
+    private ArrayList<LocationReview> reviews;
 
     //variable that will make each item in the recyclerview clickable
     private LocationReviewAdapter.OnItemClickListener mListener;
@@ -21,7 +22,7 @@ public class LocationReviewAdapter extends RecyclerView.Adapter<LocationReviewAd
     //if your recyclerview items have multiple functions, you add functionality for each in this interface
     public interface OnItemClickListener
     {
-        //will open locations from the search results
+        //will expand review info
         void onItemClick(int position);
     }
 
@@ -34,7 +35,7 @@ public class LocationReviewAdapter extends RecyclerView.Adapter<LocationReviewAd
     @Override
     public LocationReviewAdapter.LocationReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_review_item, parent, false);
         LocationReviewAdapter.LocationReviewViewHolder ps_vh = new LocationReviewAdapter.LocationReviewViewHolder(view, mListener);
         return ps_vh;
     }
@@ -42,36 +43,36 @@ public class LocationReviewAdapter extends RecyclerView.Adapter<LocationReviewAd
     @Override
     public void onBindViewHolder(@NonNull LocationReviewAdapter.LocationReviewViewHolder holder, int position)
     {
-        Location curr_loc = searchList.get(position);
+        LocationReview curr_rev = reviews.get(position);
 
-        //sets holder fields with location attributes
-        holder.location_name.setText(curr_loc.getLocationName());
-        holder.location_info.setText(curr_loc.getLocationInfo());
-        //fills the imageview with the location picture using the image URl provided by yelp
-        new DownloadImage(holder.location_pic).execute(curr_loc.getImageUrl());
+        //sets holder fields with review attributes
+        holder.review_date.setText(curr_rev.getDate());
+        holder.review.setText(curr_rev.getReview());
+        holder.rating.setRating(curr_rev.getRating());
+
     }
 
     @Override
     public int getItemCount()
     {
-        return searchList.size();
+        return reviews.size();
     }
 
-    public LocationReviewAdapter(ArrayList<Location> profiles) { searchList = profiles; }
+    public LocationReviewAdapter(ArrayList<LocationReview> profiles) { reviews = profiles; }
 
     public static class LocationReviewViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView location_name;
-        public TextView location_info;
-        public ImageView location_pic;
+        public TextView review;
+        public TextView review_date;
+        private RatingBar rating;
 
         public LocationReviewViewHolder(@NonNull View itemView, final LocationReviewAdapter.OnItemClickListener listener)
         {
             super(itemView);
             //binding xml elements to members of the class
-            location_name = itemView.findViewById(R.id.location_name);
-            location_info = itemView.findViewById(R.id.location_location_info);
-            location_pic=itemView.findViewById(R.id.locationView);
+            review = itemView.findViewById(R.id.review);
+            review_date = itemView.findViewById(R.id.review_date);
+            rating=itemView.findViewById(R.id.rating);
 
             itemView.setOnClickListener(new View.OnClickListener()
             {

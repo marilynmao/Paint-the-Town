@@ -12,13 +12,6 @@
         android:layout_margin="4dp"
         android:layout_marginTop="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            android:padding="2dp"
-            android:id="@+id/locationView"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,17 +20,28 @@
             android:textStyle="bold"
             android:text=""
             android:id="@+id/review_date"
-            android:textColor="@android:color/black"
-            android:layout_toRightOf="@+id/locationView" />
+            android:textColor="@android:color/black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
             android:textSize="15sp"
-            android:layout_below="@+id/location_name"
-            android:layout_toRightOf="@+id/locationView"
-            android:id="@+id/location_location_info"/>
+            android:layout_below="@+id/review_date"
+            android:id="@+id/review"/>
+
+
+        <RatingBar
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="109dp"
+            android:layout_marginRight="25dp"
+            android:layout_toRightOf="@+id/review"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:paddingRight="25dp"
+            android:saveEnabled="false" />
 
     </RelativeLayout>
 

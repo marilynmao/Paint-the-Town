@@ -11,6 +11,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="paint_the_town">Paint the Town</string>
+    <string name="write_review">Review</string>
     <string name="login">login</string>
     <string name="sign_up">sign up</string>
     <string name="create_account">Create Account</string>
