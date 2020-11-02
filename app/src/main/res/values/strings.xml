@@ -42,4 +42,7 @@
     <string name="next">NEXT</string>
     <string name="no_pending_requests">No pending requests...</string>
     <string name="back_button_dec">back button</string>
+    <string name="searchbtn">searchbtn</string>
+    <string name="city_state">City, State</string>
+    <string name="search">Search</string>
 </resources>

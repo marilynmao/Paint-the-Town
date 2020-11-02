@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,10 +35,10 @@ import okhttp3.Response;
 
 public class HomeActivity extends Fragment
 {
-    private EditText srchBar;
+    private EditText srchBar, locationInput;
     private Spinner srchFilter;
-    private ImageButton srchButton;
-    private String selectedFltr;
+    private Button srchButton;
+    private String selectedFltr, location;
     private RecyclerView locResults;
     private ArrayList<Location> locations;
     private LocationResultsAdapter locationAdapter=null;
@@ -53,6 +54,7 @@ public class HomeActivity extends Fragment
 
         // bind UI elements to variable
         srchBar = view.findViewById(R.id.searchBar);
+        locationInput = view.findViewById(R.id.locationInput);
         srchFilter = view.findViewById(R.id.searchFilter);
         srchButton = view.findViewById(R.id.searchButton);
         locResults=view.findViewById(R.id.results);
@@ -97,6 +99,18 @@ public class HomeActivity extends Fragment
             {
                 // get the selected filter
                 selectedFltr = srchFilter.getSelectedItem().toString();
+                if (selectedFltr.equals("Places"))
+                {
+                    // make the location input field visible
+                    locationInput.setVisibility(View.VISIBLE);
+                }
+                if (selectedFltr.equals("People"))
+                {
+                    // expand the width of search bar
+                    expandSearchBarWidth();
+                    // hide the location input field
+                    locationInput.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
@@ -121,7 +135,16 @@ public class HomeActivity extends Fragment
                     // if "places" is selected from dropdown list, call yelpSearch method
                     if(selectedFltr.equals("Places"))
                     {
-                        yelpSearch(srchBar.getText().toString());
+                        // check if input field is empty
+                        if(TextUtils.isEmpty(locationInput.getText()))
+                        {
+                            // set error
+                            locationInput.setError("Location field cannot be blank!");
+                            return;
+                        }
+                        // get the location entered
+                        location = locationInput.getText().toString();
+                        yelpSearch(srchBar.getText().toString(), location);
                     }
                     else
                     {
@@ -138,11 +161,17 @@ public class HomeActivity extends Fragment
         return view;
     }
 
+    public void expandSearchBarWidth() {
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) srchBar.getLayoutParams();
+        layoutParams.width = 1050;
+        srchBar.setLayoutParams(layoutParams);
+    }
+
     // calls API to retrieve JSON data
-    public void yelpSearch(String searchInput)
+    public void yelpSearch(String searchInput, String location)
     {
-        // location is temporarily set to long beach
-        String url = "https://api.yelp.com/v3/businesses/search?term=" + searchInput + "&location=long beach";
+
+        String url = "https://api.yelp.com/v3/businesses/search?term=" + searchInput + "&location=" + location;
 
         OkHttpClient client = new OkHttpClient();
         // make a request
