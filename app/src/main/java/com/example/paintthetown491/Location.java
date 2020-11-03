@@ -10,10 +10,13 @@ public class Location implements Serializable
     private String locationInfo;
     private String imageUrl;
     private String phone;
+    private String latitude;
+    private String longitude;
+    private String price;
     private ArrayList<String> reviews;
-    private int rating;
+    private float rating;
 
-    public Location(String locationID, String locName, String imgUrl, String locationInfo,int rating, String phone)
+    public Location(String locationID, String locName, String imgUrl, String locationInfo,float rating, String phone, String longitude, String latitude, String price)
     {
         this.locationID=locationID;
         this.rating=rating;
@@ -21,6 +24,9 @@ public class Location implements Serializable
         this.imageUrl=imgUrl;
         this.rating=rating;
         this.phone=phone;
+        this.price=price;
+        this.longitude=longitude;
+        this.latitude=latitude;
         this.locationInfo=locationInfo;
     }
 
@@ -73,7 +79,7 @@ public class Location implements Serializable
         return locationID;
     }
 
-    public int getRating()
+    public float getRating()
     {
         return rating;
     }
@@ -81,4 +87,28 @@ public class Location implements Serializable
     public String getImageUrl() { return imageUrl; }
 
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 }

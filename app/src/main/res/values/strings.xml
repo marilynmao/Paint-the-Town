@@ -46,4 +46,5 @@
     <string name="searchbtn">searchbtn</string>
     <string name="city_state">City, State</string>
     <string name="search">Search</string>
+    <string name="add_to_event">Add to event</string>
 </resources>

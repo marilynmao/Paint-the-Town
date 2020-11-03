@@ -1,11 +1,12 @@
 package com.example.paintthetown491;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,8 @@ public class LocationPopUp extends Activity
     private TextView loc_address;
     private TextView phone;
     private TextView noReviews;
+    private TextView price;
+    private RatingBar rating;
     private RecyclerView reviewsR;
     private ArrayList<LocationReview>reviews;
     private ImageView loc_pic;
@@ -47,6 +50,8 @@ public class LocationPopUp extends Activity
         loc_pic=findViewById(R.id.popup_location_image);
         phone=findViewById(R.id.popup_location_phone);
         reviewsR=findViewById(R.id.reviews);
+        rating=findViewById(R.id.popup_location_rating);
+        price=findViewById(R.id.popup_location_price);
 
         //setting the message to invisible
         noReviews.setVisibility(View.INVISIBLE);
@@ -75,9 +80,15 @@ public class LocationPopUp extends Activity
         location=(Location) getIntent().getExtras().getSerializable("location");
 
         //sets the xml elements with the attributes of the Location object received from the previous activity
-        loc_name.setText(location.getLocationName());
-        loc_address.setText(location.getLocationInfo());
-        phone.setText(location.getPhone());
+        loc_name.setText("Name: "+location.getLocationName());
+        loc_name.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
+        loc_address.setText("Address: "+location.getLocationInfo());
+        loc_address.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
+        phone.setText("Phone: "+location.getPhone());
+        phone.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
+        rating.setRating(location.getRating());
+        price.setText("Price: "+location.getPrice());
+        price.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
         new DownloadImage(loc_pic).execute(location.getImageUrl());
 
         //closes the activity when you click outside
