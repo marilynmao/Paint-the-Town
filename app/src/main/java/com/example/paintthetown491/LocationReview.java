@@ -5,13 +5,14 @@ public class LocationReview
     private String reviewerUserID;
     private String review;
     private String date;
-    private int rating;
+    private float rating;
 
     public LocationReview(){}
 
-    public LocationReview(String reviewer,String rev, String date, int rating)
+
+    public LocationReview(String rev, String date, float rating)
     {
-        this.reviewerUserID=reviewer;
+        this.reviewerUserID=rev;
         this.date=date;
         this.review=rev;
         this.rating=rating;
@@ -33,7 +34,7 @@ public class LocationReview
         this.date = date;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 

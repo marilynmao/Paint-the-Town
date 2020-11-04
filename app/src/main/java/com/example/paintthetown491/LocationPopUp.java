@@ -1,11 +1,13 @@
 package com.example.paintthetown491;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RatingBar;
@@ -78,6 +80,7 @@ public class LocationPopUp extends Activity
         Query query=FirebaseDbSingleton.getInstance().dbRef.child("Location").child(loc_id).child("reviews");
         query.addValueEventListener(reviewsListener);
     }
+    private Button reviewBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -110,6 +113,7 @@ public class LocationPopUp extends Activity
         noReviews.setVisibility(View.INVISIBLE);
 
         //setting properties of the recycler
+        reviewBtn=findViewById(R.id.write_review);
         reviewsR.setHasFixedSize(true);
         reviewsR.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -131,7 +135,7 @@ public class LocationPopUp extends Activity
         });
 
         //initializes the Location object with the Location object from the previous activity
-        Location location = (Location) getIntent().getExtras().getSerializable("location");
+        final Location location = (Location) getIntent().getExtras().getSerializable("location");
 
         //location.setReviews(reviews);
         //FirebaseDbSingleton.getInstance().dbRef.child("Location").child(location.getLocationID()).setValue(location);
@@ -165,6 +169,14 @@ public class LocationPopUp extends Activity
 
         //function that begins listener for location reviews
         listenForReviews();
+        reviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent locReviewIntent = new Intent(getBaseContext(), ReviewPopUpActivity.class);
+                locReviewIntent.putExtra("locationID", location.getLocationID());
+                startActivity(locReviewIntent);
+            }
+        });
     }
 }
 
