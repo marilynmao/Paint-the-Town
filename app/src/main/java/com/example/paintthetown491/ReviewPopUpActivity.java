@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ReviewPopUpActivity extends Activity {
@@ -19,7 +18,7 @@ public class ReviewPopUpActivity extends Activity {
     private RatingBar rating;
     private Button postBtn, cancelBtn;
     private String locationID;
-    private ArrayList<String> userReview;
+    //private ArrayList<String> userReview;
     private float userRating = 0;
     private Calendar date;
 
@@ -57,13 +56,11 @@ public class ReviewPopUpActivity extends Activity {
 
 
                     //TODO if it is not add it to the DB
+                    String currentDate = date.MONTH + "/" + date.DATE + "/" + date.YEAR;
+                    LocationReview userReview = new LocationReview(review, currentDate, userRating);
 
-
-                    userReview.add(review);
-                    userReview.add(String.valueOf(userRating));
-                    userReview.add(date.MONTH + "/" + date.DATE + "/" + date.YEAR);
-
-                    FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child(FirebaseDbSingleton.getInstance().firebaseAuth.getUid()).setValue(userReview);
+                    
+                    FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("reviews").child(FirebaseDbSingleton.getInstance().firebaseAuth.getUid()).setValue(userReview);
                     Toast.makeText(ReviewPopUpActivity.this, "Review published!",Toast.LENGTH_SHORT);
                     finish();
                 }
