@@ -1,22 +1,32 @@
 package com.example.paintthetown491;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class LocationPopUp extends Activity
 {
-    private Location location;
+    private String loc_id;
     private TextView loc_name;
     private TextView loc_address;
     private TextView phone;
@@ -26,7 +36,51 @@ public class LocationPopUp extends Activity
     private RecyclerView reviewsR;
     private ArrayList<LocationReview>reviews;
     private ImageView loc_pic;
-    LocationReviewAdapter locationReviewAdapter=null;
+    private LocationReviewAdapter locationReviewAdapter=null;
+
+    public void listenForReviews()
+    {
+        //listener for the reviews in firebase
+        ValueEventListener reviewsListener = new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                reviews.clear();
+                //check to see if firebase returned anything
+                if (snapshot.exists())
+                {
+                    //hides the "no reviews" message and shows the recycler
+                    reviewsR.setVisibility(View.VISIBLE);
+                    noReviews.setVisibility(View.INVISIBLE);
+
+                    //iterate through each child returned
+                    for (DataSnapshot e : snapshot.getChildren())
+                    {
+                        LocationReview rev=e.getValue(LocationReview.class);
+                        reviews.add(rev);
+                    }
+                }
+                //no reviews, show message and hide recycler
+                else
+                {
+                    reviewsR.setVisibility(View.INVISIBLE);
+                    noReviews.setVisibility(View.VISIBLE);
+                }
+                //notifies the adapter of any changes
+                locationReviewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+            }
+        };
+
+        Query query=FirebaseDbSingleton.getInstance().dbRef.child("Location").child(loc_id).child("reviews");
+        query.addValueEventListener(reviewsListener);
+    }
+    private Button reviewBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,11 +91,13 @@ public class LocationPopUp extends Activity
 
         //allocating memory for reviews
         reviews=new ArrayList<LocationReview>();
+
         //adding sample reviews
-        reviews.add(new LocationReview("good place333333333333333333!","12/33/1222",4));
-        reviews.add(new LocationReview("good place!","12/33/1222",4));
-        reviews.add(new LocationReview("good place!","12/33/1222",4));
-        reviews.add(new LocationReview("good place!","12/33/1222",4));
+        //reviews.add(new LocationReview(FirebaseDbSingleton.getInstance().user.getUid(),"good place333333333333333333!","12/33/1222",4));
+        //reviews.add(new LocationReview(FirebaseDbSingleton.getInstance().user.getUid(),"good place!","12/33/1222",4));
+        //reviews.add(new LocationReview("MGbBq2IUhyqbFSnFkpk","good place!","12/33/1222",4));
+        //reviews.add(new LocationReview(FirebaseDbSingleton.getInstance().user.getUid(),"good place!","12/33/1222",4));
+
 
         //binds the xml
         noReviews=findViewById(R.id.no_reviews);
@@ -57,6 +113,7 @@ public class LocationPopUp extends Activity
         noReviews.setVisibility(View.INVISIBLE);
 
         //setting properties of the recycler
+        reviewBtn=findViewById(R.id.write_review);
         reviewsR.setHasFixedSize(true);
         reviewsR.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -72,22 +129,28 @@ public class LocationPopUp extends Activity
             @Override
             public void onItemClick(int position)
             {
-                System.out.println(position);
+                final PopupWindow pw = new PopupWindow(500,500);
+                //pw.showAtLocation(, Gravity.CENTER, 0, 0);
             }
         });
 
         //initializes the Location object with the Location object from the previous activity
-        location=(Location) getIntent().getExtras().getSerializable("location");
+        final Location location = (Location) getIntent().getExtras().getSerializable("location");
+
+        //location.setReviews(reviews);
+        //FirebaseDbSingleton.getInstance().dbRef.child("Location").child(location.getLocationID()).setValue(location);
+        //FirebaseDbSingleton.getInstance().dbRef.child("Location").child(location.getLocationID()).child("reviews").child("MGbBq2IUhyqbFSnFkpk").setValue(reviews.get(2));
 
         //sets the xml elements with the attributes of the Location object received from the previous activity
-        loc_name.setText("Name: "+location.getLocationName());
+        loc_id=location.getLocationID();
+        loc_name.setText("Name: "+ location.getLocationName());
         loc_name.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
-        loc_address.setText("Address: "+location.getLocationInfo());
+        loc_address.setText("Address: "+ location.getLocationInfo());
         loc_address.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
-        phone.setText("Phone: "+location.getPhone());
+        phone.setText("Phone: "+ location.getPhone());
         phone.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
         rating.setRating(location.getRating());
-        price.setText("Price: "+location.getPrice());
+        price.setText("Price: "+ location.getPrice());
         price.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
         new DownloadImage(loc_pic).execute(location.getImageUrl());
 
@@ -104,7 +167,16 @@ public class LocationPopUp extends Activity
         //1 indicates to make the popup 100% the size of the screen
         getWindow().setLayout((int) (w * 1), (int) (h * 1));
 
-
+        //function that begins listener for location reviews
+        listenForReviews();
+        reviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent locReviewIntent = new Intent(getBaseContext(), ReviewPopUpActivity.class);
+                locReviewIntent.putExtra("locationID", location.getLocationID());
+                startActivity(locReviewIntent);
+            }
+        });
     }
 }
 

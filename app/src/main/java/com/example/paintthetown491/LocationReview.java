@@ -2,17 +2,20 @@ package com.example.paintthetown491;
 
 public class LocationReview
 {
+    private String reviewerUserID;
     private String review;
     private String date;
-    private int rating;
+    private float rating;
 
-    public LocationReview(String rev, String date, int rating)
+    public LocationReview(){}
+
+    public LocationReview(String rev, String date, float rating)
     {
+        this.reviewerUserID=rev;
         this.date=date;
         this.review=rev;
         this.rating=rating;
     }
-
 
     public String getReview() {
         return review;
@@ -30,11 +33,15 @@ public class LocationReview
         this.date = date;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
     public void setRating(int rating) {
         this.rating = rating;
     }
+
+    public String getReviewerUserID() { return reviewerUserID; }
+
+    public void setReviewerUserID(String reviewUserID) { this.reviewerUserID = reviewUserID; }
 }
