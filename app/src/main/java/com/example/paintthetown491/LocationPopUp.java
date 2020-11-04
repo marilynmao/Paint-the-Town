@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -108,8 +107,6 @@ public class LocationPopUp extends Activity
 
         //1 indicates to make the popup 100% the size of the screen
         getWindow().setLayout((int) (w * 1), (int) (h * 1));
-
-
 
         reviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
