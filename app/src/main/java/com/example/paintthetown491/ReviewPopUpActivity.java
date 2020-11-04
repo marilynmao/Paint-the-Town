@@ -2,7 +2,6 @@ package com.example.paintthetown491;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,14 +28,6 @@ public class ReviewPopUpActivity extends Activity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_input_pop_up);
-
-        DisplayMetrics metrics=new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int w=metrics.widthPixels;
-        int h=metrics.heightPixels;
-
-        getWindow().setLayout((int)(w*0.8),(int)(h*0.8));
 
         reviewText = findViewById(R.id.reviewInput);
         rating = findViewById(R.id.locationRatingBar);
@@ -75,7 +66,6 @@ public class ReviewPopUpActivity extends Activity {
                     FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child(FirebaseDbSingleton.getInstance().firebaseAuth.getUid()).setValue(userReview);
                     Toast.makeText(ReviewPopUpActivity.this, "Review published!",Toast.LENGTH_SHORT);
                     finish();
-
                 }
 
 

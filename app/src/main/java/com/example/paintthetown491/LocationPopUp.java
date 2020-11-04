@@ -111,7 +111,7 @@ public class LocationPopUp extends Activity
         reviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent locReviewIntent = new Intent(getBaseContext(), ReviewPopUpActivity.class);
+                Intent locReviewIntent = new Intent(getApplicationContext(), ReviewPopUpActivity.class);
                 locReviewIntent.putExtra("locationID", location.getLocationID());
                 startActivity(locReviewIntent);
             }
