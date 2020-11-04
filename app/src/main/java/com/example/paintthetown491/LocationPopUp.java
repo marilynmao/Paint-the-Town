@@ -1,9 +1,11 @@
 package com.example.paintthetown491;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ public class LocationPopUp extends Activity
     private RecyclerView reviewsR;
     private ArrayList<LocationReview>reviews;
     private ImageView loc_pic;
+    private Button reviewBtn;
     LocationReviewAdapter locationReviewAdapter=null;
 
     @Override
@@ -44,6 +47,7 @@ public class LocationPopUp extends Activity
         loc_pic=findViewById(R.id.popup_location_image);
         phone=findViewById(R.id.popup_location_phone);
         reviewsR=findViewById(R.id.reviews);
+        reviewBtn=findViewById(R.id.write_review);
         reviewsR.setHasFixedSize(true);
         reviewsR.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -81,6 +85,17 @@ public class LocationPopUp extends Activity
 
         //0.6 indicates to make the popup 60% the size of the screen
         getWindow().setLayout((int) (w * 1), (int) (h * 1));
+
+
+
+        reviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent locReviewIntent = new Intent(getBaseContext(), ReviewPopUpActivity.class);
+                locReviewIntent.putExtra("locationID", location.getLocationID());
+                startActivity(locReviewIntent);
+            }
+        });
 
 
     }

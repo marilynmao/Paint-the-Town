@@ -4,9 +4,9 @@ public class LocationReview
 {
     private String review;
     private String date;
-    private int rating;
+    private float rating;
 
-    public LocationReview(String rev, String date, int rating)
+    public LocationReview(String rev, String date, float rating)
     {
         this.date=date;
         this.review=rev;
@@ -30,7 +30,7 @@ public class LocationReview
         this.date = date;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
