@@ -23,24 +23,23 @@
             android:textColor="@android:color/black" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/review"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="15sp"
             android:layout_below="@+id/review_date"
-            android:id="@+id/review"/>
-
+            android:textSize="15sp" />
 
         <RatingBar
             android:id="@+id/rating"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="109dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginLeft="194dp"
             android:layout_toRightOf="@+id/review"
             android:isIndicator="true"
             android:numStars="5"
-            android:paddingRight="25dp"
             android:saveEnabled="false" />
 
     </RelativeLayout>

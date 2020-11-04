@@ -208,8 +208,9 @@ public class HomeActivity extends Fragment
                         //we need to place the name of each business in the resultNames arraylist
                         for(int i=0;i<arr.length();i++)
                         {
+                            JSONObject coord=arr.getJSONObject(i).getJSONObject("coordinates");
                             JSONObject loc=arr.getJSONObject(i).getJSONObject("location");
-                            locations.add(new Location(arr.getJSONObject(i).getString("id"), arr.getJSONObject(i).getString("name"), arr.getJSONObject(i).getString("image_url"),loc.getString("address1")+" "+ loc.getString("address2")+","+loc.getString("city")+","+loc.getString("zip_code"),0,arr.getJSONObject(i).getString("phone")));
+                            locations.add(new Location(arr.getJSONObject(i).getString("id"), arr.getJSONObject(i).getString("name"), arr.getJSONObject(i).getString("image_url"),loc.getString("address1")+" "+ loc.getString("address2")+","+loc.getString("city")+","+loc.getString("state")+" "+loc.getString("zip_code"),0,arr.getJSONObject(i).getString("phone"),coord.getString("longitude"),coord.getString("latitude"),arr.getJSONObject(i).getString("price")));
                         }
                     }
 
