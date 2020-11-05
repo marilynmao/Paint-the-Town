@@ -30,8 +30,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ReviewPopUp"/>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".LocationPopUp" />
+        <activity android:name=".LocationActivity" />
         <activity android:name=".FriendPopUpActivity" />
         <activity
             android:name=".ProfileViewActivity">
