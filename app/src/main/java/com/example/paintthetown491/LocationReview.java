@@ -13,7 +13,7 @@ public class LocationReview implements Serializable
 
     public LocationReview(String rev, String date, float rating)
     {
-        this.reviewerUserID=rev;
+        this.reviewerUserID=FirebaseDbSingleton.getInstance().firebaseAuth.getUid();
         this.date=date;
         this.review=rev;
         this.rating=rating;

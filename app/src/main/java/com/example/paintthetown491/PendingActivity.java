@@ -30,7 +30,7 @@ public class PendingActivity extends Fragment
     private TextView noPending;
     private PendingAdapter pendingAdapter;
     private DatabaseReference eventRef;
-    private Map<String,Integer>pendingUsers;
+    private Map<String,String>pendingUsers;
     private ArrayList<User>users;
 
     //deletes the user ID from the pending list
@@ -175,7 +175,7 @@ public class PendingActivity extends Fragment
                     for (DataSnapshot e : snapshot.getChildren())
                     {
                         //place key and value in hashmap
-                        pendingUsers.put(e.getValue(String.class),Integer.parseInt(e.getKey()));
+                        pendingUsers.put(e.getValue(String.class),e.getKey());
                     }
                 }
                 //no pending requests, show message and hide recycler
