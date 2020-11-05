@@ -4,16 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,8 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class LocationPopUp extends Activity
+public class LocationActivity extends Activity
 {
+    private ConstraintLayout mainLayout;
+    private ConstraintLayout reviewPopUp;
+    private TextView review_date;
+    private TextView review_review;
+    private TextView review_reviewer;
+    private RatingBar review_rating;
     private String loc_id;
     private TextView loc_name;
     private TextView loc_address;
@@ -36,8 +40,8 @@ public class LocationPopUp extends Activity
     private RecyclerView reviewsR;
     private ArrayList<LocationReview>reviews;
     private ImageView loc_pic;
+    private Button reviewBtn, addToEvent, closeRev;
     private LocationReviewAdapter locationReviewAdapter=null;
-    private Button reviewBtn;
 
     public void listenForReviews()
     {
@@ -53,7 +57,6 @@ public class LocationPopUp extends Activity
                 {
                     //hides the "no reviews" message and shows the recycler
                     reviewsR.setVisibility(View.VISIBLE);
-                    noReviews.setVisibility(View.INVISIBLE);
 
                     //iterate through each child returned
                     for (DataSnapshot e : snapshot.getChildren())
@@ -66,7 +69,6 @@ public class LocationPopUp extends Activity
                 else
                 {
                     reviewsR.setVisibility(View.INVISIBLE);
-                    noReviews.setVisibility(View.VISIBLE);
                 }
                 //notifies the adapter of any changes
                 locationReviewAdapter.notifyDataSetChanged();
@@ -82,12 +84,40 @@ public class LocationPopUp extends Activity
         query.addValueEventListener(reviewsListener);
     }
 
+    //looks up the user associated with the review
+    private void lookUpReviewer(String id)
+    {
+        if(id.charAt(0)=='-')
+        {
+            id=id.substring(1);
+        }
+
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(id).addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                if(snapshot.exists())
+                {
+                    User user=snapshot.getValue(User.class);
+                    review_reviewer.setText("reviewed by: "+user.getFirstName().toString()+user.getLastName().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         //binds the layout to this activity. You can find the xml in res.layout
-        setContentView(R.layout.location_pop_up);
+        setContentView(R.layout.location_activity);
 
         //allocating memory for reviews
         reviews=new ArrayList<LocationReview>();
@@ -98,9 +128,9 @@ public class LocationPopUp extends Activity
         //reviews.add(new LocationReview("MGbBq2IUhyqbFSnFkpk","good place!","12/33/1222",4));
         //reviews.add(new LocationReview(FirebaseDbSingleton.getInstance().user.getUid(),"good place!","12/33/1222",4));
 
-
         //binds the xml
-        noReviews=findViewById(R.id.no_reviews);
+        mainLayout=findViewById(R.id.main);
+        reviewPopUp=findViewById(R.id.review_popup_layout);
         loc_name=findViewById(R.id.popup_location_name);
         loc_address=findViewById(R.id.popup_location_address);
         loc_pic=findViewById(R.id.popup_location_image);
@@ -108,12 +138,18 @@ public class LocationPopUp extends Activity
         reviewsR=findViewById(R.id.reviews);
         rating=findViewById(R.id.popup_location_rating);
         price=findViewById(R.id.popup_location_price);
+        reviewBtn=findViewById(R.id.write_review);
+        addToEvent=findViewById(R.id.add_to_ev);
+        review_date=findViewById(R.id.review_popup_date);
+        review_review=findViewById(R.id.review_popup_review);
+        review_reviewer=findViewById(R.id.review_popup_reviewer);
+        review_rating=findViewById(R.id.review_popup_rating);
+        closeRev=findViewById(R.id.close_review);
 
-        //setting the message to invisible
-        noReviews.setVisibility(View.INVISIBLE);
+        //setting the nested layout as invisible
+        reviewPopUp.setVisibility(View.INVISIBLE);
 
         //setting properties of the recycler
-        reviewBtn=findViewById(R.id.write_review);
         reviewsR.setHasFixedSize(true);
         reviewsR.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -129,8 +165,13 @@ public class LocationPopUp extends Activity
             @Override
             public void onItemClick(int position)
             {
-                final PopupWindow pw = new PopupWindow(500,500);
-                //pw.showAtLocation(, Gravity.CENTER, 0, 0);
+                LocationReview review=reviews.get(position);
+                review_date.setText("Review date: "+review.getDate());
+                review_review.setText(review.getReview());
+                review_rating.setRating(review.getRating());
+                lookUpReviewer(review.getReviewerUserID());
+                reviewPopUp.setVisibility(View.VISIBLE);
+                reviewsR.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -154,32 +195,38 @@ public class LocationPopUp extends Activity
         price.setTypeface(loc_name.getTypeface(), Typeface.BOLD_ITALIC);
         new DownloadImage(loc_pic).execute(location.getImageUrl());
 
-        //closes the activity when you click outside
-        this.setFinishOnTouchOutside(true);
-
-        //will allow us to set the size of the popup relative to the screen size
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int w = metrics.widthPixels;
-        int h = metrics.heightPixels;
-
-        //1 indicates to make the popup 100% the size of the screen
-        getWindow().setLayout((int) (w * 1), (int) (h * 1));
-
         //function that begins listener for location reviews
         listenForReviews();
 
         reviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Intent locReviewIntent = new Intent(getBaseContext(), ReviewPopUpActivity.class);
+                //locReviewIntent.putExtra("locationID", location.getLocationID());
+                //startActivity(locReviewIntent);
+            }
+        });
+
+        addToEvent.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
                 Intent locReviewIntent = new Intent(getApplicationContext(), ReviewPopUpActivity.class);
                 locReviewIntent.putExtra("locationID", loc_id);
                 startActivity(locReviewIntent);
             }
         });
 
-
+        closeRev.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                reviewPopUp.setVisibility(View.INVISIBLE);
+                reviewsR.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }
 

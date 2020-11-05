@@ -1,6 +1,8 @@
 package com.example.paintthetown491;
 
-public class LocationReview
+import java.io.Serializable;
+
+public class LocationReview implements Serializable
 {
     private String reviewerUserID;
     private String review;

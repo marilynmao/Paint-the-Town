@@ -75,7 +75,7 @@ public class HomeActivity extends Fragment
             {
                 //prepare location to be sent to popup
                 Location loc=locations.get(position);
-                Intent popup=new Intent(getContext(),LocationPopUp.class);
+                Intent popup=new Intent(getContext(), LocationActivity.class);
                 popup.putExtra("location",loc);
                 startActivity(popup);
             }
