@@ -8,7 +8,13 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -52,6 +58,45 @@ public class ReviewPopUpActivity extends Activity {
                     reviewText.setError("Please write your review here.");
                 }
                 else{
+                    ValueEventListener reviewListener = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists())
+                            {
+                                for(DataSnapshot DS: snapshot.getChildren()){
+                                    int count = 0;
+                                    int avg;
+
+                                  if (DS.getKey().equals("ratingCount")){
+                                      count = (int)DS.getValue();
+                                      count++;
+                                      FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("ratingCount").setValue(count);
+
+                                  }
+                                  else if(DS.getKey().equals("avgRating")){
+                                      float avgRating;
+                                      avgRating = (float)DS.getValue();
+                                      float sum = ((count - 1) * avgRating) + userRating;
+                                      avgRating = sum / count;
+                                      FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("avgRating").setValue(avgRating);
+                                    }
+                                }
+                            }
+                            else
+                                {
+                                    FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("locationID").setValue(locationID);
+                                    FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("ratingCount").setValue(1);
+                                    FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("avgRating").setValue(userRating);
+
+                                }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    };
+
                     //TODO check if the location is already in the DB or not
 
 
