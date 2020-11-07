@@ -24,7 +24,6 @@ public class ReviewPopUpActivity extends Activity {
     private RatingBar rating;
     private Button postBtn, cancelBtn;
     private String locationID;
-    //private ArrayList<String> userReview;
     private float userRating = 0;
     private Calendar date;
 
@@ -54,53 +53,47 @@ public class ReviewPopUpActivity extends Activity {
                 if (userRating == 0){
                     Toast.makeText(ReviewPopUpActivity.this, "Please select a star rating.", Toast.LENGTH_LONG).show();
                 }
-                else if (review.equals(null)){
+                else if (review.equals("")){
                     reviewText.setError("Please write your review here.");
                 }
                 else{
-                    ValueEventListener reviewListener = new ValueEventListener() {
+                    ValueEventListener locationListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists())
-                            {
-                                for(DataSnapshot DS: snapshot.getChildren()){
-                                    int count = 0;
-                                    int avg;
+                            if (snapshot.exists()) {
+                                if (snapshot.getChildrenCount() > 1) { // this will be true when this location is already in the DB
+                                    long count = snapshot.child("reviews").getChildrenCount();
 
-                                  if (DS.getKey().equals("ratingCount")){
-                                      count = (int)DS.getValue();
-                                      count++;
-                                      FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("ratingCount").setValue(count);
+                                    for (DataSnapshot DS : snapshot.getChildren()) {
 
-                                  }
-                                  else if(DS.getKey().equals("avgRating")){
-                                      float avgRating;
-                                      avgRating = (float)DS.getValue();
-                                      float sum = ((count - 1) * avgRating) + userRating;
-                                      avgRating = sum / count;
-                                      FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("avgRating").setValue(avgRating);
+                                        if (DS.getKey().equals("avgRating")) {
+                                            float avgRating = DS.getValue(float.class); //gets current average rating for location
+                                            float oldSum = (count - 1) * avgRating; //gets the summation of all reviews minus the new one (kinda)
+                                            float newSum = oldSum + userRating; //gets the new summation with the new rating
+                                            avgRating = newSum / count; // calculates the new mean average
+                                            FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("avgRating").setValue(avgRating);
+                                        }
                                     }
                                 }
-                            }
-                            else
+                                else // if this is the first time the location is reviewed on the app
                                 {
                                     FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("locationID").setValue(locationID);
-                                    FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("ratingCount").setValue(1);
                                     FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("avgRating").setValue(userRating);
-
                                 }
+                            }
+
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
                         }
+
                     };
 
-                    //TODO check if the location is already in the DB or not
+                    Query locationQuery = FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID);
+                    locationQuery.addListenerForSingleValueEvent(locationListener);
 
-
-                    //TODO if it is not add it to the DB
                     String currentDate = date.MONTH + "/" + date.DATE + "/" + date.YEAR;
                     LocationReview userReview = new LocationReview(review, currentDate, userRating);
 

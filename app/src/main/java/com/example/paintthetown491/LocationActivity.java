@@ -201,9 +201,9 @@ public class LocationActivity extends Activity
         reviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent locReviewIntent = new Intent(getBaseContext(), ReviewPopUpActivity.class);
-                //locReviewIntent.putExtra("locationID", location.getLocationID());
-                //startActivity(locReviewIntent);
+                Intent locReviewIntent = new Intent(getApplicationContext(), ReviewPopUpActivity.class);
+                locReviewIntent.putExtra("locationID", loc_id);
+                startActivity(locReviewIntent);
             }
         });
 
@@ -212,9 +212,9 @@ public class LocationActivity extends Activity
             @Override
             public void onClick(View view)
             {
-                Intent locReviewIntent = new Intent(getApplicationContext(), ReviewPopUpActivity.class);
-                locReviewIntent.putExtra("locationID", loc_id);
-                startActivity(locReviewIntent);
+                //Intent locReviewIntent = new Intent(getApplicationContext(), ReviewPopUpActivity.class);
+                //locReviewIntent.putExtra("locationID", loc_id);
+                //startActivity(locReviewIntent);
             }
         });
 
