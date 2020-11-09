@@ -212,9 +212,10 @@ public class LocationActivity extends Activity
             @Override
             public void onClick(View view)
             {
-                //Intent locReviewIntent = new Intent(getApplicationContext(), ReviewPopUpActivity.class);
-                //locReviewIntent.putExtra("locationID", loc_id);
-                //startActivity(locReviewIntent);
+                Intent addEventIntent = new Intent(getApplicationContext(), AddLocationActivity.class);
+                addEventIntent.putExtra("locationID", loc_id);
+                addEventIntent.putExtra("locationName", location.getLocationName());
+                startActivity(addEventIntent);
             }
         });
 
