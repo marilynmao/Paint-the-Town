@@ -57,6 +57,8 @@ public class AddLocationActivity extends AppCompatActivity {
             {
                 // clear events list...this prevents each event card from duplicating after updating
                 events.clear();
+                // clears the radio button selection
+                addLocationAdapter.clearSelection();
                 //check that firebase returned something
                 if (snapshot.exists())
                 {
@@ -75,7 +77,7 @@ public class AddLocationActivity extends AppCompatActivity {
                         if (eventIds.contains(s))
                         {
                             //create the event object with the properties returned from firebase
-                            Event e = new Event(s, ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), ds.child("eventTime").getValue().toString(), ds.child("eventLocation").getValue().toString(), ds.child("eventInfo").getValue().toString());
+                            Event e = new Event(s, ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), ds.child("eventTime").getValue().toString(), getLocationCollectionFromIterable(ds.child("eventLocation").getChildren()), ds.child("eventInfo").getValue().toString());
                             //add it to the arraylist that goes into the adapter
                             events.add(e);
                         }
@@ -102,6 +104,17 @@ public class AddLocationActivity extends AppCompatActivity {
                     participants.add(id.toString());
                 }
                 return participants;
+            }
+
+            //used to convert a Iterable (type returned from firebase) to an arraylist
+            public ArrayList<String> getLocationCollectionFromIterable(Iterable<DataSnapshot> itr)
+            {
+                ArrayList<String> locations = new ArrayList<String>();
+                for (DataSnapshot id : itr)
+                {
+                    locations.add(id.toString());
+                }
+                return locations;
             }
         };
 
@@ -170,7 +183,7 @@ public class AddLocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // add location to selected event
-                eventRef.child(selectedEventId).child("eventLocation").setValue(locationName);
+                eventRef.child(selectedEventId).child("eventLocation").child(locationID).setValue(locationName);
 
                 // TODO: save locationID to firebase
 

@@ -117,7 +117,7 @@ public class PastEventsActivity extends Fragment {
                         if (eventIds.contains(s))
                         {
                             //create the event object with the properties returned from firebase
-                            Event e = new Event(s, ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), ds.child("eventTime").getValue().toString(), ds.child("eventLocation").getValue().toString(), ds.child("eventInfo").getValue().toString());
+                            Event e = new Event(s, ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), ds.child("eventTime").getValue().toString(), getLocationCollectionFromIterable(ds.child("eventLocation").getChildren()), ds.child("eventInfo").getValue().toString());
 
                             //add it to the arraylist that goes into the adapter
                             pastEvents.add(e);
@@ -145,6 +145,16 @@ public class PastEventsActivity extends Fragment {
                 return participants;
             }
 
+            //used to convert a Iterable (type returned from firebase) to an arraylist
+            public ArrayList<String> getLocationCollectionFromIterable(Iterable<DataSnapshot> itr)
+            {
+                ArrayList<String> eLocations = new ArrayList<String>();
+                for (DataSnapshot id : itr)
+                {
+                    eLocations.add(id.getValue().toString());
+                }
+                return eLocations;
+            }
         });
 
     }

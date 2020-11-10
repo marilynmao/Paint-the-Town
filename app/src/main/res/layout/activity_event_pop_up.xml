@@ -94,7 +94,8 @@
         android:id="@+id/saveEventbtn"
         android:layout_width="146dp"
         android:layout_height="52dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="48dp"
         android:background="#627FE4"
         android:text="Save"
         android:textColor="#FFFFFF"
@@ -102,14 +103,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEventLocation"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/locationListView"
+        app:layout_constraintVertical_bias="0.076" />
 
     <Button
         android:id="@+id/editEventbtn"
         android:layout_width="146dp"
         android:layout_height="52dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="20dp"
         android:background="#627FE4"
         android:text="Edit"
         android:textColor="#FFFFFF"
@@ -117,34 +118,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEventLocation"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/editEventLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="103dp"
-        android:layout_marginLeft="103dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="99dp"
-        android:layout_marginRight="99dp"
-        android:drawableLeft="@drawable/location"
-        android:ems="10"
-        android:hint="Event Location"
-        android:inputType="text"
-        android:textColor="#627FE4"
-        android:textColorHint="#627FE4"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTime" />
+        app:layout_constraintTop_toBottomOf="@+id/locationListView"
+        app:layout_constraintVertical_bias="0.04" />
 
     <TextView
         android:id="@+id/eventLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:text="Event"
         android:textColor="#627FE4"
         android:textSize="30sp"
@@ -158,5 +139,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="20dp" />
+
+    <ListView
+        android:id="@+id/locationListView"
+        android:layout_width="244dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTime"
+        app:layout_constraintVertical_bias="0.006" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

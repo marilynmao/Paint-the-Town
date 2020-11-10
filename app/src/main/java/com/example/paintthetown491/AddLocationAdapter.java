@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class AddLocationAdapter extends RecyclerView.Adapter<AddLocationAdapter.EventRadioViewHolder> {
+public class AddLocationAdapter extends RecyclerView.Adapter<AddLocationAdapter.AddLocationViewHolder> {
     //holds the events for the recyclerview
     private ArrayList<Event> mEventList;
 
     //variable that will make each item in the recyclerview clickable
     private AddLocationAdapter.OnItemClickListener mListener;
 
-    public static int selectedEvent = -1;
+    public static int selectedEvent;
 
     public interface OnItemClickListener
     {
@@ -33,19 +33,23 @@ public class AddLocationAdapter extends RecyclerView.Adapter<AddLocationAdapter.
         mListener=listener;
     }
 
+    public void clearSelection() {
+        selectedEvent = -1;
+    }
+
     //will bind the layout for each event and attach a listener
     @NonNull
     @Override
-    public AddLocationAdapter.EventRadioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public AddLocationAdapter.AddLocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.individual_event,parent,false);
-        AddLocationAdapter.EventRadioViewHolder vh=new AddLocationAdapter.EventRadioViewHolder(v, mListener);
+        AddLocationAdapter.AddLocationViewHolder vh=new AddLocationAdapter.AddLocationViewHolder(v, mListener);
         return vh;
     }
 
     //Called by RecyclerView to display the data at the specified position.
     @Override
-    public void onBindViewHolder(@NonNull AddLocationAdapter.EventRadioViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull AddLocationAdapter.AddLocationViewHolder holder, int position)
     {
         final Event curr=mEventList.get(position);
 
@@ -53,6 +57,7 @@ public class AddLocationAdapter extends RecyclerView.Adapter<AddLocationAdapter.
         holder.eName.setText(curr.getEventName());
         holder.eDate.setText(curr.getEventDate());
         holder.eCreator.setText(curr.getEventCreator());
+        // un-checks previous selections so that only one radio button is allowed to be selected
         holder.radioBtn.setChecked(position == selectedEvent);
     }
 
@@ -70,14 +75,14 @@ public class AddLocationAdapter extends RecyclerView.Adapter<AddLocationAdapter.
     }
 
     //A ViewHolder describes an item view and metadata about its place within the RecyclerView
-    public class EventRadioViewHolder extends RecyclerView.ViewHolder
+    public class AddLocationViewHolder extends RecyclerView.ViewHolder
     {
         public ImageView mImageView;
         public TextView eName,eDate,eCreator;
         public RelativeLayout relativeLayout;
         public RadioButton radioBtn;
 
-        public EventRadioViewHolder(@NonNull final View itemView, final AddLocationAdapter.OnItemClickListener listener)
+        public AddLocationViewHolder(@NonNull final View itemView, final AddLocationAdapter.OnItemClickListener listener)
         {
             super(itemView);
             mImageView= itemView.findViewById(R.id.eventView);

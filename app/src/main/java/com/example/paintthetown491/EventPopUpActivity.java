@@ -6,9 +6,11 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -19,18 +21,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 //this is the class that will include all the fields that are going to be displayed in the popup
 public class EventPopUpActivity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    private EditText eName, eInfo,eLocation, eDate, eTime;
+    private EditText eName, eInfo, eDate, eTime;
     final java.util.Calendar c = java.util.Calendar.getInstance();
     private int dMonth, dDay, dYear, dHour, dMinute;
-    private String event_id, event_date, event_time, period;
+    private String event_id, event_date, event_time, event_location, period;
     private Button editEventButton, saveEventButton;
     DatabaseReference eRef;
+    private ArrayList<String> locationsList;
+    ListView eLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,11 +64,12 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         eDate.setEnabled(false);
         eTime = findViewById(R.id.editTime);
         eTime.setEnabled(false);
-        eLocation = findViewById(R.id.editEventLocation);
-        eLocation.setEnabled(false);
+        eLocation = findViewById(R.id.locationListView);
+
         editEventButton = findViewById(R.id.editEventbtn);
         saveEventButton = findViewById(R.id.saveEventbtn);
         saveEventButton.setVisibility(View.INVISIBLE);
+        locationsList = new ArrayList<String>();
 
         // get eventID
         StringBuilder sb = new StringBuilder(getIntent().getStringExtra("eid"));
@@ -83,7 +90,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
                 eInfo.setEnabled(true);
                 eDate.setEnabled(true);
                 eTime.setEnabled(true);
-                eLocation.setEnabled(true);
+
                 // set onclick listeners for date & time
                 eDate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -117,7 +124,8 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
                             updates.put("eventInfo", eInfo.getText().toString());
                             updates.put("eventDate", eDate.getText().toString());
                             updates.put("eventTime", eTime.getText().toString());
-                            updates.put("eventLocation", eLocation.getText().toString());
+
+//                            updates.put("eventLocation", eLocation.getText().toString());
                             // update the events child in the DB
                             eRef.updateChildren(updates);
                         }
@@ -134,7 +142,6 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
                 eInfo.setEnabled(false);
                 eDate.setEnabled(false);
                 eTime.setEnabled(false);
-                eLocation.setEnabled(false);
                 Toast.makeText(EventPopUpActivity.this, "Event has been updated!", Toast.LENGTH_SHORT).show();
                 editEventButton.setVisibility(View.VISIBLE);
                 saveEventButton.setVisibility(View.INVISIBLE);
@@ -150,7 +157,11 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         eInfo.setText(getIntent().getStringExtra("einfo"));
         eDate.setText(getIntent().getStringExtra("edate"));
         eTime.setText(getIntent().getStringExtra("etime"));
-        eLocation.setText(getIntent().getStringExtra("elocation"));
+        locationsList = getIntent().getStringArrayListExtra("elocation");
+
+        // display locations in list view
+        ArrayAdapter locationArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, locationsList);
+        eLocation.setAdapter(locationArrayAdapter);
     }
 
     // show date picker dialog

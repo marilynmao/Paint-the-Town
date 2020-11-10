@@ -25,14 +25,14 @@ public class MainEventActivity extends Fragment {
         mainevent_info = view.findViewById(R.id.mainEventInfo);
         mainevent_date = view.findViewById(R.id.mainEventDate);
         mainevent_time = view.findViewById(R.id.mainEventTime);
-        mainevent_location = view.findViewById(R.id.mainEventLocation);
+        //mainevent_location = view.findViewById(R.id.mainEventLocation);
 
         // get event data and set textview for each field
         mainevent_name.setText(getArguments().getString("event name"));
         mainevent_info.setText(getArguments().getString("event info"));
         mainevent_date.setText(getArguments().getString("event date"));
         mainevent_time.setText(getArguments().getString("event time"));
-        mainevent_location.setText(getArguments().getString("event location"));
+       // mainevent_location.setText(getArguments().getString("event location"));
 
         return view;
     }

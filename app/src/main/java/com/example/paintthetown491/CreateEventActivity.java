@@ -26,7 +26,7 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
     private EditText eName, eInfo, eLocation, eDate, eTime;
     final Calendar c = Calendar.getInstance();
     private int dMonth, dDay, dYear, dHour, dMinute;
-    private String newEventID, eventCreatorName, event_name, event_info, event_location, event_date, event_time, period;
+    private String newEventID, eventCreatorName, event_name, event_info, event_date, event_time, period;
     private Button createEventButton;
     private DatabaseReference eventsDbRef, userEventsDbRef;
     //private User usr;
@@ -42,7 +42,6 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
         eInfo = view.findViewById(R.id.newEventInfo);
         eDate = view.findViewById(R.id.selectDate);
         eTime = view.findViewById(R.id.selectTime);
-        eLocation = view.findViewById(R.id.newEventLocation);
         createEventButton = view.findViewById(R.id.createEventbtn);
 
         // set onclick listeners for date & time
@@ -76,7 +75,9 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
                 // set variables
                 event_name = eName.getText().toString();
                 event_info = eInfo.getText().toString();
-                event_location = eLocation.getText().toString();
+                ArrayList<String> event_location = new ArrayList<>();
+                event_location.add("");
+
                 // ===== DUMMY DATA FOR PARTICIPANTS =====
                 ArrayList<String> participantIds=new ArrayList<>();
                 participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
@@ -116,7 +117,6 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
                 b.putString("event info", event_info);
                 b.putString("event date", event_date);
                 b.putString("event time", event_time);
-                b.putString("event location", event_location);
                 mainEvent.setArguments(b);
                 getParentFragmentManager().beginTransaction().replace(R.id.container_frag, mainEvent).commit();
             }

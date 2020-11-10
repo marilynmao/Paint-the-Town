@@ -63,7 +63,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         intent.putExtra("einfo", curr.getEventInfo());
         intent.putExtra("edate", curr.getEventDate());
         intent.putExtra("etime", curr.getEventTime());
-        intent.putExtra("elocation", curr.getEventLocation());
+        intent.putStringArrayListExtra("elocation", curr.getEventLocation());
         v.getContext().startActivity(intent);
     }
 });

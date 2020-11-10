@@ -99,28 +99,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newEventLocation"
+        app:layout_constraintTop_toBottomOf="@+id/selectTime"
         app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/newEventLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="103dp"
-        android:layout_marginLeft="103dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="99dp"
-        android:layout_marginRight="99dp"
-        android:drawableLeft="@drawable/location"
-        android:ems="10"
-        android:hint="Event Location"
-        android:inputType="text"
-        android:textColor="#627FE4"
-        android:textColorHint="#627FE4"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectTime" />
 
     <TextView
         android:id="@+id/createEventLabel"
