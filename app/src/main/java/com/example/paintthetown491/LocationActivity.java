@@ -215,7 +215,11 @@ public class LocationActivity extends Activity
                 Intent addEventIntent = new Intent(getApplicationContext(), AddLocationActivity.class);
                 addEventIntent.putExtra("locationID", loc_id);
                 addEventIntent.putExtra("locationName", location.getLocationName());
+                FirebaseDbSingleton.getInstance().dbRef.child("Location").child(loc_id).child("locationID").setValue(loc_id);
+                FirebaseDbSingleton.getInstance().dbRef.child("Location").child(loc_id).child("avgRating").setValue(0);
+
                 startActivity(addEventIntent);
+
             }
         });
 
