@@ -94,7 +94,7 @@ public class ReviewPopUpActivity extends Activity {
                     Query locationQuery = FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID);
                     locationQuery.addListenerForSingleValueEvent(locationListener);
 
-                    String currentDate = date.MONTH + "/" + date.DATE + "/" + date.YEAR;
+                    String currentDate = (date.get(Calendar.MONTH) + 1) + "/" + date.get(Calendar.DAY_OF_MONTH) + "/" + date.get(Calendar.YEAR);
                     LocationReview userReview = new LocationReview(review, currentDate, userRating);
 
                     
