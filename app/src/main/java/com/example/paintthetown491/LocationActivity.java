@@ -172,6 +172,8 @@ public class LocationActivity extends Activity
                 lookUpReviewer(review.getReviewerUserID());
                 reviewPopUp.setVisibility(View.VISIBLE);
                 reviewsR.setVisibility(View.INVISIBLE);
+                addToEvent.setEnabled(false);
+                reviewBtn.setEnabled(false);
             }
         });
 
@@ -226,6 +228,8 @@ public class LocationActivity extends Activity
             {
                 reviewPopUp.setVisibility(View.INVISIBLE);
                 reviewsR.setVisibility(View.VISIBLE);
+                addToEvent.setEnabled(true);
+                reviewBtn.setEnabled(true);
             }
         });
     }
