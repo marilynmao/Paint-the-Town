@@ -43,7 +43,7 @@ public class EventsActivity extends Fragment
         //holds the events loaded from firebase
         events = new ArrayList<Event>();
 
-        final Query queryVal = FirebaseDbSingleton.getInstance().dbRef.child("Event");
+        final Query queryVal = FirebaseDbSingleton.getInstance().dbRef.child("Event").orderByChild("eventDate");
 
         //listener for the values we want
         final ValueEventListener eventValListener = new ValueEventListener()
@@ -150,6 +150,7 @@ public class EventsActivity extends Fragment
 
         //querying the specific user's list of events
         Query queryID = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("events");
+
         //attaching the value listener
         queryID.addValueEventListener(eventIdValListener);
 
