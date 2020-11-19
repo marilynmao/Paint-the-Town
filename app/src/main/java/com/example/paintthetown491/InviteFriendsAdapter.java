@@ -13,6 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.paintthetown491.FirebaseDbSingleton;
+import com.example.paintthetown491.FriendPopUpActivity;
+import com.example.paintthetown491.ProfileViewActivity;
+import com.example.paintthetown491.R;
+import com.example.paintthetown491.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,34 +29,34 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.ProfileSearchViewHolder>
+public class InviteFriendsAdapter extends RecyclerView.Adapter<InviteFriendsAdapter.InviteFriendsViewHolder>
 {
-    private ArrayList <User> profileSearchList;
+    private ArrayList<User> profileSearchList;
 
     //variable that will make each item in the recyclerview clickable
-    private ProfilesAdapter.OnItemClickListener mListener;
+    private InviteFriendsAdapter.OnItemClickListener mListener;
 
     public interface OnItemClickListener
     {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(ProfilesAdapter.OnItemClickListener listener)
+    public void setOnItemClickListener(InviteFriendsAdapter.OnItemClickListener listener)
     {
         mListener=listener;
     }
 
     @NonNull
     @Override
-    public ProfilesAdapter.ProfileSearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public InviteFriendsAdapter.InviteFriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile_search_results, parent, false);
-        ProfileSearchViewHolder ps_vh = new ProfileSearchViewHolder(view, mListener);
+        InviteFriendsAdapter.InviteFriendsViewHolder ps_vh = new InviteFriendsAdapter.InviteFriendsViewHolder(view, mListener);
         return ps_vh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ProfilesAdapter.ProfileSearchViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final InviteFriendsAdapter.InviteFriendsViewHolder holder, int position) {
         final User curr_prof = profileSearchList.get(position);
 
 
@@ -136,9 +141,9 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
         return profileSearchList.size();
     }
 
-    public ProfilesAdapter(ArrayList<User> profiles) { profileSearchList = profiles; }
+    public InviteFriendsAdapter(ArrayList<User> profiles) { profileSearchList = profiles; }
 
-    public static class ProfileSearchViewHolder extends RecyclerView.ViewHolder
+    public static class InviteFriendsViewHolder extends RecyclerView.ViewHolder
     {
         public TextView profile_fn;
         public TextView profile_ln;
@@ -148,7 +153,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
         public View relativeLayout;
         public CheckBox check_Box;
 
-        public ProfileSearchViewHolder(@NonNull View itemView, final ProfilesAdapter.OnItemClickListener listener)
+        public InviteFriendsViewHolder(@NonNull View itemView, final InviteFriendsAdapter.OnItemClickListener listener)
         {
             super(itemView);
             profile_fn = itemView.findViewById(R.id.u_firstName);
@@ -157,7 +162,6 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
             profile_image = itemView.findViewById(R.id.avatarView);
             relativeLayout = itemView.findViewById(R.id.profile_search_view);
             check_Box = itemView.findViewById(R.id.checkBox);
-            check_Box.setVisibility(View.INVISIBLE);
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
