@@ -24,6 +24,8 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="logout">logout</string>
+    <string name="pending_invites_tab">Pending event invites</string>
+    <string name="events_tab">Events</string>
     <string name="recover_account_button">Recover my account</string>
     <string name="recover_account"> Forgot you password?</string>
     <string name="account_does_not_exist"> Don\'t have an account? Sign up. </string>
