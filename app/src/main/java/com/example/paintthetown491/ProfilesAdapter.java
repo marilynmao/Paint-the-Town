@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,29 +104,38 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
 
-                //check if the user is friends with the card that was clicked on.
-                Boolean isFriend = false;
-                for (String s : friends) {
-                    if (s.equals(curr_prof.getId())) {
-                        isFriend = true;
+
+                //if the profile clicked on is the same as the user open the account activity.
+                if (curr_prof.getId().equals(FirebaseDbSingleton.getInstance().firebaseAuth.getUid())) {
+                    Toast.makeText(v.getContext(), "Go to the account button on the navigation menu to view profile", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Intent intent;
+
+                    //check if the user is friends with the card that was clicked on.
+                    Boolean isFriend = false;
+                    for (String s : friends) {
+                        if (s.equals(curr_prof.getId())) {
+                            isFriend = true;
+                        }
                     }
+
+                    if (isFriend) {
+                        intent = new Intent(v.getContext(), FriendPopUpActivity.class);
+                    } else {
+                        intent = new Intent(v.getContext(), ProfileViewActivity.class);
+                    }
+                    intent.putExtra("firstname", curr_prof.getFirstName());
+                    intent.putExtra("lastname", curr_prof.getLastName());
+                    intent.putExtra("id", curr_prof.getId());
+                    intent.putExtra("image", curr_prof.getIcon());
+                    intent.putExtra("username", curr_prof.getUsername());
+                    intent.putExtra("friends", friends);
+
+                    v.getContext().startActivity(intent);
                 }
 
-                if (isFriend){
-                    intent = new Intent(v.getContext(), FriendPopUpActivity.class);
-                }
-                else{
-                    intent = new Intent(v.getContext(), ProfileViewActivity.class);
-                }
-                intent.putExtra("firstname", curr_prof.getFirstName());
-                intent.putExtra("lastname", curr_prof.getLastName());
-                intent.putExtra("id", curr_prof.getId());
-                intent.putExtra("image", curr_prof.getIcon());
-                intent.putExtra("username", curr_prof.getUsername());
-                intent.putExtra("friends", friends);
-                v.getContext().startActivity(intent);
             }
         });
     }

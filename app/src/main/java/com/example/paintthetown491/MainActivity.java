@@ -90,13 +90,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     //creates a one time listener for populating the user's list of sent friend requests.
-    public void getSentPendingFrindRequests(){
+    public void getSentPendingFriendRequests(){
 
-        FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().firebaseAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().firebaseAuth.getUid()).child("sentFriendRequests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    for(DataSnapshot ds : snapshot.child("sentFriendRequests").getChildren()){
+                    User.getInstance().deleteSentFriendRequestList();
+                    for(DataSnapshot ds : snapshot.getChildren()){
                         addToSentFriendRequests(((String) ds.getValue()));
                     }
                 }
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkNewFriendReq();
 
         //listener for the sent friend requests list.
-        getSentPendingFrindRequests();
+        getSentPendingFriendRequests();
     }
 
     // get friend's name

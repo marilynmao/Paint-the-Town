@@ -82,6 +82,8 @@ public class User
 
     public Boolean sentFriendRequestsContains(String id){return sentFriendRequests.contains(id);}
 
+    public void deleteSentFriendRequestList(){sentFriendRequests.clear();}
+
     public void addFriend(String username) {friends.add(username); }
 
     public void removeFriend(String username) {friends.remove(username); }
