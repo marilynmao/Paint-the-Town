@@ -26,13 +26,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/events"
         android:layout_width="408dp"
-        android:layout_height="550dp"
-        android:layout_marginBottom="84dp"
+        android:layout_height="590dp"
+        android:layout_marginTop="100dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/cancel_add"

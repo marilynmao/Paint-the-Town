@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -57,18 +58,22 @@ public class ProfileViewActivity extends Activity {
         addFriend.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                new AlertDialog.Builder(v.getContext())
-                                                        .setTitle("Confirm")
-                                                        .setMessage("Would you like to send this user a friend request?")
-                                                        .setIcon(android.R.drawable.ic_dialog_alert)
-                                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
-                                                        {
-                                                            public void onClick(DialogInterface dialog, int whichButton)
-                                                            {
-                                                                addFriend();//removes the friend from the friends list
-                                                                finish(); //returns to the FriendsActivity screen
-                                                            }})
-                                                        .setNegativeButton(android.R.string.no, null).show();
+                                                if (User.getInstance().sentFriendRequestsContains(profile_ID)) {
+                                                    Toast.makeText(ProfileViewActivity.this, "friend request already sent", Toast.LENGTH_LONG).show();
+                                                }
+                                                else{
+                                                    new AlertDialog.Builder(v.getContext())
+                                                            .setTitle("Confirm")
+                                                            .setMessage("Would you like to send this user a friend request?")
+                                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                                    addFriend();//removes the friend from the friends list
+                                                                    finish(); //returns to the FriendsActivity screen
+                                                                }
+                                                            })
+                                                            .setNegativeButton(android.R.string.no, null).show();
+                                                }
                                             }
                                         });
 
@@ -103,5 +108,8 @@ public class ProfileViewActivity extends Activity {
 
             FirebaseDbSingleton.getInstance().dbRef.child("User").child(profile_ID).child("pending").updateChildren(profileMap);
 
+            User.getInstance().addSentFriendRequest(profile_ID);
+            FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("sentFriendRequests").child(profile_ID).setValue(profile_ID);
+        }
 
-        }}
+}

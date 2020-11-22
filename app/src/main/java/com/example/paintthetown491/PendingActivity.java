@@ -52,6 +52,8 @@ public class PendingActivity extends Fragment
         pendingAdapter.notifyItemRemoved(position);
         pendingAdapter.notifyItemRangeChanged(position,pendingUsers.size());
 
+        //updates the requestors sentFriendRequests list.
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).child("sentFriendRequests").child(mainID).removeValue();
     }
 
     //moves the pending user ID to the friends list, removes it from pending
@@ -81,6 +83,9 @@ public class PendingActivity extends Fragment
 
         //removes it from the recyclerview
         deleteUserID(userID,position);
+
+        //updates the requestors sentFriendRequests list.
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).child("sentFriendRequests").child(mainID).removeValue();
     }
 
     //confirmation to delete request

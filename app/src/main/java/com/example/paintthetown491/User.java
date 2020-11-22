@@ -14,7 +14,8 @@ public class User
     private ArrayList<String> events = new ArrayList<String>();
     private ArrayList<String> savedEvents = new ArrayList<String>();
     private ArrayList<String> pastEvents = new ArrayList<String>();
-    private ArrayList<String>pending=new ArrayList<String>();
+    private ArrayList<String> sentFriendRequests = new ArrayList<String>();
+    private ArrayList<String> pending=new ArrayList<String>();
     public User() { }
 
     //creates a new instance of the user class if it doesn't already exist. Returns the same instance if it does exist.
@@ -76,6 +77,12 @@ public class User
     public void setId(String id) {this.id = id;}
 
     public String getId(){return id;}
+    
+    public void addSentFriendRequest(String id){sentFriendRequests.add(id);}
+
+    public Boolean sentFriendRequestsContains(String id){return sentFriendRequests.contains(id);}
+
+    public void deleteSentFriendRequestList(){sentFriendRequests.clear();}
 
     public void addFriend(String username) {friends.add(username); }
 
