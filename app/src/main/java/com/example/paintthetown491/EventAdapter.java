@@ -47,27 +47,30 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position)
     {
-        final Event curr=mEventList.get(position);
+        final Event curr = mEventList.get(position);
 
         holder.mImageView.setImageResource(curr.getImage());
         holder.eName.setText(curr.getEventName());
         holder.eDate.setText(curr.getEventDate());
         holder.eCreator.setText(curr.getEventCreator());
         // set the onclick listener for the current item here so that the data can easily be sent to the popup activity for display
-        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(v.getContext(), EventPopUpActivity.class);
-        intent.putExtra("eid", curr.getEventId());
-        intent.putExtra("ename", curr.getEventName());
-        intent.putExtra("einfo", curr.getEventInfo());
-        intent.putExtra("edate", curr.getEventDate());
-        intent.putExtra("etime", curr.getEventTime());
-        intent.putStringArrayListExtra("elocation", curr.getEventLocation());
-        v.getContext().startActivity(intent);
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(v.getContext(), EventPopUpActivity.class);
+                intent.putExtra("eid", curr.getEventId());
+                intent.putExtra("ename", curr.getEventName());
+                intent.putExtra("einfo", curr.getEventInfo());
+                intent.putExtra("edate", curr.getEventDate());
+                intent.putExtra("etime", curr.getEventTime());
+                intent.putStringArrayListExtra("elocation", curr.getEventLocation());
+                intent.putStringArrayListExtra("ePeople",curr.getParticipantList());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
-});
-}
 
     //returns the size of the list
     @Override
@@ -89,7 +92,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         public TextView eName,eDate,eCreator;
         public RelativeLayout relativeLayout;
         public RadioButton radioBtn;
-
 
         public EventViewHolder(@NonNull final View itemView, final OnItemClickListener listener)
         {

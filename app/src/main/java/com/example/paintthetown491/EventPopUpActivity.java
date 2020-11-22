@@ -3,6 +3,7 @@ package com.example.paintthetown491;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -21,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -32,16 +32,15 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
     private EditText eName, eInfo, eDate, eTime;
     final java.util.Calendar c = java.util.Calendar.getInstance();
     private int dMonth, dDay, dYear, dHour, dMinute;
-    private String event_id, event_date, event_time, event_location, period;
-    private Button editEventButton, saveEventButton;
+    private String event_id, event_date, event_time, period;
+    private Button editEventButton, saveEventButton, people, places, invite_friends;
     DatabaseReference eRef;
-    private ArrayList<String> locationsList;
-    ListView eLocation;
+    private ArrayList<String> locationsList, peopleList;
+    ListView eLocation, ePeople;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
         //binds the layout to this activity. You can find the xml in res.layout
         setContentView(R.layout.activity_event_pop_up);
@@ -55,7 +54,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
 
         //0.6 indicates to make the popup 60% the size of the screen
         getWindow().setLayout((int)(w*0.8),(int)(h*0.8));
-        // bind UI elements and intially disable editText fields
+        // bind UI elements and initially disable editText fields
         eName = findViewById(R.id.editEventName);
         eName.setEnabled(false);
         eInfo = findViewById(R.id.editEventInfo);
@@ -69,7 +68,38 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         editEventButton = findViewById(R.id.editEventbtn);
         saveEventButton = findViewById(R.id.saveEventbtn);
         saveEventButton.setVisibility(View.INVISIBLE);
+        invite_friends=findViewById(R.id.inviteFriendsButton);
+        invite_friends.setVisibility(View.INVISIBLE);
+
         locationsList = new ArrayList<String>();
+
+        //buttons to show people and events
+        people=findViewById(R.id.people_events);
+        places=findViewById(R.id.location_events);
+
+        ePeople=findViewById(R.id.peopleListView);
+        peopleList=new ArrayList<String>();
+
+        //shows the people in the event
+        people.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                eLocation.setVisibility(View.INVISIBLE);
+                ePeople.setVisibility(View.VISIBLE);
+            }
+        });
+
+        places.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                eLocation.setVisibility(View.VISIBLE);
+                ePeople.setVisibility(View.INVISIBLE);
+            }
+        });
 
         // get eventID
         StringBuilder sb = new StringBuilder(getIntent().getStringExtra("eid"));
@@ -80,12 +110,15 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         loadEventData();
 
         // listener for when edit event btn is clicked
-        editEventButton.setOnClickListener(new View.OnClickListener() {
+        editEventButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                // hide save event btn and enable edittext fields
+            public void onClick(View v)
+            {
+                // hide edit event btn and enable edittext fields
                 editEventButton.setVisibility(View.INVISIBLE);
                 saveEventButton.setVisibility(View.VISIBLE);
+                invite_friends.setVisibility(View.VISIBLE);
                 eName.setEnabled(true);
                 eInfo.setEnabled(true);
                 eDate.setEnabled(true);
@@ -108,14 +141,17 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
             }
         });
 
-        saveEventButton.setOnClickListener(new View.OnClickListener() {
+        saveEventButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 // reference event to update
                 eRef = FirebaseDbSingleton.getInstance().dbRef.child("Event").child(event_id);
                 eRef.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    public void onDataChange(@NonNull DataSnapshot snapshot)
+                    {
                         if(snapshot.exists())
                         {
                             // updates hashmap holds all the new data to be updated
@@ -125,14 +161,15 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
                             updates.put("eventDate", eDate.getText().toString());
                             updates.put("eventTime", eTime.getText().toString());
 
-//                            updates.put("eventLocation", eLocation.getText().toString());
+                            // updates.put("eventLocation", eLocation.getText().toString());
                             // update the events child in the DB
                             eRef.updateChildren(updates);
                         }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    public void onCancelled(@NonNull DatabaseError error)
+                    {
 
                     }
                 });
@@ -144,7 +181,20 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
                 eTime.setEnabled(false);
                 Toast.makeText(EventPopUpActivity.this, "Event has been updated!", Toast.LENGTH_SHORT).show();
                 editEventButton.setVisibility(View.VISIBLE);
+                invite_friends.setVisibility(View.INVISIBLE);
                 saveEventButton.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        //handles adding friends to events
+        invite_friends.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent inviteFriends=new Intent(getApplicationContext(),InviteFriendsActivity.class);
+                inviteFriends.putExtra("eventID",event_id);
+                startActivity(inviteFriends);
             }
         });
     }
@@ -158,14 +208,22 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         eDate.setText(getIntent().getStringExtra("edate"));
         eTime.setText(getIntent().getStringExtra("etime"));
         locationsList = getIntent().getStringArrayListExtra("elocation");
+        peopleList=getIntent().getStringArrayListExtra("ePeople");
+
+        //displays people in the events
+        ArrayAdapter peopleArrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,peopleList);
+        ePeople.setAdapter(peopleArrayAdapter);
+        ePeople.setVisibility(View.INVISIBLE);
 
         // display locations in list view
         ArrayAdapter locationArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, locationsList);
         eLocation.setAdapter(locationArrayAdapter);
+        eLocation.setVisibility(View.INVISIBLE);
     }
 
     // show date picker dialog
-    public void showDatePicker() {
+    public void showDatePicker()
+    {
         dMonth = c.get(Calendar.MONTH);
         dDay = c.get(Calendar.DAY_OF_MONTH);
         dYear = c.get(Calendar.YEAR);

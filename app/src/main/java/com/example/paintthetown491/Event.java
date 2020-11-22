@@ -3,20 +3,19 @@ package com.example.paintthetown491;
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
-import java.util.List;
 
 //the class that holds all the data needed for an event
 public class Event
 {
     private int view;
     private String eventName, eventDate, eventCreator, eventTime, eventInfo;
-    private List<String>participantIds;
+    private ArrayList<String>participantIds;
     private ArrayList<String> eventLocation;
     // excludes eventId field from posting to db
     @Exclude
     public String eventId;
 
-    public Event(String eId, String name, String date, String creator, List<String>pIds, String time, ArrayList<String> location, String info /* additional parameters go here when we determine what they are */)
+    public Event(String eId, String name, String date, String creator, ArrayList<String>pIds, String time, ArrayList<String> location, String info /* additional parameters go here when we determine what they are */)
     {
         eventId=eId;
         eventName=name;
@@ -32,7 +31,7 @@ public class Event
     public String getEventId() { return eventId; }
 
     //returns the list of user IDs for people in the event
-    public List<String> getParticipantList(){return participantIds;}
+    public ArrayList<String> getParticipantList(){return participantIds;}
 
     public int getImage()
     {
@@ -88,7 +87,7 @@ public class Event
     }
 
     //sets the event participants (by IDs)
-    public void setEventParticipants(List<String> eventP)
+    public void setEventParticipants(ArrayList<String> eventP)
     {
         participantIds=eventP;
     }

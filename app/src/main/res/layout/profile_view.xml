@@ -5,99 +5,72 @@
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileViewActivity">
+    tools:context=".ProfileViewActivity"
+    android:background="#c5d5de">
 
     <ImageView
         android:id="@+id/profile_view_img"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="253dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="90dp"
         android:baselineAligned="false"
-        app:layout_constraintBottom_toTopOf="@+id/profile_view_inv"
         app:layout_constraintEnd_toStartOf="@+id/profile_view_fn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_baseline_account_circle_24"
-        />
+        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
     <TextView
         android:id="@+id/profile_view_fn"
         android:layout_width="80dp"
         android:layout_height="42dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="32dp"
         android:text="First Name"
-        app:layout_constraintBottom_toTopOf="@+id/profile_view_username"
         app:layout_constraintEnd_toStartOf="@+id/profile_view_ln"
         app:layout_constraintStart_toEndOf="@+id/profile_view_img"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_view_username" />
 
     <TextView
         android:id="@+id/profile_view_ln"
         android:layout_width="80dp"
         android:layout_height="42dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="32dp"
         android:text="LastName"
-        app:layout_constraintBottom_toTopOf="@+id/profile_view_username"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profile_view_fn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_view_username" />
 
     <TextView
         android:id="@+id/profile_view_username"
         android:layout_width="150dp"
         android:layout_height="53dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="90dp"
         android:layout_marginBottom="606dp"
         android:text="username"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.208"
         app:layout_constraintStart_toEndOf="@+id/profile_view_img"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/profile_view_report"
-        android:layout_width="87dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="149dp"
-        android:layout_marginLeft="149dp"
-        android:layout_marginTop="480dp"
-        android:layout_marginEnd="175dp"
-        android:layout_marginRight="175dp"
-        android:layout_marginBottom="84dp"
-        android:text="report"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_view_username" />
-
-    <Button
-        android:id="@+id/profile_view_inv"
-        android:layout_width="123dp"
-        android:layout_height="98dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginLeft="37dp"
-        android:layout_marginTop="380dp"
-        android:layout_marginBottom="254dp"
-        android:text="Invite to Event"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/profile_view_add"
         android:layout_width="125dp"
         android:layout_height="99dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginLeft="57dp"
         android:layout_marginTop="378dp"
-        android:layout_marginEnd="69dp"
-        android:layout_marginRight="69dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginRight="128dp"
         android:layout_marginBottom="253dp"
+        android:background="#627FE4"
+        android:textColor="#FFFFFF"
         android:text="Add Friend"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profile_view_inv"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

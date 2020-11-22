@@ -26,10 +26,6 @@
         android:icon="@drawable/pending_friend"
         android:title="pending requests" />
     <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="Settings" />
-    <item
         android:id="@+id/logout"
         android:icon="@drawable/logout"
         android:title="logout" />

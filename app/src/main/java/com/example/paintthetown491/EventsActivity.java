@@ -11,9 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -94,12 +92,12 @@ public class EventsActivity extends Fragment
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> participants = new ArrayList<String>();
+                ArrayList<String> IterToArrayList = new ArrayList<String>();
                 for (DataSnapshot id : itr)
                 {
-                    participants.add(id.toString());
+                    IterToArrayList.add(id.getValue().toString());
                 }
-                return participants;
+                return IterToArrayList;
             }
 
             //used to convert a Iterable (type returned from firebase) to an arraylist
@@ -133,6 +131,7 @@ public class EventsActivity extends Fragment
                         //adds it to the list
                         eventIds.add(event);
                     }
+
                     //notifies the adapter of any changes
                     eAdapter.notifyDataSetChanged();
 
@@ -155,8 +154,6 @@ public class EventsActivity extends Fragment
 
         //attaching the value listener
         queryID.addValueEventListener(eventIdValListener);
-
-
 
         //now that we have the event IDs saved, we need to look at the Event table for each of them
         eventRef = FirebaseDbSingleton.getInstance().dbRef.child("Event");

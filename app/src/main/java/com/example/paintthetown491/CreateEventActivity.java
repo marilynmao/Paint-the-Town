@@ -108,7 +108,6 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
                 // append new event to User/{Uid}/events
                 userEventsDbRef.updateChildren(usrEvent);
 
-
                 Toast.makeText(getActivity(), "Success! New event created.", Toast.LENGTH_SHORT).show();
                 //open main event activity (shows created event) when create event is clicked
                 MainEventActivity mainEvent = new MainEventActivity();

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="102dp"
         android:layout_marginLeft="102dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="100dp"
         android:layout_marginRight="100dp"
         android:drawableLeft="@drawable/time"
@@ -35,7 +35,7 @@
         android:id="@+id/editEventName"
         android:layout_width="204dp"
         android:layout_height="45dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="45dp"
         android:drawableLeft="@drawable/pencil"
         android:drawablePadding="10dp"
@@ -55,7 +55,7 @@
         android:layout_height="44dp"
         android:layout_marginStart="101dp"
         android:layout_marginLeft="101dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="103dp"
         android:layout_marginRight="103dp"
         android:drawableLeft="@drawable/info"
@@ -75,7 +75,7 @@
         android:id="@+id/editDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/event"
         android:drawablePadding="10dp"
         android:ems="10"
@@ -92,25 +92,44 @@
 
     <Button
         android:id="@+id/saveEventbtn"
-        android:layout_width="146dp"
+        android:layout_width="wrap_content"
         android:layout_height="52dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="48dp"
         android:background="#627FE4"
         android:text="Save"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/inviteFriendsButton"
         app:layout_constraintTop_toBottomOf="@+id/locationListView"
-        app:layout_constraintVertical_bias="0.076" />
+        app:layout_constraintVertical_bias="0.058" />
+
+    <Button
+        android:id="@+id/inviteFriendsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="48dp"
+        android:background="#627FE4"
+        android:text="@string/invite_friends"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="@+id/saveEventbtn"
+        app:layout_constraintTop_toBottomOf="@+id/locationListView"
+        app:layout_constraintVertical_bias="0.058" />
 
     <Button
         android:id="@+id/editEventbtn"
         android:layout_width="146dp"
         android:layout_height="52dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:background="#627FE4"
         android:text="Edit"
         android:textColor="#FFFFFF"
@@ -151,5 +170,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTime"
         app:layout_constraintVertical_bias="0.006" />
+
+    <ListView
+        android:id="@+id/peopleListView"
+        android:layout_width="244dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTime"
+        app:layout_constraintVertical_bias="0.006" />
+
+    <Button
+        android:id="@+id/people_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="83dp"
+        android:layout_marginLeft="83dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#627FE4"
+        android:text="@string/event_people"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/location_events"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventLabel" />
+
+    <Button
+        android:id="@+id/location_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="83dp"
+        android:layout_marginRight="83dp"
+        android:background="#627FE4"
+        android:text="@string/event_locations"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/people_events"
+        app:layout_constraintTop_toBottomOf="@+id/eventLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".InviteFriendsActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/confirmation"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/rounded_corners"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/invite_sent_confirmation"
+            app:srcCompat="@drawable/invite_sent_confirmation" />
+
+        <TextView
+            android:id="@+id/invite_sent_confirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/invite_sent_confirmation"
+            android:textColor="#627FE4"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <Button
         android:id="@+id/invite_friend_btn"
         android:layout_width="175dp"
@@ -27,12 +62,14 @@
         android:id="@+id/friends_rv"
         android:layout_width="408dp"
         android:layout_height="550dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="84dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inviteFriendTitle" />
 
     <Button
         android:id="@+id/cancel_invite"
@@ -52,7 +89,7 @@
         android:id="@+id/inviteFriendTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="31dp"
         android:text="@string/invite_friends_to_join_the_event"
         android:textColor="#627FE4"

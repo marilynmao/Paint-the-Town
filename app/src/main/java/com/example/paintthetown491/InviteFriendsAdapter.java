@@ -13,11 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.paintthetown491.FirebaseDbSingleton;
-import com.example.paintthetown491.FriendPopUpActivity;
-import com.example.paintthetown491.ProfileViewActivity;
-import com.example.paintthetown491.R;
-import com.example.paintthetown491.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +34,8 @@ public class InviteFriendsAdapter extends RecyclerView.Adapter<InviteFriendsAdap
     public interface OnItemClickListener
     {
         void onItemClick(int position);
+        void onCheck(int position);
+        void onUnCheck(int position);
     }
 
     public void setOnItemClickListener(InviteFriendsAdapter.OnItemClickListener listener)
@@ -58,7 +55,6 @@ public class InviteFriendsAdapter extends RecyclerView.Adapter<InviteFriendsAdap
     @Override
     public void onBindViewHolder(@NonNull final InviteFriendsAdapter.InviteFriendsViewHolder holder, int position) {
         final User curr_prof = profileSearchList.get(position);
-
 
         final ArrayList<String> friends = new ArrayList<String>();
         ValueEventListener friendChecker = new ValueEventListener() {
@@ -83,13 +79,12 @@ public class InviteFriendsAdapter extends RecyclerView.Adapter<InviteFriendsAdap
 
         query.addValueEventListener(friendChecker);
 
-
         holder.profile_fn.setText(curr_prof.getFirstName());
         holder.profile_ln.setText(curr_prof.getLastName());
         holder.profile_ph.setText(curr_prof.getPhoneNumber());
 
         String icon = curr_prof.getIcon();
-        if (icon != "none") {
+        if (!icon.equals("none")) {
             StorageReference path = FirebaseStorage.getInstance().getReference().child("Icons").child(curr_prof.getIcon());
             path.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
@@ -162,6 +157,33 @@ public class InviteFriendsAdapter extends RecyclerView.Adapter<InviteFriendsAdap
             profile_image = itemView.findViewById(R.id.avatarView);
             relativeLayout = itemView.findViewById(R.id.profile_search_view);
             check_Box = itemView.findViewById(R.id.checkBox);
+
+            //checks which function to when checking/unchecking friends to be invited to events (either a function to add to the list of invited people or to remove them from the list)
+            check_Box.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    CheckBox checkBox = (CheckBox)view;
+                    if(listener !=null)
+                    {
+                        int position=getAdapterPosition();
+
+                        if(position!=RecyclerView.NO_POSITION)
+                        {
+                            if(checkBox.isChecked())
+                            {
+                                listener.onCheck(position);
+                            }
+                            if(!checkBox.isChecked())
+                            {
+                                listener.onUnCheck(position);
+                            }
+                        }
+                    }
+                }
+            });
+
             itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override

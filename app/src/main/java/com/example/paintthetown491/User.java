@@ -77,7 +77,6 @@ public class User
 
     public String getId(){return id;}
 
-
     public void addFriend(String username) {friends.add(username); }
 
     public void removeFriend(String username) {friends.remove(username); }

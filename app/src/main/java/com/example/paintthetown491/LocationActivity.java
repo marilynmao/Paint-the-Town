@@ -100,7 +100,7 @@ public class LocationActivity extends Activity
                 if(snapshot.exists())
                 {
                     User user=snapshot.getValue(User.class);
-                    review_reviewer.setText("reviewed by: "+user.getFirstName().toString()+user.getLastName().toString());
+                    review_reviewer.setText("Reviewed by: "+user.getFirstName().toString()+user.getLastName().toString());
                 }
             }
 
