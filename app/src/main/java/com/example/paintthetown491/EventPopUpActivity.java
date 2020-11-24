@@ -37,6 +37,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
     DatabaseReference eRef;
     private ArrayList<String> locationsList, peopleList;
     ListView eLocation, ePeople;
+    ArrayAdapter peopleArrayAdapter=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,6 +88,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
             public void onClick(View view)
             {
                 eLocation.setVisibility(View.INVISIBLE);
+                peopleArrayAdapter.notifyDataSetChanged();
                 ePeople.setVisibility(View.VISIBLE);
             }
         });
@@ -203,7 +205,6 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
     {
         for(int i=0;i<peopleList.size();i++)
         {
-
             final int index=i;
             //listener for specific user ID
             FirebaseDbSingleton.getInstance().dbRef.child("User").child(peopleList.get(i).toString()).addListenerForSingleValueEvent(new ValueEventListener()
@@ -243,7 +244,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         loadParticipantInfo();
 
         //displays people in the events
-        ArrayAdapter peopleArrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,peopleList);
+        peopleArrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,peopleList);
         ePeople.setAdapter(peopleArrayAdapter);
         ePeople.setVisibility(View.INVISIBLE);
 
