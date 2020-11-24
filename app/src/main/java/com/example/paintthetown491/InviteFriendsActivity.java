@@ -165,7 +165,7 @@ public class InviteFriendsActivity extends AppCompatActivity
             }
         });
 
-        // send invite
+        // send invites
         inviteFriendBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override

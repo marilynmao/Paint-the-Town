@@ -199,6 +199,35 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         });
     }
 
+    private void loadParticipantInfo()
+    {
+        for(int i=0;i<peopleList.size();i++)
+        {
+
+            final int index=i;
+            //listener for specific user ID
+            FirebaseDbSingleton.getInstance().dbRef.child("User").child(peopleList.get(i).toString()).addListenerForSingleValueEvent(new ValueEventListener()
+            {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot)
+                {
+                    if(snapshot.exists())
+                    {
+                        User user=snapshot.getValue(User.class);
+                        //replacing the user ID with the first and last name of participant
+                        peopleList.set(index,user.getFirstName().toString()+" "+user.getLastName().toString());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error)
+                {
+
+                }
+            });
+        }
+    }
+
     // fills the fields in the event UI
     public void loadEventData()
     {
@@ -209,6 +238,9 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         eTime.setText(getIntent().getStringExtra("etime"));
         locationsList = getIntent().getStringArrayListExtra("elocation");
         peopleList=getIntent().getStringArrayListExtra("ePeople");
+
+        //get user info to display in events page (because value returned by FB is the user ID)
+        loadParticipantInfo();
 
         //displays people in the events
         ArrayAdapter peopleArrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,peopleList);
