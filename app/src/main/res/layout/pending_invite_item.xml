@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp">
+    <RelativeLayout
+        android:id="@+id/relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:layout_marginTop="5dp">
+
+        <ImageView
+            android:id="@+id/eventView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/eventview"
+            android:padding="2dp" />
+
+        <TextView
+            android:id="@+id/eventCreator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/eventDate"
+            android:layout_toRightOf="@+id/eventView"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/eventView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:layout_below="@+id/eventName"
+            android:layout_toRightOf="@+id/eventView"
+            android:id="@+id/eventDate"
+            android:layout_toEndOf="@+id/eventView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            android:layout_toRightOf="@+id/eventView"
+            android:id="@+id/eventName"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/eventView" />
+
+        <ImageView
+            android:id="@+id/delete_invite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="349dp"
+            android:layout_marginTop="-1dp"
+            android:contentDescription="@string/deleteinvite"
+            app:srcCompat="@drawable/ic_baseline_delete_24"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="349dp" />
+
+        <ImageView
+            android:id="@+id/accept_invite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="285dp"
+            android:layout_marginTop="1dp"
+            android:contentDescription="@string/acceptinvite"
+            app:srcCompat="@drawable/accept"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="285dp" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

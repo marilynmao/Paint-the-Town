@@ -59,4 +59,8 @@
     <string name="send_invite">Send Invite</string>
     <string name="invite_sent_confirmation">Invitations sent! Let\'s get the party started!</string>
     <string name="invite_friends_to_join_the_event">Invite friends to join the event!</string>
+    <string name="no_pending_invites">No pending invites...</string>
+    <string name="deleteinvite">deleteInvite</string>
+    <string name="acceptinvite">acceptInvite</string>
+    <string name="eventview">eventView</string>
 </resources>

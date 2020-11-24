@@ -205,7 +205,7 @@ public class InviteFriendsActivity extends AppCompatActivity
     //saves eventID to specified user's list of pending event invites
     private void sendInvite(String userId)
     {
-        FirebaseDbSingleton.getInstance().dbRef.child("User").child(userId).child("pendingEInvites").child(eventID).setValue(eventID);
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(userId).child("pendingEInvites").child(eventID.substring(1)).setValue(eventID.substring(1));
     }
 
     //add a user's ID to the list of pending attendees for an event
