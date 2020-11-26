@@ -21,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class PendingEventsActivity extends Fragment {
@@ -29,8 +30,39 @@ public class PendingEventsActivity extends Fragment {
     private PendingEventsAdapter pendingEventsAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private DatabaseReference eventRef;
-    private ArrayList<String> eventIds;
+    private HashMap<String, String> eventIds;
     private ArrayList<Event> events;
+
+    // deletes event ID from pendingEInvites
+    public void deleteEventID(String eventID, Integer position)
+    {
+        //logged-in user ID
+        String mainID=FirebaseDbSingleton.getInstance().user.getUid();
+        //pending event ID to delete
+        String key=eventIds.get(eventID);
+        //deletes the pending event ID from the DB
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("pendingEInvites").child(key).removeValue();
+        events.remove(position);
+        pendingEventsAdapter.notifyItemRemoved(position);
+        pendingEventsAdapter.notifyItemRangeChanged(position,eventIds.size());
+    }
+
+    //confirmation to delete pending event invite
+    public void confirmDeleteInvite(final int position) {
+        //confirmation dialog before deleting a request
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirm")
+                .setMessage("Are you sure?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        //remove it from the pending list in firebase
+                        deleteEventID(events.get(position).getEventId(),position);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
 
     @Nullable
     @Override
@@ -39,7 +71,8 @@ public class PendingEventsActivity extends Fragment {
         View view=inflater.inflate(R.layout.frag_pending_events, container, false);
 
         //holds the event IDs for each user
-        eventIds = new ArrayList<String>();
+        //eventIds = new ArrayList<String>();
+        eventIds = new HashMap<>();
         //holds the events loaded from firebase
         events = new ArrayList<Event>();
 
@@ -68,8 +101,8 @@ public class PendingEventsActivity extends Fragment {
                             s = ds.getKey().substring(1);
                         }
 
-                        //sees if the arraylist contains this child
-                        if (eventIds.contains(s))
+                        //sees if the hashmap contains the event ID
+                        if (eventIds.containsValue(s))
                         {
                             //create the event object with the properties returned from firebase
                             Event e = new Event(s, ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), ds.child("eventTime").getValue().toString(), getLocationCollectionFromIterable(ds.child("eventLocation").getChildren()), ds.child("eventInfo").getValue().toString());
@@ -130,16 +163,14 @@ public class PendingEventsActivity extends Fragment {
                     //iterate through each child returned
                     for (DataSnapshot e : snapshot.getChildren())
                     {
-                        //holds the event ID as a string
-                        String event = e.getValue(String.class);
-                        //adds it to the list
-                        eventIds.add(event);
+                        // place key (eventID)  & value into hashmap
+                        eventIds.put(e.getValue(String.class), e.getKey());
                     }
 
                     //notifies the adapter of any changes
                     pendingEventsAdapter.notifyDataSetChanged();
 
-                    for (String id : eventIds)
+                    for (String id : eventIds.keySet())
                     {
                         queryVal.equalTo(id);
                         queryVal.addValueEventListener(eventValListener);
@@ -179,14 +210,9 @@ public class PendingEventsActivity extends Fragment {
 
         // listener for event selected
         pendingEventsAdapter.setOnItemClickListener(new PendingEventsAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-            }
 
             @Override
-            public void deleteInviteOnClick(int position) {
-                // TODO: delete pending event invite
-                }
+            public void deleteInviteOnClick(int position) { confirmDeleteInvite(position);}
 
             @Override
             public void acceptInviteOnClick(int position) {

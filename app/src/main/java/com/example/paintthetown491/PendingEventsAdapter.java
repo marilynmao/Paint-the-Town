@@ -23,7 +23,6 @@ public class PendingEventsAdapter extends RecyclerView.Adapter<PendingEventsAdap
 
     public interface OnItemClickListener
     {
-        void onItemClick(int position);
         //will remove pending invites
         void deleteInviteOnClick(int position);
         //will add users to events

@@ -29,7 +29,7 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
     private String newEventID, eventCreatorName, event_name, event_info, event_date, event_time, period;
     private Button createEventButton;
     private DatabaseReference eventsDbRef, userEventsDbRef;
-    //private User usr;
+    private User usr;
     private Event newEvent;
 
     @Nullable
@@ -65,13 +65,13 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
             public void onClick(View v) {
                 // ===========================
                 // get instance of user
-                //usr = User.getInstance();
+                usr = User.getInstance();
                 // get event creator name
-                //eventCreatorName = (usr.getFirstName() + " " + usr.getLastName());
+                eventCreatorName = (usr.getFirstName() + " " + usr.getLastName());
                 // ===========================
 
                 // added user singleton after account was already registered with firebase, so event creator name is temporarily hardcoded
-                eventCreatorName = "Marilyn Mao";
+                //eventCreatorName = "Marilyn Mao";
                 // set variables
                 event_name = eName.getText().toString();
                 event_info = eInfo.getText().toString();
