@@ -153,6 +153,7 @@ public class AccountActivity extends Fragment
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
+
                 userFullName.setText(dataSnapshot.child("firstName").getValue().toString()+dataSnapshot.child("lastName").getValue().toString());
                 userE.setText(dataSnapshot.child("email").getValue().toString());
                 userName.setText(dataSnapshot.child("username").getValue().toString());

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +37,7 @@ public class LoginActivity extends AppCompatActivity
         final EditText userEmail = findViewById(R.id.userEmail);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
 
         //uses the singleton class to prevent making multiple instances of the same class throughout the project
         fAuth=FirebaseAuth.getInstance();
@@ -105,9 +104,8 @@ public class LoginActivity extends AppCompatActivity
                     return;
                 }
 
-                loadingProgressBar.setVisibility(View.VISIBLE);
                 login(userEmail.getText().toString(),passwordEditText.getText().toString());
-                loadingProgressBar.setVisibility(View.INVISIBLE);
+
 
             }
         });
@@ -116,6 +114,8 @@ public class LoginActivity extends AppCompatActivity
     //logs the user in
     private void login(String userEmail, String userPassword)
     {
+        final LoadingDialog loadingDialog = new LoadingDialog(LoginActivity.this);
+        loadingDialog.startLoading();
         fAuth.signInWithEmailAndPassword(userEmail,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>()
         {
             @Override
@@ -123,10 +123,12 @@ public class LoginActivity extends AppCompatActivity
             {
                 if(task.isSuccessful())
                 {
+                    loadingDialog.stopLoading();
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
                 else
                 {
+                    loadingDialog.stopLoading();
                     Toast.makeText(LoginActivity.this,"Wrong credentials!",Toast.LENGTH_LONG).show();
                 }
             }

@@ -109,6 +109,9 @@ public class CreateAccountActivity extends AppCompatActivity
                                 {
                                     if (task.isSuccessful())
                                     {
+                                        final LoadingDialog loadingDialog = new LoadingDialog(CreateAccountActivity.this);
+                                        loadingDialog.startLoading();
+
                                         //sets the members of the user class
                                         user.setFirstName(firstName.getText().toString());
                                         user.setLastName(lastName.getText().toString());
@@ -119,6 +122,8 @@ public class CreateAccountActivity extends AppCompatActivity
                                         user.setId(mAuth.getCurrentUser().getUid());
                                         //inserts the user into the DB
                                         dbRef.child(mAuth.getCurrentUser().getUid()).setValue(user);
+
+                                        loadingDialog.stopLoading();
 
                                         //takes the user to the home page
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
