@@ -17,7 +17,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pending_invites"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="70dp" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +28,6 @@ public class EventsActivity extends Fragment
     private DatabaseReference eventRef;
     private ArrayList<String> eventIds;
     private ArrayList<Event> events;
-    private Button createEventButton;
 
     @Nullable
     @Override
@@ -158,9 +156,6 @@ public class EventsActivity extends Fragment
         //now that we have the event IDs saved, we need to look at the Event table for each of them
         eventRef = FirebaseDbSingleton.getInstance().dbRef.child("Event");
 
-        // add create event button at bottom of events recyclerview page
-        createEventButton = view.findViewById(R.id.createNewEventBtn);
-
         //////////////////////////////////////inserting event data to DB for locations
         /*//dummy data to post to the DB (for posting to DB)
         ArrayList<String>participantIds=new ArrayList<>();
@@ -195,17 +190,6 @@ public class EventsActivity extends Fragment
         eAdapter = new EventAdapter(events);
         eventsRecycler.setLayoutManager(layoutManager);
         eventsRecycler.setAdapter(eAdapter);
-
-        // set on click listener for create event button to up create event page
-        createEventButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                CreateEventActivity createEvent = new CreateEventActivity();
-                getParentFragmentManager().beginTransaction().replace(R.id.container_frag, createEvent).commit();
-            }
-        });
 
         return view;
     }

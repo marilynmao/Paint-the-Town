@@ -50,6 +50,23 @@ public class EventsTabsFragment extends Fragment {
             events_tabs.getTabAt(2).select();
         }
 
+        events_tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
     //pager will call the hometab adapter in order to switch between tab based on which was selected
@@ -58,6 +75,7 @@ public class EventsTabsFragment extends Fragment {
         EventTabsAdapter adapter = new EventTabsAdapter(getChildFragmentManager());
         //fragments added to the adapter to swap between
         adapter.addFragment(new EventsActivity(), "Events");
+        adapter.addFragment(new PendingEventsActivity(), "Pending Event Invites");
         //set the adapter to the view pager
         viewPager.setAdapter(adapter);
     }

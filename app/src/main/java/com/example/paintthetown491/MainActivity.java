@@ -277,23 +277,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.commit();
         }
 
+        if(item.getItemId()==R.id.createEvent)
+        {
+            fragManager=getSupportFragmentManager();
+            fragmentTransaction=fragManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_frag,new CreateEventActivity());
+            fragmentTransaction.commit();
+        }
+
         //user selected the events item from the navigation panel
         if(item.getItemId()==R.id.events)
         {
             fragManager=getSupportFragmentManager();
             fragmentTransaction=fragManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_frag,new EventsActivity());
+            fragmentTransaction.replace(R.id.container_frag,new EventsTabsFragment());
             fragmentTransaction.commit();
         }
-
-        if(item.getItemId()==R.id.pendingEvents)
-        {
-            fragManager=getSupportFragmentManager();
-            fragmentTransaction=fragManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_frag,new PendingEventsActivity());
-            fragmentTransaction.commit();
-        }
-
 
         //user selected the friends item from the navigation panel
         if(item.getItemId()==R.id.friends)
