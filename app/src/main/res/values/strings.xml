@@ -30,7 +30,7 @@
     <string name="event_locations">Places</string>
     <string name="invite_friends">Invite</string>
     <string name="recover_account_button">Recover my account</string>
-    <string name="recover_account"> Forgot you password?</string>
+    <string name="recover_account"> Forgot your password?</string>
     <string name="account_does_not_exist"> Don\'t have an account? Sign up. </string>
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

@@ -42,6 +42,8 @@ public class PendingEventsActivity extends Fragment {
         String key=eventIds.get(eventID);
         //deletes the pending event ID from the DB
         FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("pendingEInvites").child(key).removeValue();
+        //deletes user id from pendingInvites in events table
+        FirebaseDbSingleton.getInstance().dbRef.child("Event").child("-"+ eventID).child("pendingInvites").child(mainID).removeValue();
         events.remove(position);
         pendingEventsAdapter.notifyItemRemoved(position);
         pendingEventsAdapter.notifyItemRangeChanged(position,eventIds.size());
