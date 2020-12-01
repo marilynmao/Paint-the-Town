@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="55dp"
-    android:background="@drawable/city">
+    android:background="@drawable/backgroundimg">
 
     <EditText
         android:id="@+id/searchBar"
         android:layout_width="160dp"
         android:layout_height="43dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginBottom="10dp"
         android:autofillHints=""
         android:background="@android:color/white"
         android:ems="10"
@@ -20,18 +19,15 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/searchButton"
         app:layout_constraintStart_toEndOf="@+id/searchFilter"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
         android:id="@+id/locationInput"
         android:layout_width="140dp"
         android:layout_height="43dp"
-        android:layout_marginTop="160dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginBottom="10dp"
         android:autofillHints=""
         android:background="@android:color/white"
         android:ems="10"
@@ -40,10 +36,9 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/searchButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/searchBar"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/results"
@@ -60,21 +55,20 @@
         android:layout_height="43dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="160dp"
         android:background="@android:color/white"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         app:layout_constraintEnd_toStartOf="@+id/searchBar"
         app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="131dp"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
-        android:background="#627FE4"
+        android:background="#d1083c"
         android:drawableStart="@drawable/search"
         android:drawableLeft="@drawable/search"
         android:paddingLeft="5dp"
@@ -83,6 +77,16 @@
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchFilter" />
+        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:layout_marginTop="75dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/paint_the_town_banner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
