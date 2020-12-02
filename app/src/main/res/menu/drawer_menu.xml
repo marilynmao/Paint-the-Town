@@ -10,13 +10,13 @@
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="account" />
     <item
+        android:id="@+id/createEvent"
+        android:icon="@drawable/createvent"
+        android:title="Create an Event" />
+    <item
         android:id="@+id/events"
         android:icon="@drawable/ic_baseline_event_24"
         android:title="Events" />
-    <item
-        android:id="@+id/pendingEvents"
-        android:icon="@drawable/ic_baseline_event_24"
-        android:title="Pending Events" />
     <item
         android:id="@+id/pastEvents"
         android:icon="@drawable/ic_baseline_event_24"

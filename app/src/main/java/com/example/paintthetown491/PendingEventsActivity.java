@@ -64,6 +64,45 @@ public class PendingEventsActivity extends Fragment {
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
+    //confirmation to accept a pending event invite
+    public void confirmAcceptInvite(final int position) {
+        //confirmation dialog before deleting a request
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirm")
+                .setMessage("Are you sure?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        //add it from the pending list in firebase
+                        addEventID(events.get(position).getEventId(),position);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    // deletes event ID from pendingEInvites
+    public void addEventID(String eventID, Integer position)
+    {
+        //logged-in user ID
+        String mainID=FirebaseDbSingleton.getInstance().user.getUid();
+        //pending event ID to delete
+        String key=eventIds.get(eventID);
+        //appends "-" at the beginning of the event ID (in order to match event ID in FB)
+        String eventkey="-"+key;
+        //deletes the pending event ID from the DB
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("pendingEInvites").child(key).removeValue();
+        //adds the event ID to the user's list of events in FB
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("events").child(eventkey).setValue(key);
+        //removes the user ID from the pending invite list in the event schema
+        FirebaseDbSingleton.getInstance().dbRef.child("Event").child(eventkey).child("pendingInvites").child(mainID).removeValue();
+        //adds the user ID to the participant list in the event schema
+        FirebaseDbSingleton.getInstance().dbRef.child("Event").child(eventkey).child("participantList").child(mainID).setValue(mainID);
+        events.remove(position);
+        pendingEventsAdapter.notifyItemRemoved(position);
+        pendingEventsAdapter.notifyItemRangeChanged(position,eventIds.size());
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -215,9 +254,7 @@ public class PendingEventsActivity extends Fragment {
             public void deleteInviteOnClick(int position) { confirmDeleteInvite(position);}
 
             @Override
-            public void acceptInviteOnClick(int position) {
-                // TODO: accept pending event invite
-            }
+            public void acceptInviteOnClick(int position) {confirmAcceptInvite(position);}
         });
 
         return view;

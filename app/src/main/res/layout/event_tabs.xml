@@ -3,14 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:id="@+id/eventTabsLayout">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/events_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        app:tabBackground="@color/design_default_color_secondary_variant"
+        android:clickable="true"
+        android:background="#627FE4"
+        app:tabTextColor="#FFFFFF"
+        app:tabIndicatorColor="#A9AABC"
+        app:tabIndicatorHeight="6dp"
         app:layout_constraintBottom_toTopOf="@+id/events"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,7 +36,11 @@
         android:id="@+id/events_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/events_tabs">
-    </androidx.viewpager.widget.ViewPager>
+        android:layout_below="@+id/events_tabs"
+        android:layout_marginTop="109dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></androidx.viewpager.widget.ViewPager>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
