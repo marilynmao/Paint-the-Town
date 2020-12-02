@@ -22,10 +22,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.GregorianCalendar;
 
 //this is the class that will include all the fields that are going to be displayed in the popup
 public class EventPopUpActivity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -33,7 +37,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
     final java.util.Calendar c = java.util.Calendar.getInstance();
     private int dMonth, dDay, dYear, dHour, dMinute;
     private String event_id, event_date, event_time, period;
-    private Button editEventButton, saveEventButton, people, places, invite_friends;
+    private Button editEventButton, saveEventButton, people, places, invite_friends,favoriteEventButton, removeEventButton;
     DatabaseReference eRef;
     private ArrayList<String> locationsList, peopleList;
     ListView eLocation, ePeople;
@@ -69,6 +73,14 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         editEventButton = findViewById(R.id.editEventbtn);
         saveEventButton = findViewById(R.id.saveEventbtn);
         saveEventButton.setVisibility(View.INVISIBLE);
+
+        favoriteEventButton = findViewById(R.id.favEventbtn);
+        favoriteEventButton.setVisibility(View.INVISIBLE);
+
+        removeEventButton = findViewById(R.id.rmvEventbtn);
+        removeEventButton.setVisibility(View.INVISIBLE);
+
+
         invite_friends=findViewById(R.id.inviteFriendsButton);
         invite_friends.setVisibility(View.INVISIBLE);
 
@@ -109,7 +121,11 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         event_id = sb.toString();
 
         // load the event data for the event the user clicked on
-        loadEventData();
+        try {
+            loadEventData();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // listener for when edit event btn is clicked
         editEventButton.setOnClickListener(new View.OnClickListener()
@@ -230,12 +246,22 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
     }
 
     // fills the fields in the event UI
-    public void loadEventData()
-    {
+    public void loadEventData() throws ParseException {
         // retrieve data from events recycler view for current event selected and set it in corresponding text field
         eName.setText(getIntent().getStringExtra("ename"));
         eInfo.setText(getIntent().getStringExtra("einfo"));
         eDate.setText(getIntent().getStringExtra("edate"));
+        String eDateStr = eDate.getText().toString();
+        System.out.print(eDateStr);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date eDateObj = sdf.parse(eDateStr);
+        System.out.print(eDateObj);
+        Date now = new Date();
+
+        if (now.after(eDateObj)) {
+            editEventButton.setVisibility(View.INVISIBLE);
+            favoriteEventButton.setVisibility(View.VISIBLE);
+        }
         eTime.setText(getIntent().getStringExtra("etime"));
         locationsList = getIntent().getStringArrayListExtra("elocation");
         peopleList=getIntent().getStringArrayListExtra("ePeople");
