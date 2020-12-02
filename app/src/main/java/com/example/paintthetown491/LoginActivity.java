@@ -1,5 +1,6 @@
 package com.example.paintthetown491;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,16 +16,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity
 {
-    private TextView accountExists;
+    private TextView accountExists, recoverAccount;
     private FirebaseAuth fAuth;
 
     @Override
@@ -48,6 +52,60 @@ public class LoginActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 startActivity(new Intent(getApplicationContext(),CreateAccountActivity.class));
+            }
+        });
+
+        recoverAccount=findViewById(R.id.RecoverAccount);
+        recoverAccount.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                //the field where user will enter the email
+                final EditText emailRecovery=new EditText(view.getContext());
+
+                //dialog box that will be shown to the user
+                AlertDialog.Builder resetPassDialog=new AlertDialog.Builder(view.getContext());
+                resetPassDialog.setMessage("Enter your email to receive a reset link");
+                resetPassDialog.setView(emailRecovery);
+                resetPassDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        //attempts to send a recovery email to the specified email, attaches onSuccess and OnFailure listeners to handle both scenarios
+                        FirebaseDbSingleton.getInstance().firebaseAuth.sendPasswordResetEmail(emailRecovery.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>()
+                        {
+                            @Override
+                            public void onSuccess(Void aVoid)
+                            {
+                                Toast.makeText(getApplicationContext(),"Check your email for a recovery link :)", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener()
+                        {
+                            @Override
+                            public void onFailure(@NonNull Exception e)
+                            {
+                                Toast.makeText(getApplicationContext(),"Email not found :(", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+
+                //closes the dialog box
+                resetPassDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                //shows the dialog box
+                resetPassDialog.create().show();
+
+                //solution using activities
+                //Intent intent=new Intent(getApplicationContext(),RecoverAccountActivity.class);
+                //startActivity(intent);
             }
         });
 
