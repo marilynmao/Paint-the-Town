@@ -37,7 +37,7 @@
         android:id="@+id/editEventName"
         android:layout_width="204dp"
         android:layout_height="45dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="52dp"
         android:layout_marginBottom="45dp"
         android:drawableLeft="@drawable/pencil"
         android:drawablePadding="10dp"
@@ -148,6 +148,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/locationListView"
         app:layout_constraintVertical_bias="0.04" />
+
+    <!-- favorite button that appears and replaces the edit button if the date has passed. -->
+    <Button
+    android:id="@+id/favEventbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="48dp"
+        android:background="#627FE4"
+        android:text="favorite"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/inviteFriendsButton"
+        app:layout_constraintTop_toBottomOf="@+id/locationListView"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <!--remove button that appears and replaces the edit button if the date has passed. -->
+    <Button
+        android:id="@+id/rmvEventbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="48dp"
+        android:background="#627FE4"
+        android:text="Remove"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="@+id/saveEventbtn"
+        app:layout_constraintTop_toBottomOf="@+id/locationListView"
+        app:layout_constraintVertical_bias="0.058" />
 
     <TextView
         android:id="@+id/eventLabel"
