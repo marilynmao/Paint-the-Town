@@ -24,7 +24,8 @@
             android:layout_marginTop="40dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/invite_sent_confirmation"
-            app:srcCompat="@drawable/invite_sent_confirmation" />
+            app:srcCompat="@drawable/invite_sent_confirmation"
+            android:contentDescription="@string/success" />
 
         <TextView
             android:id="@+id/invite_sent_confirmation"

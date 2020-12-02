@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
         android:layout_marginBottom="31dp"
-        android:text="Select the event you'd like to add this location to."
+        android:text="@string/select_the_event_you_d_like_to_add_this_location_to"
         android:textColor="#627FE4"
         android:textSize="16sp"
         android:textStyle="bold"

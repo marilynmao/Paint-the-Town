@@ -22,14 +22,16 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:focusable="false"
-        android:hint="Select Time"
+        android:hint="@string/select_time"
         android:inputType="text"
         android:textColor="#627FE4"
         android:textColorHint="#627FE4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDate" />
+        app:layout_constraintTop_toBottomOf="@+id/editDate"
+        android:autofillHints="Time"
+        android:drawableStart="@drawable/time" />
 
     <EditText
         android:id="@+id/editEventName"
@@ -39,15 +41,18 @@
         android:layout_marginBottom="45dp"
         android:drawableLeft="@drawable/pencil"
         android:drawablePadding="10dp"
-        android:hint="Event Name"
+        android:hint="@string/event_name"
         android:textColor="#627FE4"
         android:textColorHint="#627FE4"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/newEventInfo"
+        app:layout_constraintBottom_toTopOf="@+id/editEventInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/eventLabel"
+        android:autofillHints="Event Name"
+        android:inputType="text"
+        android:drawableStart="@drawable/pencil" />
 
     <EditText
         android:id="@+id/editEventInfo"
@@ -62,14 +67,16 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Event Info"
+        android:hint="@string/event_info"
         android:inputType="textMultiLine"
         android:textColor="#627FE4"
         android:textColorHint="#627FE4"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEventName" />
+        app:layout_constraintTop_toBottomOf="@+id/editEventName"
+        android:autofillHints="Event Info"
+        android:drawableStart="@drawable/info" />
 
     <EditText
         android:id="@+id/editDate"
@@ -80,15 +87,17 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:focusable="false"
-        android:hint="Select Date"
-        android:inputType="text"
+        android:hint="@string/select_date"
+        android:inputType="date"
         android:textColor="#627FE4"
         android:textColorHint="#627FE4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEventInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/editEventInfo"
+        android:autofillHints="Date"
+        android:drawableStart="@drawable/event" />
 
     <Button
         android:id="@+id/saveEventbtn"
@@ -99,7 +108,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="48dp"
         android:background="#627FE4"
-        android:text="Save"
+        android:text="@string/save"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/inviteFriendsButton"
@@ -131,7 +140,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="#627FE4"
-        android:text="Edit"
+        android:text="@string/edit"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +154,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Event"
+        android:text="@string/event"
         android:textColor="#627FE4"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"

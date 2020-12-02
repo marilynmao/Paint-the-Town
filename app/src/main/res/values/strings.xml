@@ -63,4 +63,21 @@
     <string name="deleteinvite">deleteInvite</string>
     <string name="acceptinvite">acceptInvite</string>
     <string name="eventview">eventView</string>
+    <string name="select_the_event_you_d_like_to_add_this_location_to">Select the event you\'d like to add this location to.</string>
+    <string name="select_time">Select Time</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_info">Event Info</string>
+    <string name="select_date">Select Date</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="event">Event</string>
+    <string name="success">Success</string>
+    <string name="event_date">Event Date</string>
+    <string name="event_location">Event Location</string>
+    <string name="event_time">Event Time</string>
+    <string name="no_results_found">No results found</string>
+    <string name="rate_this_location">Rate this location!</string>
+    <string name="write_a_review">Write a review</string>
+    <string name="post">Post</string>
+    <string name="logo">logo</string>
 </resources>

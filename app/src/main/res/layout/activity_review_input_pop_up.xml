@@ -24,7 +24,7 @@
         android:layout_marginTop="150dp"
         android:layout_marginEnd="230dp"
         android:layout_marginRight="230dp"
-        android:text="Rate this location!"
+        android:text="@string/rate_this_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,18 +36,19 @@
         android:layout_marginBottom="200dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Write a review"
+        android:hint="@string/write_a_review"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/locationRatingBar"
-        app:layout_constraintTop_toBottomOf="@+id/locationRatingBar" />
+        app:layout_constraintTop_toBottomOf="@+id/locationRatingBar"
+        android:autofillHints="Review" />
 
     <Button
         android:id="@+id/postReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Post"
+        android:text="@string/post"
         app:layout_constraintStart_toStartOf="@+id/reviewInput"
         app:layout_constraintTop_toBottomOf="@+id/reviewInput" />
 
@@ -56,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Cancel"
+        android:text="@string/cancel"
         app:layout_constraintEnd_toEndOf="@+id/reviewInput"
         app:layout_constraintTop_toBottomOf="@+id/reviewInput" />
 
@@ -65,8 +66,8 @@
         android:layout_width="252dp"
         android:layout_height="63dp"
         android:layout_marginTop="65dp"
-        android:text="Write a Review!"
-        android:textSize="30dp"
+        android:text="@string/write_a_review"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
