@@ -1,4 +1,11 @@
 package com.example.paintthetown491;
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 public class User
 {
@@ -25,6 +32,33 @@ public class User
             instance= new User();
         return instance;
     }
+
+    public void userPopulate() {
+        id = FirebaseDbSingleton.getInstance().firebaseAuth.getUid();
+        DatabaseReference dbRef = FirebaseDbSingleton.getInstance().dbRef.child("User").child(id);
+        ValueEventListener UserLis =  new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    email = (String) snapshot.child("email").getValue();
+                    firstName = (String) snapshot.child("firstName").getValue();
+                    icon = (String) snapshot.child("icon").getValue();
+                    lastName = (String) snapshot.child("lastName").getValue();
+                    firstName = (String) snapshot.child("firstName").getValue();
+                    phoneNumber = (String) snapshot.child("phoneNumber").getValue();
+                    username = (String) snapshot.child("username").getValue();
+                    id = (String) snapshot.child("id").getValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        dbRef.addListenerForSingleValueEvent(UserLis);
+    }
+
 
     public void setEventList(ArrayList<String>sEvents){ savedEvents=sEvents; }
 

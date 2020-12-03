@@ -59,13 +59,17 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
             }
         });
 
+        // get instance of user
+        usr = User.getInstance();
+
+        usr.userPopulate();
+
         // onclick listener for create event button
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // ===========================
-                // get instance of user
-                usr = User.getInstance();
+
                 // get event creator name
                 eventCreatorName = (usr.getFirstName() + " " + usr.getLastName());
                 // ===========================
@@ -80,9 +84,9 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
 
                 // ===== DUMMY DATA FOR PARTICIPANTS =====
                 ArrayList<String> participantIds=new ArrayList<>();
-                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
-                participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
-                participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
+                //participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
+                //participantIds.add("KX1UfoLwTQOGTFHxyguqcl7i5YQ2");
+                //participantIds.add("7iPPl1ZXgaTnyAtqWNfKgtUgBcb2");
 
                 // references event node in db
                 eventsDbRef = FirebaseDbSingleton.getInstance().dbRef.child("Event");
