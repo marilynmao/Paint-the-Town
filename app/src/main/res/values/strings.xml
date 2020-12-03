@@ -16,7 +16,7 @@
     <string name="login">login</string>
     <string name="close_review">Close</string>
     <string name="sign_up">sign up</string>
-    <string name="create_account">Create Account</string>
+    <string name="create_an_account">Create an Account</string>
     <string name="username">Username</string>
     <string name="re_enter_password">Re-enter Password</string>
     <string name="phone_number">Phone Number</string>
@@ -63,6 +63,7 @@
     <string name="deleteinvite">deleteInvite</string>
     <string name="acceptinvite">acceptInvite</string>
     <string name="eventview">eventView</string>
+    <string name="icon">icon</string>
     <string name="select_the_event_you_d_like_to_add_this_location_to">Select the event you\'d like to add this location to.</string>
     <string name="select_time">Select Time</string>
     <string name="event_name">Event Name</string>

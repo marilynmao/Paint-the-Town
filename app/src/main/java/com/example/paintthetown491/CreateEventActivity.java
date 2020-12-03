@@ -162,6 +162,13 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
             hourOfDay -= 12;
             period = " PM";
         }
+        else if (hourOfDay == 0) {
+            hourOfDay += 12;
+            period = " AM";
+        }
+        else if(hourOfDay == 12) {
+            period = " PM";
+        }
         else {
             period = " AM";
         }
