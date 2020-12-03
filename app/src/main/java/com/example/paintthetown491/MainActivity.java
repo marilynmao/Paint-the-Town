@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragManager;
     FragmentTransaction fragmentTransaction;
     NotificationCompat.Builder notificationBuilder;
-    long prevRequestValue;
+    long prevRequestValue, eventInviteValue;
 
     //notification for new request
     public void notificationNewRequest()
@@ -54,6 +54,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nManager.notify(1, notificationBuilder.build());
     }
 
+    public void notificationNewEventRequest()
+    {
+        createNotificationChannelNewEventReq();
+        notificationBuilder = new NotificationCompat.Builder(
+                MainActivity.this, "New Event Request Notification"
+        )
+                .setContentTitle("New Event Invite")    // notification title
+                .setSmallIcon(R.drawable.event_request)       // icon
+                .setContentText("You have received a new invite to an event! :)")     // notification body text
+                .setAutoCancel(true);                   // enable swiping notification
+        NotificationManagerCompat nManager = NotificationManagerCompat.from(MainActivity.this);
+        nManager.notify(1, notificationBuilder.build());
+
+    }
+
+    //check if new event invites are received
+    public void checkNewEventInvites()
+    {
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("pendingEInvites").addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot)
+            {
+                //check that firebase returned something
+                if (snapshot.exists())
+                {
+                    //if the list contains more than the previous value, output a notification
+                    if(eventInviteValue-1<snapshot.getChildrenCount())
+                    {
+                        eventInviteValue=snapshot.getChildrenCount();
+                        notificationNewEventRequest();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error)
+            {
+
+            }
+        });
+
+    }
+
     //check if new friend requests are received
     public void checkNewFriendReq()
     {
@@ -65,19 +110,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //check that firebase returned something
                 if (snapshot.exists())
                 {
-                    //initial size of pending list is set
-                    if(prevRequestValue==0)
-                    {
-                        prevRequestValue=snapshot.getChildrenCount();
-                    }
-
                     //if the list contains more than the previous value, output a notification
-                    if(prevRequestValue<snapshot.getChildrenCount())
+                    long children_count=snapshot.getChildrenCount();
+                    if(prevRequestValue-1<children_count)
                     {
                         prevRequestValue=snapshot.getChildrenCount();
                         notificationNewRequest();
                     }
-
                 }
             }
 
@@ -179,8 +218,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //listener for new requests
+        //listener for new friend requests
         checkNewFriendReq();
+
+        //listener for new event invites
+        checkNewEventInvites();
 
         //listener for the sent friend requests list.
         getSentPendingFriendRequests();
@@ -250,6 +292,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             NotificationChannel nChannel = new NotificationChannel("New Request Notification", "Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(nChannel);
+        }
+    }
+
+    // create notification channel for new requests
+    private void createNotificationChannelNewEventReq()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            NotificationChannel nChannel = new NotificationChannel("New Event Request Notification", "Notification", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(nChannel);
         }
