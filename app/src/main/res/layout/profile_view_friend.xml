@@ -11,13 +11,10 @@
         android:id="@+id/profile_view_img"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="253dp"
         android:baselineAligned="false"
-        app:layout_constraintBottom_toTopOf="@+id/profile_view_inv"
         app:layout_constraintEnd_toStartOf="@+id/profile_view_fn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
     <TextView
@@ -56,50 +53,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/profile_view_report"
-        android:layout_width="87dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="149dp"
-        android:layout_marginLeft="149dp"
-        android:layout_marginTop="480dp"
-        android:layout_marginEnd="175dp"
-        android:layout_marginRight="175dp"
-        android:layout_marginBottom="84dp"
-        android:text="report"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_view_username" />
-
-    <Button
-        android:id="@+id/profile_view_inv"
-        android:layout_width="123dp"
-        android:layout_height="98dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginLeft="37dp"
-        android:layout_marginTop="380dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginRight="57dp"
-        android:layout_marginBottom="254dp"
-        android:text="Invite to Event"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/profile_view_remove"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/profile_view_remove"
         android:layout_width="125dp"
         android:layout_height="99dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginLeft="57dp"
+        android:layout_marginStart="134dp"
+        android:layout_marginLeft="134dp"
         android:layout_marginTop="378dp"
-        android:layout_marginEnd="69dp"
-        android:layout_marginRight="69dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginRight="152dp"
         android:layout_marginBottom="253dp"
         android:text="Remove Friend"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profile_view_inv"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
