@@ -80,7 +80,7 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
                 event_name = eName.getText().toString();
                 event_info = eInfo.getText().toString();
                 ArrayList<String> event_location = new ArrayList<>();
-                event_location.add("");
+                //event_location.add("");
 
                 // ===== DUMMY DATA FOR PARTICIPANTS =====
                 ArrayList<String> participantIds=new ArrayList<>();

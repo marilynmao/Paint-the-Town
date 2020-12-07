@@ -45,26 +45,6 @@
         app:drawableLeftCompat="@drawable/info" />
 
     <TextView
-        android:id="@+id/mainEventLocation"
-        android:layout_width="214dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="296dp"
-        android:drawablePadding="10dp"
-        android:gravity="center|start"
-        android:text="@string/event_location"
-        android:textColor="#627FE4"
-        android:textColorHint="#627FE4"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainEventTime"
-        app:layout_constraintVertical_bias="0.0"
-        app:drawableLeftCompat="@drawable/location" />
-
-    <TextView
         android:id="@+id/mainEventTime"
         android:layout_width="212dp"
         android:layout_height="42dp"
