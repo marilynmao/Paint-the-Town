@@ -17,7 +17,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="2dp"
-            android:id="@+id/eventView"/>
+            android:id="@+id/eventView"
+            android:contentDescription="@string/user_image" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,7 +28,8 @@
             android:text=""
             android:id="@+id/pending_friend_firstName"
             android:textColor="@android:color/black"
-            android:layout_toRightOf="@+id/eventView" />
+            android:layout_toRightOf="@+id/eventView"
+            android:layout_toEndOf="@+id/eventView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +38,8 @@
             android:textSize="15sp"
             android:layout_below="@+id/pending_friend_firstName"
             android:layout_toRightOf="@+id/eventView"
-            android:id="@+id/pending_friend_lastName"/>
+            android:id="@+id/pending_friend_lastName"
+            android:layout_toEndOf="@+id/eventView" />
 
         <ImageView
             android:id="@+id/delete_request"
@@ -46,7 +49,10 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="349dp"
             android:layout_marginTop="-1dp"
-            app:srcCompat="@drawable/ic_baseline_delete_24" />
+            app:srcCompat="@drawable/ic_baseline_delete_24"
+            android:contentDescription="@string/deleteinvite"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="349dp" />
 
         <ImageView
             android:id="@+id/accept_request"
@@ -56,7 +62,10 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="285dp"
             android:layout_marginTop="1dp"
-            app:srcCompat="@drawable/accept" />
+            app:srcCompat="@drawable/accept"
+            android:contentDescription="@string/acceptinvite"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="285dp" />
 
     </RelativeLayout>
 

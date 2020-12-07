@@ -36,15 +36,11 @@ public class PendingActivity extends Fragment
     //deletes the user ID from the pending list
     public void deleteUserID(String userID, Integer position)
     {
-        //if(userID.charAt(0)!='-')
-        //{
-        //   userID="-"+userID;
-        //}
 
         //logged-in user ID
         String mainID=FirebaseDbSingleton.getInstance().user.getUid();
         //pending user ID to delete (depending on the userID key provided)
-        String key=pendingUsers.get(userID).toString();
+        String key=pendingUsers.get(userID);
         //deletes the pending user ID from the DB
         FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("pending").child(key).removeValue();
         users.remove(position);
@@ -137,7 +133,7 @@ public class PendingActivity extends Fragment
 
         //allocating memory for the list items to avoid null references
         pendingUsers=new HashMap<>();
-        users=new ArrayList<User>();
+        users= new ArrayList<>();
 
         //using our adapter to display the necessary info
         pendingAdapter= new PendingAdapter(users);
@@ -249,7 +245,7 @@ public class PendingActivity extends Fragment
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> participants = new ArrayList<String>();
+                ArrayList<String> participants = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     participants.add(id.toString());

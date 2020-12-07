@@ -35,9 +35,9 @@ public class PastEventsActivity extends Fragment {
 
 
         //holds the event IDs for each user
-        eventIds = new ArrayList<String>();
+        eventIds = new ArrayList<>();
         //holds the events loaded from firebase
-        pastEvents = new ArrayList<Event>();
+        pastEvents = new ArrayList<>();
 
         //Dummy data
         //ArrayList<String> test = new ArrayList<String>();
@@ -137,7 +137,7 @@ public class PastEventsActivity extends Fragment {
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> participants = new ArrayList<String>();
+                ArrayList<String> participants = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     participants.add(id.toString());
@@ -148,7 +148,7 @@ public class PastEventsActivity extends Fragment {
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getLocationCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> eLocations = new ArrayList<String>();
+                ArrayList<String> eLocations = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     eLocations.add(id.getValue().toString());

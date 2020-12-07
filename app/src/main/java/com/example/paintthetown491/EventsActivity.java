@@ -37,9 +37,9 @@ public class EventsActivity extends Fragment
         final View view = inflater.inflate(R.layout.frag_events, container, false);
 
         //holds the event IDs for each user
-        eventIds = new ArrayList<String>();
+        eventIds = new ArrayList<>();
         //holds the events loaded from firebase
-        events = new ArrayList<Event>();
+        events = new ArrayList<>();
 
         final Query queryVal = FirebaseDbSingleton.getInstance().dbRef.child("Event").orderByChild("eventDate");
 
@@ -90,7 +90,7 @@ public class EventsActivity extends Fragment
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> IterToArrayList = new ArrayList<String>();
+                ArrayList<String> IterToArrayList = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     IterToArrayList.add(id.getValue().toString());
@@ -101,7 +101,7 @@ public class EventsActivity extends Fragment
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getLocationCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> eLocations = new ArrayList<String>();
+                ArrayList<String> eLocations = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     eLocations.add(id.getValue().toString());

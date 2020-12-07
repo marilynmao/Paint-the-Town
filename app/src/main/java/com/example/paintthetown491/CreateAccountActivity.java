@@ -129,7 +129,7 @@ public class CreateAccountActivity extends AppCompatActivity
                                     }
                                     else {
                                         //System.out.print("FAILED!");
-                                        //Toast.makeText(getApplicationContext(),"SOMETHING WENT WRONG!",Toast.LENGTH_LONG);
+                                        Toast.makeText(getApplicationContext(),"something went wrong creating the account",Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -150,7 +150,7 @@ public class CreateAccountActivity extends AppCompatActivity
 
             public void onClick(View v) {
 
-                if (phoneNumber.getText().toString() != "") {
+                if (!phoneNumber.getText().toString().equals("")) {
                     //removes any char other than numerical digits from the phone number.
                     phoneNumber.setText(phoneNumber.getText().toString().replaceAll("[^0-9]", ""), TextView.BufferType.EDITABLE);
                 }
@@ -252,7 +252,7 @@ public class CreateAccountActivity extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
-                if (!s.toString().matches("[a-zA-Z]+") && s.toString() != ""){
+                if (!s.toString().matches("[a-zA-Z]+") && !s.toString().equals("")){
                     firstName.setError("First name can only contain letters A-Z");
                 }
             }
@@ -270,7 +270,7 @@ public class CreateAccountActivity extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
-                if (!s.toString().matches("[a-zA-Z]+") && s.toString() != "")
+                if (!s.toString().matches("[a-zA-Z]+") && !s.toString().equals(""))
                 {
                     lastName.setError("Last name can only contain letters A-Z");
                 }

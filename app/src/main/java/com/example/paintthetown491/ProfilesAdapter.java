@@ -56,7 +56,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
         final User curr_prof = profileSearchList.get(position);
 
 
-        final ArrayList<String> friends = new ArrayList<String>();
+        final ArrayList<String> friends = new ArrayList<>();
         ValueEventListener friendChecker = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -85,7 +85,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<ProfilesAdapter.Profil
         holder.profile_ph.setText(curr_prof.getPhoneNumber());
 
         String icon = curr_prof.getIcon();
-        if (icon != "none") {
+        if (!icon.equals("none")) {
             StorageReference path = FirebaseStorage.getInstance().getReference().child("Icons").child(curr_prof.getIcon());
             path.getBytes(5 * 1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override

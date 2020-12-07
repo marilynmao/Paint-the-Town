@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,7 +19,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="2dp"
-            android:id="@+id/eventView"/>
+            android:id="@+id/eventView"
+            android:contentDescription="@string/event_picture" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +31,9 @@
             android:id="@+id/eventCreator"
             android:textColor="@android:color/black"
             android:layout_toRightOf="@+id/eventView"
-            android:layout_below="@+id/eventDate"/>
+            android:layout_below="@+id/eventDate"
+            tools:ignore="SmallSp"
+            android:layout_toEndOf="@+id/eventView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +42,8 @@
             android:textSize="15sp"
             android:layout_below="@+id/eventName"
             android:layout_toRightOf="@+id/eventView"
-            android:id="@+id/eventDate"/>
+            android:id="@+id/eventDate"
+            android:layout_toEndOf="@+id/eventView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,7 +52,8 @@
             android:textSize="15sp"
             android:layout_toRightOf="@+id/eventView"
             android:id="@+id/eventName"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/eventView" />
 
         <RadioButton
             android:id="@+id/radioButton"

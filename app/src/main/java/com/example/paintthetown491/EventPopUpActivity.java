@@ -29,7 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.GregorianCalendar;
 
 //this is the class that will include all the fields that are going to be displayed in the popup
 public class EventPopUpActivity extends Activity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -173,7 +172,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
                         if(snapshot.exists())
                         {
                             // updates hashmap holds all the new data to be updated
-                            Map<String, Object> updates = new HashMap<String, Object>();
+                            Map<String, Object> updates = new HashMap<>();
                             updates.put("eventName", eName.getText().toString());
                             updates.put("eventInfo", eInfo.getText().toString());
                             updates.put("eventDate", eDate.getText().toString());
@@ -223,7 +222,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
         {
             final int index=i;
             //listener for specific user ID
-            FirebaseDbSingleton.getInstance().dbRef.child("User").child(peopleList.get(i).toString()).addListenerForSingleValueEvent(new ValueEventListener()
+            FirebaseDbSingleton.getInstance().dbRef.child("User").child(peopleList.get(i)).addListenerForSingleValueEvent(new ValueEventListener()
             {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot)
@@ -232,7 +231,7 @@ public class EventPopUpActivity extends Activity implements DatePickerDialog.OnD
                     {
                         User user=snapshot.getValue(User.class);
                         //replacing the user ID with the first and last name of participant
-                        peopleList.set(index,user.getFirstName().toString()+" "+user.getLastName().toString());
+                        peopleList.set(index,user.getFirstName() + " " + user.getLastName());
                     }
                 }
 

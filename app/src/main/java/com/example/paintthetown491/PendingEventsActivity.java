@@ -115,7 +115,7 @@ public class PendingEventsActivity extends Fragment {
         //eventIds = new ArrayList<String>();
         eventIds = new HashMap<>();
         //holds the events loaded from firebase
-        events = new ArrayList<Event>();
+        events = new ArrayList<>();
 
 
         final Query queryVal = FirebaseDbSingleton.getInstance().dbRef.child("Event");
@@ -167,7 +167,7 @@ public class PendingEventsActivity extends Fragment {
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> participants = new ArrayList<String>();
+                ArrayList<String> participants = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     participants.add(id.toString());
@@ -178,7 +178,7 @@ public class PendingEventsActivity extends Fragment {
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getLocationCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> locations = new ArrayList<String>();
+                ArrayList<String> locations = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     locations.add(id.toString());

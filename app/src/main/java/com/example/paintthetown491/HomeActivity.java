@@ -62,7 +62,7 @@ public class HomeActivity extends Fragment
         locResults.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //array to hold locations for recycler
-        locations=new ArrayList<Location>();
+        locations= new ArrayList<>();
 
         //location adapter for our recycler
         locationAdapter=new LocationResultsAdapter(locations);

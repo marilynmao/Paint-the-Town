@@ -42,9 +42,9 @@ public class AddLocationActivity extends AppCompatActivity {
         locationName = getIntent().getStringExtra("locationName");
 
         //holds the event IDs for each user
-        eventIds = new ArrayList<String>();
+        eventIds = new ArrayList<>();
         //holds the events loaded from firebase
-        events = new ArrayList<Event>();
+        events = new ArrayList<>();
 
 
         final Query queryVal = FirebaseDbSingleton.getInstance().dbRef.child("Event");
@@ -98,7 +98,7 @@ public class AddLocationActivity extends AppCompatActivity {
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> participants = new ArrayList<String>();
+                ArrayList<String> participants = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     participants.add(id.toString());
@@ -109,7 +109,7 @@ public class AddLocationActivity extends AppCompatActivity {
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getLocationCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> locations = new ArrayList<String>();
+                ArrayList<String> locations = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     locations.add(id.toString());
@@ -185,7 +185,6 @@ public class AddLocationActivity extends AppCompatActivity {
                 // add location to selected event
                 eventRef.child(selectedEventId).child("eventLocation").child(locationID).setValue(locationName);
 
-                // TODO: save locationID to firebase
 
                 Toast.makeText(AddLocationActivity.this, "The location has been added to " + selectedEventName + "!", Toast.LENGTH_LONG).show();
                 finish();

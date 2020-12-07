@@ -17,12 +17,12 @@ public class User
     private String phoneNumber;
     private String icon;
     private String id;
-    private ArrayList<String> friends = new ArrayList<String>();
-    private ArrayList<String> events = new ArrayList<String>();
-    private ArrayList<String> savedEvents = new ArrayList<String>();
-    private ArrayList<String> pastEvents = new ArrayList<String>();
-    private ArrayList<String> sentFriendRequests = new ArrayList<String>();
-    private ArrayList<String> pending=new ArrayList<String>();
+    private ArrayList<String> friends = new ArrayList<>();
+    private ArrayList<String> events = new ArrayList<>();
+    private ArrayList<String> savedEvents = new ArrayList<>();
+    private ArrayList<String> pastEvents = new ArrayList<>();
+    private ArrayList<String> sentFriendRequests = new ArrayList<>();
+    private ArrayList<String> pending=new ArrayList<>();
     public User() { }
 
     //creates a new instance of the user class if it doesn't already exist. Returns the same instance if it does exist.

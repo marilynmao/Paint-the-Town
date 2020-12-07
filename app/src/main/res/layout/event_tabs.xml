@@ -16,9 +16,9 @@
         app:tabTextColor="#FFFFFF"
         app:tabIndicatorColor="#A9AABC"
         app:tabIndicatorHeight="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/events"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="true">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -41,6 +41,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></androidx.viewpager.widget.ViewPager>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
