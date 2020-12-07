@@ -56,7 +56,7 @@ public class InviteFriendsAdapter extends RecyclerView.Adapter<InviteFriendsAdap
     public void onBindViewHolder(@NonNull final InviteFriendsAdapter.InviteFriendsViewHolder holder, int position) {
         final User curr_prof = profileSearchList.get(position);
 
-        final ArrayList<String> friends = new ArrayList<String>();
+        final ArrayList<String> friends = new ArrayList<>();
         ValueEventListener friendChecker = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -106,7 +106,7 @@ public class InviteFriendsAdapter extends RecyclerView.Adapter<InviteFriendsAdap
                 Intent intent;
 
                 //check if the user is friends with the card that was clicked on.
-                Boolean isFriend = false;
+                boolean isFriend = false;
                 for (String s : friends) {
                     if (s.equals(curr_prof.getId())) {
                         isFriend = true;

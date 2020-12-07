@@ -16,7 +16,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="2dp"
-            android:id="@+id/locationView"/>
+            android:id="@+id/locationView"
+            android:contentDescription="@string/location_image" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +27,8 @@
             android:text=""
             android:id="@+id/location_name"
             android:textColor="@android:color/black"
-            android:layout_toRightOf="@+id/locationView" />
+            android:layout_toRightOf="@+id/locationView"
+            android:layout_toEndOf="@+id/locationView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +37,8 @@
             android:textSize="15sp"
             android:layout_below="@+id/location_name"
             android:layout_toRightOf="@+id/locationView"
-            android:id="@+id/location_location_info"/>
+            android:id="@+id/location_location_info"
+            android:layout_toEndOf="@+id/locationView" />
 
     </RelativeLayout>
 

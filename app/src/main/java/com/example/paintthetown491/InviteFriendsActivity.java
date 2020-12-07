@@ -50,9 +50,9 @@ public class InviteFriendsActivity extends AppCompatActivity
         confirmation_pop_up.setVisibility(View.INVISIBLE);
 
         //holds the event IDs for each user
-        userIDs = new ArrayList<String>();
+        userIDs = new ArrayList<>();
         //holds the events loaded from firebase
-        users = new ArrayList<User>();
+        users = new ArrayList<>();
 
         //holds the list of user IDs that the user checked
         checkedUsers=new ArrayList<>();

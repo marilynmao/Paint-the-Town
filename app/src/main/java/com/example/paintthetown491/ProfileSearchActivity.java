@@ -53,7 +53,6 @@ public class ProfileSearchActivity extends Fragment {
             @Override
             public void onItemClick(int position)
             {
-                //TODO:open up the event page
                 startActivity(new Intent(getContext(),EventPopUpActivity.class));
                 System.out.println("CLICKED!");
             }

@@ -139,7 +139,7 @@ public class FriendsActivity extends Fragment
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> participants = new ArrayList<String>();
+                ArrayList<String> participants = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     participants.add(id.toString());

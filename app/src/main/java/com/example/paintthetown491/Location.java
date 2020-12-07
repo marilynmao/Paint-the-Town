@@ -22,7 +22,6 @@ public class Location implements Serializable
         this.rating=rating;
         this.locationName=locName;
         this.imageUrl=imgUrl;
-        this.rating=rating;
         this.phone=phone;
         this.price=price;
         this.longitude=longitude;

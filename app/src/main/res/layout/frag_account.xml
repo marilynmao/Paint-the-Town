@@ -14,7 +14,10 @@
         android:layout_marginLeft="176dp"
         android:layout_marginTop="316dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/profilePic"
+        android:autofillHints="PhoneNumber"
+        android:inputType="phone"
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/phone"
@@ -35,7 +38,10 @@
         android:layout_marginLeft="176dp"
         android:layout_marginTop="128dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/profilePic"
+        android:autofillHints="username"
+        android:inputType="text"
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/userName2"
@@ -64,7 +70,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_account_circle_24"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:contentDescription="@string/icon" />
 
     <EditText
         android:id="@+id/userName"
@@ -74,7 +81,10 @@
         android:layout_marginLeft="176dp"
         android:layout_marginTop="184dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/profilePic"
+        android:autofillHints="@string/first_name"
+        android:inputType="text"
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/nameLabel"
@@ -83,7 +93,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="184dp"
-        android:text="Name"
+        android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 
@@ -106,7 +116,10 @@
         android:layout_marginLeft="176dp"
         android:layout_marginTop="252dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/profilePic"
+        android:autofillHints="email"
+        android:inputType="textEmailAddress"
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/uploadPic"
@@ -115,7 +128,7 @@
         android:layout_marginStart="136dp"
         android:layout_marginLeft="136dp"
         android:layout_marginTop="24dp"
-        android:text="upload picture"
+        android:text="@string/upload_picture"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 

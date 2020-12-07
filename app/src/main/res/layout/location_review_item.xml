@@ -40,7 +40,9 @@
             android:layout_toRightOf="@+id/review"
             android:isIndicator="true"
             android:numStars="5"
-            android:saveEnabled="false" />
+            android:saveEnabled="false"
+            android:layout_marginStart="194dp"
+            android:layout_toEndOf="@+id/review" />
 
     </RelativeLayout>
 

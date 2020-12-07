@@ -100,7 +100,7 @@ public class LocationActivity extends Activity
                 if(snapshot.exists())
                 {
                     User user=snapshot.getValue(User.class);
-                    review_reviewer.setText("Reviewed by: "+user.getFirstName().toString()+user.getLastName().toString());
+                    review_reviewer.setText("Reviewed by: "+user.getFirstName()+user.getLastName());
                 }
             }
 
@@ -120,7 +120,7 @@ public class LocationActivity extends Activity
         setContentView(R.layout.location_activity);
 
         //allocating memory for reviews
-        reviews=new ArrayList<LocationReview>();
+        reviews=new ArrayList<>();
 
         //adding sample reviews
         //reviews.add(new LocationReview(FirebaseDbSingleton.getInstance().user.getUid(),"good place333333333333333333!","12/33/1222",4));

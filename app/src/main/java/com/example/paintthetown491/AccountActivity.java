@@ -63,7 +63,7 @@ public class AccountActivity extends Fragment
         mStorageRef= FirebaseStorage.getInstance().getReference("Icons");
 
         //loads user information based on firebase ID
-        loadUserData(FirebaseDbSingleton.getInstance().user.getUid(), mStorageRef);
+        loadUserData(FirebaseDbSingleton.getInstance().user.getUid());
 
         //listener for button clicks attached
         uploadPic.setOnClickListener(new View.OnClickListener()
@@ -116,36 +116,38 @@ public class AccountActivity extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==PICK_IMAGE && resultCode == Activity.RESULT_OK)
         {
-            imageURI=data.getData();
-            String ex = getExtension(imageURI);
-            if (ex.equals("png") || ex.equals("jpg")) {
-                try {
-                    //used to find the size of the image the user selects.
-                    AssetFileDescriptor afd = getActivity().getContentResolver().openAssetFileDescriptor(imageURI, "r");
+            if (data != null) {
+                imageURI = data.getData();
+                String ex = getExtension(imageURI);
+                if (ex.equals("png") || ex.equals("jpg")) {
+                    try {
+                        //used to find the size of the image the user selects.
+                        AssetFileDescriptor afd = getActivity().getContentResolver().openAssetFileDescriptor(imageURI, "r");
 
-                    if (afd.getLength() > (5 * 1024 * 1024)) //5MB file size limit for a user icon
-                    {
-                        Toast.makeText(getActivity(), "Image size too large (5MB maximum)", Toast.LENGTH_LONG).show();
-                    } else {
-                        if (currentIcon != "none") {
-                            removeOldPic(currentIcon); //removes the old profile pic if the user has one
+                        assert afd != null;
+                        if (afd.getLength() > (5 * 1024 * 1024)) //5MB file size limit for a user icon
+                        {
+                            Toast.makeText(getActivity(), "Image size too large (5MB maximum)", Toast.LENGTH_LONG).show();
+                        } else {
+                            if (!currentIcon.equals("none")) {
+                                removeOldPic(currentIcon); //removes the old profile pic if the user has one
+                            }
+                            profilePic.setImageURI(imageURI);
+                            FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("icon").setValue(FirebaseDbSingleton.getInstance().user.getUid() + "." + ex);
+                            Fileuploader();
                         }
-                        profilePic.setImageURI(imageURI);
-                        FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("icon").setValue(FirebaseDbSingleton.getInstance().user.getUid() + "." + ex);
-                        Fileuploader();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(getActivity(), "Image must be either PNG or JPG", Toast.LENGTH_LONG).show();
                 }
-            }
-            else {
-                Toast.makeText(getActivity(), "Image must be either PNG or JPG", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     //fills the fields in the account fragment with the user's info (based on userId)
-    public void loadUserData(final String userID, StorageReference fbsRef)
+    public void loadUserData(final String userID)
     {
         //looks in the "User" table for a user ID match
         FirebaseDbSingleton.getInstance().dbRef.child("User").child(userID).addValueEventListener(new ValueEventListener()

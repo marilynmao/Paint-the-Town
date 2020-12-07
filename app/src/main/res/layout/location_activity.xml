@@ -75,7 +75,8 @@
         android:adjustViewBounds="true"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/location_image" />
 
     <TextView
         android:id="@+id/popup_location_name"

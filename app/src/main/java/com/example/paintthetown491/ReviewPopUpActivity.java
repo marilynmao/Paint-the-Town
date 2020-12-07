@@ -99,7 +99,7 @@ public class ReviewPopUpActivity extends Activity {
 
                     
                     FirebaseDbSingleton.getInstance().dbRef.child("Location").child(locationID).child("reviews").child(FirebaseDbSingleton.getInstance().firebaseAuth.getUid()).setValue(userReview);
-                    Toast.makeText(ReviewPopUpActivity.this, "Review published!",Toast.LENGTH_SHORT);
+                    Toast.makeText(ReviewPopUpActivity.this, "Review published!",Toast.LENGTH_SHORT).show();
                     finish();
                 }
 

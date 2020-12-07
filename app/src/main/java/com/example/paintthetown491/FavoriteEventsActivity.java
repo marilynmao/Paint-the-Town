@@ -39,9 +39,9 @@ public class FavoriteEventsActivity extends Fragment
         final View view = inflater.inflate(R.layout.frag_events, container, false);
 
         //holds the event IDs for each user
-        favoriteEventIDs = new ArrayList<String>();
+        favoriteEventIDs = new ArrayList<>();
         //holds the events loaded from firebase
-        favoriteEvents = new ArrayList<Event>();
+        favoriteEvents = new ArrayList<>();
 
         final Query queryVal = FirebaseDbSingleton.getInstance().dbRef.child("Event").orderByChild("eventDate");
 
@@ -92,7 +92,7 @@ public class FavoriteEventsActivity extends Fragment
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> IterToArrayList = new ArrayList<String>();
+                ArrayList<String> IterToArrayList = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     IterToArrayList.add(id.getValue().toString());
@@ -103,7 +103,7 @@ public class FavoriteEventsActivity extends Fragment
             //used to convert a Iterable (type returned from firebase) to an arraylist
             public ArrayList<String> getLocationCollectionFromIterable(Iterable<DataSnapshot> itr)
             {
-                ArrayList<String> eLocations = new ArrayList<String>();
+                ArrayList<String> eLocations = new ArrayList<>();
                 for (DataSnapshot id : itr)
                 {
                     eLocations.add(id.getValue().toString());
