@@ -1,5 +1,7 @@
 package com.example.paintthetown491;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //class that holds elements needed for our events fragment
 public class EventsActivity extends Fragment
@@ -26,9 +29,40 @@ public class EventsActivity extends Fragment
     private EventAdapter eAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private DatabaseReference eventRef;
-    private ArrayList<String> eventIds;
+    private HashMap<String, String> eventIds;
     private ArrayList<Event> events;
 
+    // deletes event ID from events
+    public void deleteEventID(String eventID, Integer position)
+    {
+        //logged-in user ID
+        String mainID=FirebaseDbSingleton.getInstance().user.getUid();
+        //pending event ID to delete
+
+        String key=eventIds.get(eventID);
+        //deletes the pending event ID from the DB
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("events").child(eventIds.get(key)).removeValue();
+        events.remove(position);
+        eAdapter.notifyItemRemoved(position);
+        eAdapter.notifyItemRangeChanged(position,eventIds.size());
+    }
+
+    //confirmation to delete event
+    public void confirmDeleteEvent(final int position) {
+        //confirmation dialog before deleting a request
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirm")
+                .setMessage("Are you sure?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        //remove it from the pending list in firebase
+                        deleteEventID(events.get(position).getEventId(),position);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -37,7 +71,7 @@ public class EventsActivity extends Fragment
         final View view = inflater.inflate(R.layout.frag_events, container, false);
 
         //holds the event IDs for each user
-        eventIds = new ArrayList<>();
+        eventIds = new HashMap<>();
         //holds the events loaded from firebase
         events = new ArrayList<>();
 
@@ -66,7 +100,7 @@ public class EventsActivity extends Fragment
                         }
 
                         //sees if the arraylist contains this child
-                        if (eventIds.contains(s))
+                        if (eventIds.containsValue(s))
                         {
                             //create the event object with the properties returned from firebase
                             Event e = new Event(s, ds.child("eventName").getValue().toString(), ds.child("eventDate").getValue().toString(), ds.child("eventCreator").getValue().toString(), getCollectionFromIterable(ds.child("participantList").getChildren()), ds.child("eventTime").getValue().toString(), getLocationCollectionFromIterable(ds.child("eventLocation").getChildren()), ds.child("eventInfo").getValue().toString());
@@ -124,16 +158,15 @@ public class EventsActivity extends Fragment
                     //iterate through each child returned
                     for (DataSnapshot e : snapshot.getChildren())
                     {
-                        //holds the event ID as a string
-                        String event = e.getValue(String.class);
+
                         //adds it to the list
-                        eventIds.add(event);
+                        eventIds.put(e.getValue(String.class), e.getKey());
                     }
 
                     //notifies the adapter of any changes
                     eAdapter.notifyDataSetChanged();
 
-                    for (String id : eventIds)
+                    for (String id : eventIds.keySet())
                     {
                         queryVal.equalTo(id);
                         queryVal.addValueEventListener(eventValListener);
@@ -145,7 +178,9 @@ public class EventsActivity extends Fragment
             public void onCancelled(@NonNull DatabaseError error)
             {
             }
+
         };
+
 
         //querying the specific user's list of events
         Query queryID = FirebaseDbSingleton.getInstance().dbRef.child("User").child(FirebaseDbSingleton.getInstance().user.getUid()).child("events");
@@ -184,10 +219,25 @@ public class EventsActivity extends Fragment
         FirebaseDbSingleton.getInstance().dbRef.child("Location").push().setValue(sampleData.get(1));*/
         //////////////////////////////////////inserting event data to DB for locations
 
+
+
         eventsRecycler = view.findViewById(R.id.events);
         eventsRecycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         eAdapter = new EventAdapter(events);
+
+        eAdapter.setOnItemClickListener(new EventAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(int position) {
+            }
+
+            @Override
+            public void deleteEventOnClick(int position) { confirmDeleteEvent(position);}
+
+        });
+
+
         eventsRecycler.setLayoutManager(layoutManager);
         eventsRecycler.setAdapter(eAdapter);
 
