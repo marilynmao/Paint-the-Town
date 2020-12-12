@@ -96,7 +96,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         public TextView eName,eDate,eCreator;
         public RelativeLayout relativeLayout;
         public RadioButton radioBtn;
-        public Button deleteEventButton;
+        public ImageView deleteEventButton;
 
         public EventViewHolder(@NonNull final View itemView, final OnItemClickListener listener)
         {
@@ -108,8 +108,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             relativeLayout=itemView.findViewById(R.id.relativelayout);
             radioBtn=itemView.findViewById(R.id.radioButton);
             radioBtn.setVisibility(View.INVISIBLE);
-            deleteEventButton = itemView.findViewById(R.id.rmvEventbtn);
-
+            deleteEventButton = itemView.findViewById(R.id.delete_event);
             deleteEventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

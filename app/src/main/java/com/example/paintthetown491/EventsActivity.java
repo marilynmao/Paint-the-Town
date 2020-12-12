@@ -38,10 +38,10 @@ public class EventsActivity extends Fragment
         //logged-in user ID
         String mainID=FirebaseDbSingleton.getInstance().user.getUid();
         //pending event ID to delete
-
+        eventID = eventID.substring(1);
         String key=eventIds.get(eventID);
         //deletes the pending event ID from the DB
-        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("events").child(eventIds.get(key)).removeValue();
+        FirebaseDbSingleton.getInstance().dbRef.child("User").child(mainID).child("events").child(key).removeValue();
         events.remove(position);
         eAdapter.notifyItemRemoved(position);
         eAdapter.notifyItemRangeChanged(position,eventIds.size());
@@ -93,11 +93,11 @@ public class EventsActivity extends Fragment
                     {
                         String s=ds.getKey();
 
-                        if(ds.getKey().charAt(0)=='-')
+                        /*if(ds.getKey().charAt(0)=='-')
                         {
                             //removes a "-" character appended to the beginning of each key
                             s = ds.getKey().substring(1);
-                        }
+                        }*/
 
                         //sees if the arraylist contains this child
                         if (eventIds.containsValue(s))
@@ -155,6 +155,7 @@ public class EventsActivity extends Fragment
                 //check to see if firebase returned anything
                 if (snapshot.exists())
                 {
+                    eventsRecycler.setVisibility(View.VISIBLE);
                     //iterate through each child returned
                     for (DataSnapshot e : snapshot.getChildren())
                     {

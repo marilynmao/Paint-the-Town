@@ -101,14 +101,15 @@ public class CreateEventActivity extends Fragment implements DatePickerDialog.On
                 eventsDbRef.child(newEventID).setValue(newEvent);
 
                 // remove "-" from newEventID
-                newEventID = newEventID.substring(1);
+                //newEventID = newEventID.substring(1);
                 
                 // get push key for User/{Uid}/events
-                String userEventsKey = userEventsDbRef.push().getKey();
+               //String userEventsKey = userEventsDbRef.push().getKey();
+                String testEventID = newEventID.substring(1);
                 // hashmap holds the new event to be added to User/{Uid}/events
                 HashMap usrEvent = new HashMap();
                 // put pushkey and new event id in hash map
-                usrEvent.put(userEventsKey, newEventID);
+                usrEvent.put(newEventID, testEventID);
                 // append new event to User/{Uid}/events
                 userEventsDbRef.updateChildren(usrEvent);
 
